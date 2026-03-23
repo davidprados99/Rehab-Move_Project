@@ -52,10 +52,10 @@ def create_pain_record(pain_record: schemas.PainRecordCreate, db: Session = Depe
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     
-@app.get("/pain_records/", response_model=List[schemas.PainRecord])
-def read_pain_records(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+@app.get("/pain_records/patient/{id_patient}", response_model=List[schemas.PainRecord])
+def read_pain_records_by_patient(id_patient: int, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     try:
-        pain_records = crud.get_pain_records_by_patient(db, skip=skip, limit=limit)
+        pain_records = crud.get_pain_records_by_patient(db, id_patient=id_patient, skip=skip, limit=limit)
         return pain_records
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
