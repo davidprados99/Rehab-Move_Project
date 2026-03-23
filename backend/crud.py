@@ -1,6 +1,7 @@
 from datetime import date
 
 from sqlalchemy.orm import Session
+from security import get_password_hash
 import models, schemas
 
 # crud.py contains the functions that interact with the database using SQLAlchemy ORM. These functions are used in the API endpoints to perform operations like creating, reading, updating, and deleting records in the database.
@@ -11,18 +12,19 @@ def get_physio_by_email(db: Session, email: str):
     return db.query(models.Physio).filter(models.Physio.mail == email).first()
 
 def create_physio(db: Session, physio: schemas.PhysioCreate):
-    # In the future, we should hash the password before storing it in the database for security reasons.
     
     #Check if a physio with the same email already exists to avoid duplicates
     db_physio = get_physio_by_email(db, email=physio.mail)
     if db_physio:
         raise ValueError("A physio with this email already exists.")
     
+    hashed_password = get_password_hash(physio.password) # Hash the password for security reasons
+
     db_physio = models.Physio(
         name=physio.name,
         surnames=physio.surnames,
         mail=physio.mail,
-        password=physio.password
+        password=hashed_password
     )
     db.add(db_physio)
     db.commit()
@@ -39,18 +41,19 @@ def get_patient_by_email(db: Session, email: str):
     return db.query(models.Patient).filter(models.Patient.mail == email).first()
 
 def create_patient(db: Session, patient: schemas.PatientCreate):
-    # In the future, we should hash the password before storing it in the database for security reasons.
 
     #Check if a patient with the same email already exists to avoid duplicates
     db_patient = get_patient_by_email(db, email=patient.mail)
     if db_patient:
         raise ValueError("A patient with this email already exists.")
     
+    hashed_password = get_password_hash(patient.password) # Hash the password for security reasons
+
     db_patient = models.Patient(
         name=patient.name,
         surnames=patient.surnames,
         mail=patient.mail,
-        password=patient.password,
+        password=hashed_password,
         id_physio=patient.id_physio
     )
     db.add(db_patient)
@@ -72,10 +75,10 @@ def create_pain_record(db: Session, pain_record: schemas.PainRecordCreate):
     db.refresh(db_pain_record)
     return db_pain_record
 
-def get_pain_records_by_patient(db: Session, id_patient: int):
+def get_pain_records_by_patient(db: Session, id_patient: int, skip: int = 0, limit: int = 100):
     return db.query(models.PainRecord).filter(
-        models.PainRecord.id_patient == id_patient
-        ).order_by(models.PainRecord.date.asc()).all()
+        models.PainRecord.id_patient == id_patient).order_by(models.PainRecord.date.desc()
+        ).offset(skip).limit(limit).all()
 
 
 # --- CRUD functions for appointments ---
