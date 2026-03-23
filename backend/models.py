@@ -1,3 +1,5 @@
+import enum
+
 from sqlalchemy import Column, Integer, String, ForeignKey, Date, DateTime, Text, Boolean, CheckConstraint
 from sqlalchemy.orm import relationship
 from database import Base
@@ -49,6 +51,11 @@ class Appointment(Base):
     
     patient = relationship("Patient", back_populates="appointments")
     physio = relationship("Physio", back_populates="appointments")
+
+class AppointmentState(str, enum.Enum):
+    PENDIENTE = "pendiente"
+    COMPLETADO = "completado"
+    CANCELADO = "cancelado"
 
 
 class PainRecord(Base):
