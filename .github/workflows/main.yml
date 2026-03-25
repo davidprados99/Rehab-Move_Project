@@ -26,4 +26,5 @@ jobs:
 
       - name: Ejecutar Tests Unitarios
         run: |
+          export PYTHONPATH=$PYTHONPATH:$(pwd)/backend
           pytest
