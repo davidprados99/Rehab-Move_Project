@@ -17,7 +17,7 @@ DB_NAME = os.getenv("DB_NAME")
 
 # If some variables are missing, we fall back to SQLite for testing purposes
 
-if not all([DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME]):
+if not DB_USER or not DB_PASSWORD or not DB_HOST or not DB_NAME:
     print("Configuración DB no encontrada. Usando SQLite para tests")
     SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
     # Check same thread is needed for SQLite to avoid issues with multiple threads accessing the database
