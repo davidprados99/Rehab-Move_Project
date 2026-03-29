@@ -1,7 +1,8 @@
 from pydantic import BaseModel, EmailStr, Field
 from datetime import date, datetime
 from typing import List, Optional
-from models import AppointmentState
+
+from backend.models import AppointmentState
 
 #Schemas.py describe how the data will be sent and received in JSON format between the frontend and backend using Pydantic.
 

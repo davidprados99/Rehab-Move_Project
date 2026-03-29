@@ -2,8 +2,8 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 
-import models, schemas, crud
-from database import engine, get_db
+from backend import models, schemas, crud
+from backend.database import engine, get_db
 
 # Main.py is the entry point of our FastAPI application. It defines the API endpoints for managing physiotherapists, patients, appointments, and pain records. It uses the CRUD functions defined in crud.py to interact with the database.
 

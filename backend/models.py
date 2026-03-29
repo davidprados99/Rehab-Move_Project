@@ -2,7 +2,7 @@ import enum
 
 from sqlalchemy import Column, Integer, String, ForeignKey, Date, DateTime, Text, Boolean, CheckConstraint
 from sqlalchemy.orm import relationship
-from database import Base
+from backend.database import Base
 import datetime
 
 # Models.py define how the data will be stored in the database using SQLAlchemy ORM.

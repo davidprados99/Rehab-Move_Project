@@ -1,8 +1,8 @@
 from datetime import date
 
 from sqlalchemy.orm import Session
-from security import get_password_hash
-import models, schemas
+from backend.security import get_password_hash
+from backend import models, schemas
 
 # crud.py contains the functions that interact with the database using SQLAlchemy ORM. These functions are used in the API endpoints to perform operations like creating, reading, updating, and deleting records in the database.
 
