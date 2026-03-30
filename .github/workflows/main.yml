@@ -7,6 +7,8 @@ on:
     branches: [ "main" ]
 
 jobs:
+  # Job for executing unit tests and deploying to AWS Elastic Beanstalk
+  # Unit tests job
   test:
     runs-on: ubuntu-latest
     steps:
@@ -28,3 +30,26 @@ jobs:
         run: |
           export PYTHONPATH=$PYTHONPATH:$(pwd)/backend
           pytest
+
+  # AWS Elastic Beanstalk deployment job
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' # Only deploy on push to main branch
+    steps:
+      - name: Descargar código # Checkout of the repository
+        uses: actions/checkout@v4
+
+      - name: Crear archivo ZIP para despliegue # Create a ZIP file for deployment
+        run: zip -r deploy.zip backend Procfile requirements.txt
+
+      - name: Desplegar en AWS Elastic Beanstalk # Deploy to AWS Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v22
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }} # AWS Access Key from GitHub Secrets
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # AWS Secret Key from GitHub Secrets
+          application_name: rehab-move-api
+          environment_name: Rehab-move-api-env-1
+          version_label: "deploy-${{ github.sha }}" # Unique version label using the commit SHA
+          region: ${{ secrets.AWS_REGION }} # AWS Region from GitHub Secrets
+          deployment_package: deploy.zip
