@@ -1,6 +1,7 @@
 # Rehab & Move
 [English US](#english-version) | [Spanish ES](#spanish-version)
-
+<details>
+<summary><b>US Read in English (Click to expand)</b></summary>
 <a name="english-version"></a>
 
 > **Bridging Physiotherapy and Technology to enhance clinical treatment adherence.**
@@ -135,7 +136,9 @@ uvicorn backend.main:app --reload
 Developed for educational purposes and professional portfolio.
 
 ---
-
+</details>
+<details>
+<summary><b>ES Leer en Español (Click para desplegar)</b></summary>
 <a name="spanish-version"></a>
 
 > **Uniendo la fisioterapia y la tecnología para mejorar la adherencia al tratamiento clínico.**
@@ -292,3 +295,4 @@ No está permitido el uso o distribución sin autorización expresa del autor.
 Desarrollado por **David Prados Medina** - Desarrollador Multiplataforma. - 2026.
 
 ---
+</details>
