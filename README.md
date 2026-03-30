@@ -1,5 +1,5 @@
 # Rehab & Move
-[English US](#english-version) | [Spanish ES](#spanish-version)
+
 <details>
 <summary><b>US Read in English (Click to expand)</b></summary>
 <a name="english-version"></a>
@@ -77,7 +77,7 @@ Currently, the core of the application (REST API) is fully deployed and function
 
 ---
 
-## Estructura del proyecto
+## Project structure 
 
 ```
 .
@@ -104,7 +104,7 @@ Currently, the core of the application (REST API) is fully deployed and function
 
 ---
 
-## Instalación Local (Desarrollo)
+## Local installation (Development)
 
 1. Create the repository:
 
