@@ -82,7 +82,12 @@ def get_patients(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Patient).offset(skip).limit(limit).all()
 
 def create_patient(db: Session, patient: schemas.PatientCreate):
-
+    
+    if patient.id_physio is not None:
+        physio = get_physio_by_id(db, id_physio=patient.id_physio)
+        if not physio:
+            raise ValueError("Physio not found.")
+        
     #Check if a patient with the same email already exists to avoid duplicates
     db_patient = get_patient_by_email(db, email=patient.mail)
     if db_patient:
@@ -137,6 +142,12 @@ def delete_patient(db:Session, id_patient: int):
 # --- CRUD functions for pain records ---
 
 def create_pain_record(db: Session, pain_record: schemas.PainRecordCreate):
+
+    if pain_record.id_patient is not None:
+        patient = get_patient_by_id(db, id_patient=pain_record.id_patient)
+        if not patient:
+            raise ValueError("Patient not found.")
+        
     db_pain_record = models.PainRecord(
         level_pain=pain_record.level_pain,
         comment=pain_record.comment,
@@ -196,6 +207,16 @@ def get_appointment_by_id(db: Session, id_appointment: int):
     return db.query(models.Appointment).filter(models.Appointment.id_appointment == id_appointment).first()
 
 def create_appointment(db: Session, appointment: schemas.AppointmentCreate):
+    if appointment.id_patient is not None:
+        patient = get_patient_by_id(db, id_patient=appointment.id_patient)
+        if not patient:
+            raise ValueError("Patient not found.")
+    
+    if appointment.id_physio is not None:
+        physio = get_physio_by_id(db, id_physio=appointment.id_physio)
+        if not physio:
+            raise ValueError("Physio not found.")
+    
     db_appointment = models.Appointment(
         date=appointment.date,
         notes=appointment.notes,
@@ -234,8 +255,8 @@ def delete_appointment(db: Session, id_appointment: int):
 # --- CRUD functions for exercises ---
 
 
-def get_exercises(db: Session):
-    return db.query(models.Exercise).filter(models.Exercise.active == True).all()
+def get_exercises(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Exercise).filter(models.Exercise.active == True).offset(skip).limit(limit).all()
 
 def get_exercise_by_id(db: Session, id_exercise: int):
     return db.query(models.Exercise).filter(models.Exercise.id_exercise == id_exercise).first()
@@ -299,20 +320,36 @@ def delete_exercise(db: Session, id_exercise: int):
 # --- CRUD functions for exercises assignments ---
 
 
-def assign_exercise_to_patient(db: Session, assigment: schemas.ExerciseAssignmentCreate):
-    db_assigment = models.ExerciseAssignment(
-        weekly_frequency=assigment.weekly_frequency,
-        series=assigment.series,
-        repetitions=assigment.repetitions,
-        start_date=assigment.start_date,
-        end_date=assigment.end_date,
-        id_patient=assigment.id_patient,
-        id_exercise=assigment.id_exercise
+def assign_exercise_to_patient(db: Session, assignment: schemas.ExerciseAssignmentCreate):
+    if assignment.start_date > assignment.end_date:
+        raise ValueError("Start date cannot be after end date.")
+    
+    if assignment.weekly_frequency < 1 or assignment.weekly_frequency > 7:
+        raise ValueError("Weekly frequency must be between 1 and 7.")
+    
+    if assignment.id_exercise is not None:
+        exercise = get_exercise_by_id(db, id_exercise=assignment.id_exercise)
+        if not exercise:
+            raise ValueError("Exercise not found.")
+        
+    if assignment.id_patient is not None:
+        patient = get_patient_by_id(db, id_patient=assignment.id_patient)
+        if not patient:
+            raise ValueError("Patient not found.")
+        
+    db_assignment = models.ExerciseAssignment(
+        weekly_frequency=assignment.weekly_frequency,
+        series=assignment.series,
+        repetitions=assignment.repetitions,
+        start_date=assignment.start_date,
+        end_date=assignment.end_date,
+        id_patient=assignment.id_patient,
+        id_exercise=assignment.id_exercise
         )
-    db.add(db_assigment)
+    db.add(db_assignment)
     db.commit()
-    db.refresh(db_assigment)
-    return db_assigment
+    db.refresh(db_assignment)
+    return db_assignment
 
 def get_exercise_assignments_by_patient(db: Session, id_patient: int):
     return db.query(models.ExerciseAssignment).filter(models.ExerciseAssignment.id_patient == id_patient).all()
@@ -355,6 +392,12 @@ def get_exercise_done_by_id(db: Session, id_exercise_done: int):
     return db.query(models.ExerciseDone).filter(models.ExerciseDone.id_exercise_done == id_exercise_done).first()
 
 def mark_exercise_done(db: Session, exercise_done: schemas.ExerciseDoneCreate):
+
+    if exercise_done.id_assignment is not None:
+        assignment = get_exercise_assignment_by_id(db, id_assignment=exercise_done.id_assignment)
+        if not assignment:
+            raise ValueError("Exercise assignment not found.")
+    
     db_exercise_done = models.ExerciseDone(
         date=exercise_done.date,
         id_assignment=exercise_done.id_assignment
