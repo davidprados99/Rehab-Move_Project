@@ -82,7 +82,7 @@ def get_patients(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Patient).offset(skip).limit(limit).all()
 
 def create_patient(db: Session, patient: schemas.PatientCreate):
-    
+
     if patient.id_physio is not None:
         physio = get_physio_by_id(db, id_physio=patient.id_physio)
         if not physio:
@@ -351,11 +351,11 @@ def assign_exercise_to_patient(db: Session, assignment: schemas.ExerciseAssignme
     db.refresh(db_assignment)
     return db_assignment
 
-def get_exercise_assignments_by_patient(db: Session, id_patient: int):
-    return db.query(models.ExerciseAssignment).filter(models.ExerciseAssignment.id_patient == id_patient).all()
+def get_exercise_assignments_by_patient(db: Session, id_patient: int, skip: int = 0, limit: int = 100):
+    return db.query(models.ExerciseAssignment).filter(models.ExerciseAssignment.id_patient == id_patient).offset(skip).limit(limit).all()
 
-def get_exercise_assignments_by_exercise(db: Session, id_exercise: int):
-    return db.query(models.ExerciseAssignment).filter(models.ExerciseAssignment.id_exercise == id_exercise).all()
+def get_exercise_assignments_by_exercise(db: Session, id_exercise: int, skip: int = 0, limit: int = 100):
+    return db.query(models.ExerciseAssignment).filter(models.ExerciseAssignment.id_exercise == id_exercise).offset(skip).limit(limit).all()
 
 def get_exercise_assignment_by_id(db: Session, id_assignment: int):
     return db.query(models.ExerciseAssignment).filter(models.ExerciseAssignment.id_assignment == id_assignment).first()
