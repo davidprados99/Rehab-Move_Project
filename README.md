@@ -62,8 +62,22 @@ As a former Physiotherapist turned Software Developer (DAM), I identified a crit
 ## Project Roadmap
 
 * **[x] Phase 1: Backend & REST API Development**
+
+* Relational database design.
+* Implementation of business logic and CRUD operations with FastAPI.
+* Security and password hashing.
+
 * **[x] Phase 2: Cloud Infrastructure & DevOps (Current)**
-* **[ ] Phase 3: Desktop Frontend (Upcoming - PySide6)**
+
+* Deployment on **AWS Elastic Beanstalk**.
+* Production database on **AWS RDS**.
+* Deployment automation (CI/CD) with **GitHub Actions**.
+
+* **[ ]Phase 3: Frontend Desktop (Coming Soon)**
+
+* Cross-platform graphical interface with **PySide6**.
+* Integration of dynamic graphs with **Matplotlib**.
+
 
 ---
 
