@@ -1,0 +1,53 @@
+/* Global styles of Rehab & Move */
+
+QWidget#MainWin {
+    background-color: #F4F7F6;
+}
+
+QFrame#LoginCard {
+    background-color: white;
+    border-radius: 20px;
+}
+
+QLabel#WelcomeText {
+    color: #5DA7A3;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+QLineEdit {
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #FAFAFA;
+}
+
+QLineEdit:focus {
+    border: 2px solid #7B88C3;
+}
+
+QPushButton#LoginBtn {
+    background-color: #5DA7A3;
+    color: white;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: bold;
+}
+
+QPushButton#LoginBtn:hover {
+    background-color: #4A8B87;
+}
+
+/* Estilos del Sidebar */
+#Sidebar {
+    background-color: #5DA7A3;
+    border-right: 1px solid #D1D8D7;
+}
+
+QPushButton#MenuBtn {
+    background-color: transparent;
+    color: white;
+    text-align: left;
+    padding: 10px 20px;
+    border: none;
+}
