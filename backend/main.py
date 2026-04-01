@@ -89,8 +89,6 @@ def read_physio_by_email(email: str, db: Session = Depends(get_db)):
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
-
-    
 @app.patch("/physios/{id_physio}", response_model=schemas.Physio, tags=["Physios"])
 def update_physio(id_physio: int, physio_update: schemas.PhysioUpdate, db: Session = Depends(get_db)):
     try:
@@ -143,6 +141,14 @@ def read_patient_by_email(email: str, db: Session = Depends(get_db)):
         if db_patient is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Patient not found")
         return db_patient
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    
+@app.get("/patients/{id_physio}", response_model=List[schemas.Patient], tags=["Patients"])
+def read_patients_by_physio(id_physio: int, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    try:
+        patients = crud.get_patients_by_physio(db, id_physio=id_physio, skip=skip, limit=limit)
+        return patients
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
