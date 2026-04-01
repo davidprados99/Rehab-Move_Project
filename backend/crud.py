@@ -78,6 +78,9 @@ def get_patient_by_id(db: Session, id_patient: int):
 def get_patient_by_email(db: Session, email: str):
     return db.query(models.Patient).filter(models.Patient.mail == email).first()
 
+def get_patients_by_physio(db: Session, id_physio: int, skip: int = 0, limit: int = 100):
+    return db.query(models.Patient).filter(models.Patient.id_physio == id_physio).offset(skip).limit(limit).all()
+
 def get_patients(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Patient).offset(skip).limit(limit).all()
 
