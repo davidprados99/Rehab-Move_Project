@@ -144,7 +144,7 @@ def read_patient_by_email(email: str, db: Session = Depends(get_db)):
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     
-@app.get("/patients/{id_physio}", response_model=List[schemas.Patient], tags=["Patients"])
+@app.get("/physios/{id_physio}/patients", response_model=List[schemas.Patient], tags=["Patients"])
 def read_patients_by_physio(id_physio: int, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     try:
         patients = crud.get_patients_by_physio(db, id_physio=id_physio, skip=skip, limit=limit)
