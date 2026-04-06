@@ -29,11 +29,11 @@ class LoginController:
 
             if self.api.user_role == "physio":
                 print("Navegando al dashboard del fisioterapeuta...")
-                self.dashboard = PhysioDashboard(email)
+                self.dashboard = PhysioDashboard(self.api)
                 self.dashboard.show()
             else:
                 print("Navegando al dashboard del paciente...")
-                self.dashboard = PatientDashboard(email)
+                self.dashboard = PatientDashboard(self.api)
                 self.dashboard.show()
         else:
             print(f"Error: {message}")

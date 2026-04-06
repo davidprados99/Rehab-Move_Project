@@ -5,6 +5,8 @@ class ApiClient:
         self.base_url = "http://rehab-move-api-env-1.eba-epsm62av.us-east-1.elasticbeanstalk.com" #API URL
         self.token = None #Auth token
         self.user_role = None #User role (physio, patient)
+        self.user_id = None #User ID (for fetching related data)
+        self.name = None #User name (for display purposes)
 
     def login(self, email, password):
         """
@@ -23,6 +25,8 @@ class ApiClient:
                 data = response.json()
                 self.token = data.get("access_token")
                 self.user_role = data.get("role")
+                self.user_id = data.get("user_id")
+                self.name = data.get("name")
                 return True, data
             else:
                 return False, response.json().get("detail", "Error desconocido")
@@ -38,9 +42,9 @@ class ApiClient:
         return {}
     
     
-    def get_patients(self, skip=0, limit=100):
+    def get_patients(self, skip=0, limit=100, id_physio=None):
         """Get the list of patients (for physios)"""
-        url = f"{self.base_url}/patients/"
+        url = f"{self.base_url}/physios/{id_physio}/patients/"
         
         try:
             # Make the GET request with authentication headers and pagination parameters
@@ -52,3 +56,4 @@ class ApiClient:
                 return False, response.json().get("detail", "Error al obtener pacientes")
         except Exception as e:
             return False, str(e)
+    
