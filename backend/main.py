@@ -47,7 +47,8 @@ def login(form_data: schemas.UserLogin, db: Session = Depends(get_db)):
         "access_token": access_token, 
         "token_type": "bearer", 
         "role": role,
-        "user_id": user.id_physio if role == "physio" else user.id_patient
+        "user_id": user.id_physio if role == "physio" else user.id_patient,
+        "name": user.name
     }
 
 
