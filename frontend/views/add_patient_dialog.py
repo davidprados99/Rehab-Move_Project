@@ -27,8 +27,11 @@ class AddPatientDialog(QDialog):
         self.surnames_input = QLineEdit()
         self.surnames_input.setPlaceholderText("Apellidos completos")
         
-        self.mail_input = QLineEdit()
-        self.mail_input.setPlaceholderText("ejemplo@correo.com")
+        self.email_input = QLineEdit()
+        self.email_input.setPlaceholderText("ejemplo@correo.com")
+
+        self.phone_input = QLineEdit()
+        self.phone_input.setPlaceholderText("Teléfono del paciente")
 
         self.password_input = QLineEdit()
         self.password_input.setPlaceholderText("Contraseña segura")
@@ -37,7 +40,8 @@ class AddPatientDialog(QDialog):
 
         self.form_layout.addRow("Nombre:", self.name_input)
         self.form_layout.addRow("Apellidos:", self.surnames_input)
-        self.form_layout.addRow("mail:", self.mail_input)
+        self.form_layout.addRow("email:", self.email_input)
+        self.form_layout.addRow("Teléfono", self.phone_input)
         self.form_layout.addRow("Contraseña:", self.password_input)
         layout.addLayout(self.form_layout)
 
@@ -64,11 +68,14 @@ class AddPatientDialog(QDialog):
         if not self.surnames_input.text().strip():
             QMessageBox.critical(self, "Error", "Los apellidos son obligatorios.")
             return
-        if not self.mail_input.text().strip():
-            QMessageBox.critical(self, "Error", "El mail es obligatorio.")
+        if not self.email_input.text().strip():
+            QMessageBox.critical(self, "Error", "El email es obligatorio.")
             return
-        if "@" not in self.mail_input.text() or "." not in self.mail_input.text():
-            QMessageBox.critical(self, "Error", "El mail no es válido.")
+        if "@" not in self.email_input.text() or "." not in self.email_input.text():
+            QMessageBox.critical(self, "Error", "El email no es válido.")
+            return
+        if not self.phone_input.text().strip():
+            QMessageBox.critical(self, "Error", "El teléfono es obligatorio.")
             return
         if not self.password_input.text().strip():
             QMessageBox.critical(self, "Error", "La contraseña es obligatoria.")
@@ -81,7 +88,8 @@ class AddPatientDialog(QDialog):
         return {
             "name": self.name_input.text().strip(),
             "surnames": self.surnames_input.text().strip(),
-            "mail": self.mail_input.text().strip().lower(),
+            "email": self.email_input.text().strip().lower(),
+            "phone": self.phone_input.text().strip(),
             "password": self.password_input.text().strip(),
             "start_date": QDate.currentDate().toString("yyyy-MM-dd"),
             "id_physio": None # This will be set in the API call based on the logged-in physio's ID   

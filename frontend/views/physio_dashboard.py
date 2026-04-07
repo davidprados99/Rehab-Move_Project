@@ -63,7 +63,7 @@ class PhysioDashboard(QWidget):
 
         self.table = QTableWidget()
         self.table.setColumnCount(5)
-        self.table.setHorizontalHeaderLabels(["ID", "Nombre", "Apellidos", "mail", "Fecha Inicio"])
+        self.table.setHorizontalHeaderLabels(["ID", "Nombre", "Apellidos", "email", "Fecha Inicio"])
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)  # Select entire rows
 
         #Customize table appearance

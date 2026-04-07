@@ -43,9 +43,9 @@ class LoginView(QWidget):
         card_layout.addWidget(self.title)
 
         # Inptuts
-        self.mail_input = QLineEdit()
-        self.mail_input.setPlaceholderText("Correo electrónico")
-        card_layout.addWidget(self.mail_input)
+        self.email_input = QLineEdit()
+        self.email_input.setPlaceholderText("Correo electrónico")
+        card_layout.addWidget(self.email_input)
 
         self.password_input = QLineEdit()
         self.password_input.setPlaceholderText("Contraseña")

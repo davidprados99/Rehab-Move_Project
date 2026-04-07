@@ -8,13 +8,13 @@ class ApiClient:
         self.user_id = None #User ID (for fetching related data)
         self.name = None #User name (for display purposes)
 
-    def login(self, mail, password):
+    def login(self, email, password):
         """
         Send credentials if the login is succesful
         """
         url = f"{self.base_url}/login"
         payload = {
-            "mail": mail,
+            "email": email,
             "password": password
         }
         

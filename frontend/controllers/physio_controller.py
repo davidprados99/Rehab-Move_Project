@@ -31,8 +31,9 @@ class PhysioController:
                     self.view.table.setItem(row_number, 0, QTableWidgetItem(str(patient.get("id_patient"))))
                     self.view.table.setItem(row_number, 1, QTableWidgetItem(patient.get("name", "N/A")))
                     self.view.table.setItem(row_number, 2, QTableWidgetItem(patient.get("surnames", "N/A")))
-                    self.view.table.setItem(row_number, 3, QTableWidgetItem(patient.get("mail", "N/A")))
-                    self.view.table.setItem(row_number, 4, QTableWidgetItem(patient.get("start_date", "N/A")))
+                    self.view.table.setItem(row_number, 3, QTableWidgetItem(patient.get("email", "N/A")))
+                    self.view.table.setItem(row_number, 4, QTableWidgetItem(patient.get("phone","N/A")))
+                    self.view.table.setItem(row_number, 5, QTableWidgetItem(patient.get("start_date", "N/A")))
 
                     self.view.table.item(row_number, 0).setTextAlignment(Qt.AlignCenter)
             else:
@@ -73,9 +74,10 @@ class PhysioController:
                 QMessageBox.critical(self.view, "Error", f"No se pudo eliminar el paciente: {message}")
     
     def handle_appointments(self):
-        self.view.close()  # Close the current dashboard view
-        appointment_controller = AppointmentController(self.api)
-        appointment_controller.view.show()
+        self.view.close()   
+        self.appointment_controller = AppointmentController(self.api)
+        self.appointment_controller.view.show()
+        
 
     def handle_pain_records(self):
         # Logic to open pain records management dialog and handle the process

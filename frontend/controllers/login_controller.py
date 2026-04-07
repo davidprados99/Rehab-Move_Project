@@ -15,12 +15,12 @@ class LoginController:
 
     def handle_login(self):
         self.view.show()  # Ensure the login view is visible
-        mail = self.view.mail_input.text()
+        email = self.view.email_input.text()
         password = self.view.password_input.text()
 
-        success, message = self.api.login(mail, password)
+        success, message = self.api.login(email, password)
 
-        self.view.mail_input.clear()
+        self.view.email_input.clear()
         self.view.password_input.clear()   
 
         if success:
