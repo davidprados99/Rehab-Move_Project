@@ -194,17 +194,17 @@ def delete_pain_record(db: Session, id_pain_record: int):
 
 # --- CRUD functions for appointments ---
 
-def get_appointments_by_physio(db: Session, id_physio: int, date_filter: date = None):
+def get_appointments_by_physio(db: Session, id_physio: int, date_filter: date = None, skip: int = 0, limit: int = 100):
     query = db.query(models.Appointment).filter(models.Appointment.id_physio == id_physio)
     if date_filter:
         query = query.filter(models.Appointment.date == date_filter)
-    return query.all()
+    return query.offset(skip).limit(limit).all()
 
-def get_appointments_by_patient(db: Session, id_patient: int, date_filter: date = None):
+def get_appointments_by_patient(db: Session, id_patient: int, date_filter: date = None, skip: int = 0, limit: int = 100):
     query = db.query(models.Appointment).filter(models.Appointment.id_patient == id_patient)
     if date_filter:
         query = query.filter(models.Appointment.date == date_filter)
-    return query.all()
+    return query.offset(skip).limit(limit).all()
 
 def get_appointment_by_id(db: Session, id_appointment: int):
     return db.query(models.Appointment).filter(models.Appointment.id_appointment == id_appointment).first()
