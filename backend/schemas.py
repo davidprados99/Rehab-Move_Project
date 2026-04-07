@@ -9,7 +9,7 @@ from backend.models import AppointmentState
 
 #--- Authentication Schemas ---
 class UserLogin(BaseModel):
-    mail: EmailStr
+    email: EmailStr
     password: str
 
 class Token(BaseModel):
@@ -20,14 +20,15 @@ class Token(BaseModel):
     name: str
 
 class TokenData(BaseModel):
-    mail: Optional[str] = None
+    email: Optional[str] = None
     role: Optional[str] = None
 
 #--- Physio Schemas ---
 class PhysioBase(BaseModel):
     name: str
     surnames: str
-    mail: EmailStr
+    email: EmailStr
+    phone: str
     role: str = "physio"
 
 class PhysioCreate(PhysioBase):
@@ -41,14 +42,16 @@ class Physio(PhysioBase):
 class PhysioUpdate(BaseModel):
     name: Optional[str] = None
     surnames: Optional[str] = None
-    mail: Optional[EmailStr] = None
+    email: Optional[EmailStr] = None
+    phone: Optional[str] = None
     password: Optional[str] = None
 
 #--- Patient Schemas ---
 class PatientBase(BaseModel):
     name: str
     surnames: str
-    mail: EmailStr
+    email: EmailStr
+    phone: str
     start_date: date
     id_physio: Optional[int] = None
     role: str = "patient"
@@ -64,7 +67,8 @@ class Patient(PatientBase):
 class PatientUpdate(BaseModel):
     name: Optional[str] = None
     surnames: Optional[str] = None
-    mail: Optional[EmailStr] = None
+    email: Optional[EmailStr] = None
+    phone: Optional[str] = None
     password: Optional[str] = None
     start_date: Optional[date] = None
     id_physio: Optional[int] = None

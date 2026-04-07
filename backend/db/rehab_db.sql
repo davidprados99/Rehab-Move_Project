@@ -237,7 +237,7 @@ CREATE TABLE public.patient (
     id_patient integer NOT NULL,
     name character varying(100) NOT NULL,
     surnames character varying(100) NOT NULL,
-    mail character varying(150) NOT NULL,
+    email character varying(150) NOT NULL,
     password character varying(255) NOT NULL,
     start_date date DEFAULT CURRENT_DATE,
     id_physio integer,
@@ -277,7 +277,7 @@ CREATE TABLE public.physio (
     id_physio integer NOT NULL,
     name character varying(100) NOT NULL,
     surnames character varying(100) NOT NULL,
-    mail character varying(150) NOT NULL,
+    email character varying(150) NOT NULL,
     password character varying(255) NOT NULL,
     role character varying(10) DEFAULT 'physio'::character varying
 );
@@ -426,11 +426,11 @@ COPY public.pain_record (id_pain_record, level_pain, date, comment, id_patient) 
 -- Data for Name: patient; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.patient (id_patient, name, surnames, mail, password, start_date, id_physio, role) FROM stdin;
-1	Lucía	Luque de la Casa	lucialuquetrad@gmail.com	pass21	2026-03-22	1	patient
-2	Enrique	Maya Fernández	noharry@gmail.com	contraseña99	2026-03-15	1	patient
-3	Iván	Rioja Marrero	danivan08@gmail.com	112299	2026-01-16	1	patient
-4	Marta	Fernández García	martaFer@gmail.com	0055pass	2026-03-06	2	patient
+COPY public.patient (id_patient, name, surnames, email, password, start_date, id_physio, role) FROM stdin;
+1	Lucía	Luque de la Casa	lucialuquetrad@gemail.com	pass21	2026-03-22	1	patient
+2	Enrique	Maya Fernández	noharry@gemail.com	contraseña99	2026-03-15	1	patient
+3	Iván	Rioja Marrero	danivan08@gemail.com	112299	2026-01-16	1	patient
+4	Marta	Fernández García	martaFer@gemail.com	0055pass	2026-03-06	2	patient
 \.
 
 
@@ -440,9 +440,9 @@ COPY public.patient (id_patient, name, surnames, mail, password, start_date, id_
 -- Data for Name: physio; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.physio (id_physio, name, surnames, mail, password, role) FROM stdin;
-1	David	Prados Medina	davidprados99@gmail.com	261199	physio
-2	Sergio	Moreno García	sergiomoreno97@gmail.com	261197	physio
+COPY public.physio (id_physio, name, surnames, email, password, role) FROM stdin;
+1	David	Prados Medina	davidprados99@gemail.com	261199	physio
+2	Sergio	Moreno García	sergiomoreno97@gemail.com	261197	physio
 \.
 
 
@@ -556,11 +556,11 @@ ALTER TABLE ONLY public.pain_record
 
 --
 -- TOC entry 4786 (class 2606 OID 16466)
--- Name: patient patient_mail_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: patient patient_email_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.patient
-    ADD CONSTRAINT patient_mail_key UNIQUE (mail);
+    ADD CONSTRAINT patient_email_key UNIQUE (email);
 
 
 --
@@ -574,11 +574,11 @@ ALTER TABLE ONLY public.patient
 
 --
 -- TOC entry 4782 (class 2606 OID 16454)
--- Name: physio physio_mail_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: physio physio_email_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.physio
-    ADD CONSTRAINT physio_mail_key UNIQUE (mail);
+    ADD CONSTRAINT physio_email_key UNIQUE (email);
 
 
 --

@@ -22,12 +22,12 @@ app = FastAPI(
 @app.post("/login", response_model=schemas.Token, tags=["Autenticación"])
 def login(form_data: schemas.UserLogin, db: Session = Depends(get_db)):
     # 1. Try to find the user in PHYSIOS first
-    user = crud.get_physio_by_mail(db, mail=form_data.mail)
+    user = crud.get_physio_by_email(db, email=form_data.email)
     role = "physio"
     
     # 2. If not found in PHYSIOS, try to find the user in PATIENTS
     if not user:
-        user = crud.get_patient_by_mail(db, mail=form_data.mail)
+        user = crud.get_patient_by_email(db, email=form_data.email)
         role = "patient"
     
     # 3. Verify the password if the user exists
@@ -37,10 +37,10 @@ def login(form_data: schemas.UserLogin, db: Session = Depends(get_db)):
             detail="Credenciales incorrectas"
         )
     
-    # 4. Create a JWT token with the user's mail and role. 
+    # 4. Create a JWT token with the user's email and role. 
     # It's crucial to include the 'role' in the JWT payload for proper authorization in protected endpoints.
     access_token = create_access_token(
-        data={"sub": user.mail, "role": role}
+        data={"sub": user.email, "role": role}
     )
     
     return {
@@ -80,10 +80,10 @@ def read_physio_by_id(id_physio: int, db: Session = Depends(get_db)):
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
-@app.get("/physios/mail/{mail}", response_model=schemas.Physio, tags=["Physios"])
-def read_physio_by_mail(mail: str, db: Session = Depends(get_db)):
+@app.get("/physios/email/{email}", response_model=schemas.Physio, tags=["Physios"])
+def read_physio_by_email(email: str, db: Session = Depends(get_db)):
     try:
-        db_physio = crud.get_physio_by_mail(db, mail=mail)
+        db_physio = crud.get_physio_by_email(db, email=email)
         if db_physio is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Physio not found")
         return db_physio
@@ -135,10 +135,10 @@ def read_patient_by_id(id_patient: int, db: Session = Depends(get_db)):
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
-@app.get("/patients/mail/{mail}", response_model=schemas.Patient, tags=["Patients"])
-def read_patient_by_mail(mail: str, db: Session = Depends(get_db)):
+@app.get("/patients/email/{email}", response_model=schemas.Patient, tags=["Patients"])
+def read_patient_by_email(email: str, db: Session = Depends(get_db)):
     try:
-        db_patient = crud.get_patient_by_mail(db, mail=mail)
+        db_patient = crud.get_patient_by_email(db, email=email)
         if db_patient is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Patient not found")
         return db_patient
