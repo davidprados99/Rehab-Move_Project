@@ -30,6 +30,7 @@ def create_physio(db: Session, physio: schemas.PhysioCreate):
         name=physio.name,
         surnames=physio.surnames,
         email=physio.email,
+        phone=physio.phone,
         password=hashed_password
     )
     db.add(db_physio)
@@ -102,6 +103,7 @@ def create_patient(db: Session, patient: schemas.PatientCreate):
         name=patient.name,
         surnames=patient.surnames,
         email=patient.email,
+        phone=patient.phone,
         password=hashed_password,
         id_physio=patient.id_physio
     )
