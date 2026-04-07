@@ -38,16 +38,107 @@ QPushButton#LoginBtn:hover {
     background-color: #4A8B87;
 }
 
+QPushButton#CancelBtn {
+    background-color: #E0E0E0;
+    color: #333333;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: bold;
+}
+
+QPushButton#CancelBtn:hover {
+    background-color: #D1D8D7; 
+}
+
 /* Estilos del Sidebar */
 #Sidebar {
-    background-color: #5DA7A3;
+    background-color: #2D5A57;
     border-right: 1px solid #D1D8D7;
 }
 
 QPushButton#MenuBtn {
-    background-color: transparent;
+    background-color: #4D8E8A; 
     color: white;
-    text-align: left;
-    padding: 10px 20px;
     border: none;
+    border-radius: 8px; 
+    margin: 5px 12px;   
+    padding: 12px;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+QPushButton#MenuBtn:hover {
+    background-color: #3D7571; 
+}
+
+/* --- Estilos para la Tabla de Pacientes --- */
+
+QTableWidget {
+    background-color: white;
+    border: 1px solid #E0E0E0;
+    border-radius: 15px;
+    gridline-color: #F0F0F0;
+    font-size: 14px;
+    outline: none;
+}
+
+QHeaderView::section {
+    background-color: white;
+    padding: 15px;
+    border: none;
+    border-bottom: 2px solid #5DA7A3; 
+    color: #5DA7A3;
+    font-weight: bold;
+    text-align: left;
+}
+
+QTableWidget::item {
+    padding: 10px;
+    border-bottom: 1px solid #F4F7F6;
+    color: #333333;
+}
+
+QTableWidget::item:selected {
+    background-color: #E6F4F3; 
+    color: #4A8B87;
+    border-left: 4px solid #5DA7A3;
+}
+
+QScrollBar:vertical {
+    border: none;
+    background: #F4F7F6;
+    width: 10px;
+    margin: 0px;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:vertical {
+    background: #D1D8D7;
+    min-height: 20px;
+    border-radius: 5px;
+}
+
+/* --- Contenedores del Dashboard --- */
+
+QFrame#ContentArea {
+    background-color: white;
+    border-radius: 20px;
+    margin: 10px;
+}
+
+QLabel#SectionTitle {
+    color: #2C3E50;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* --- Formulario --- */
+
+QLabel#QLabelFormTitle {
+    font-size: 18px; 
+    font-weight: bold; 
+    color: #5DA7A3; 
+    margin-bottom: 10px;
 }

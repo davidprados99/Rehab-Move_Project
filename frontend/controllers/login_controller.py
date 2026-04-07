@@ -3,6 +3,7 @@ from services.api_client import ApiClient
 from views.physio_dashboard import PhysioDashboard
 from views.patient_dashboard import PatientDashboard
 from PySide6.QtWidgets import QMessageBox
+from controllers.physio_controller import PhysioController
 
 class LoginController:
     def __init__(self):
@@ -14,27 +15,21 @@ class LoginController:
 
     def handle_login(self):
         self.view.show()  # Ensure the login view is visible
-        email = self.view.email_input.text()
+        mail = self.view.mail_input.text()
         password = self.view.password_input.text()
 
-        success, message = self.api.login(email, password)
+        success, message = self.api.login(mail, password)
 
-        self.view.email_input.clear()
+        self.view.mail_input.clear()
         self.view.password_input.clear()   
 
         if success:
             self.view.hide()  # Hide the login view
-            print(f"Login exitoso. Rol: {self.api.user_role}")
-            # There is where you would navigate to the next screen based on the user role
-
             if self.api.user_role == "physio":
-                print("Navegando al dashboard del fisioterapeuta...")
-                self.dashboard = PhysioDashboard(self.api)
-                self.dashboard.show()
+                self.controller = PhysioController(self.api)
+                self.controller.view.show()
             else:
-                print("Navegando al dashboard del paciente...")
                 self.dashboard = PatientDashboard(self.api)
                 self.dashboard.show()
         else:
-            print(f"Error: {message}")
             QMessageBox.critical(self.view, "Error", f"Login fallido: {message}")

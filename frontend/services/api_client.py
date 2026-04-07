@@ -8,13 +8,13 @@ class ApiClient:
         self.user_id = None #User ID (for fetching related data)
         self.name = None #User name (for display purposes)
 
-    def login(self, email, password):
+    def login(self, mail, password):
         """
         Send credentials if the login is succesful
         """
         url = f"{self.base_url}/login"
         payload = {
-            "email": email,
+            "mail": mail,
             "password": password
         }
         
@@ -56,4 +56,39 @@ class ApiClient:
                 return False, response.json().get("detail", "Error al obtener pacientes")
         except Exception as e:
             return False, str(e)
+    
+    def add_patient(self, patient_data):
+        """Add a new patient (for physios)"""
+        url = f"{self.base_url}/patients/"
+        
+        try:
+            response = requests.post(url, headers=self.get_headers(), json=patient_data)
+            
+            if response.status_code == 201:
+                return True, response.json()
+            else:
+                return False, response.json().get("detail", "Error al agregar paciente")
+        except Exception as e:
+            return False, str(e)
+    
+    def delete_patient(self, id_patient):
+        """Delete a patient (for physios)"""
+        url = f"{self.base_url}/patients/{id_patient}"
+        
+        try:
+            response = requests.delete(url, headers=self.get_headers())
+            
+            if response.status_code == 204:
+                return True, "Paciente eliminado correctamente"
+            else:
+                return False, response.json().get("detail", "Error al eliminar paciente")
+        except Exception as e:
+            return False, str(e)
+    
+    def logout(self):
+        """Clear the authentication data to log out the user."""
+        self.token = None
+        self.user_role = None
+        self.user_id = None
+        self.name = None
     

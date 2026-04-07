@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QFrame, QGraphicsDropShadowEffect, QWidget, QVBoxLayout, QLineEdit, QPushButton, QLabel,  QMessageBox
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap, QColor
+from PySide6.QtGui import QIcon, QPixmap, QColor
 
 class LoginView(QWidget):
     def __init__(self):
@@ -8,6 +8,7 @@ class LoginView(QWidget):
         self.setWindowTitle("Rehab & Move - Login")
         self.setMinimumWidth(300)
         self.setMinimumHeight(200)
+        self.setWindowIcon(QIcon("assets/logo_Rehab&Move.png"))
         self.init_ui()
 
     def init_ui(self):
@@ -28,7 +29,7 @@ class LoginView(QWidget):
         card_layout.setContentsMargins(30, 40, 30, 40)
         card_layout.setSpacing(15)
 
-        # 1. Logo
+        # Logo
         self.logo_label = QLabel()
         pixmap = QPixmap("assets/logo_Rehab&Move.png")
         self.logo_label.setPixmap(pixmap.scaled(120, 120, Qt.KeepAspectRatio, Qt.SmoothTransformation))
@@ -42,9 +43,9 @@ class LoginView(QWidget):
         card_layout.addWidget(self.title)
 
         # Inptuts
-        self.email_input = QLineEdit()
-        self.email_input.setPlaceholderText("Correo electrónico")
-        card_layout.addWidget(self.email_input)
+        self.mail_input = QLineEdit()
+        self.mail_input.setPlaceholderText("Correo electrónico")
+        card_layout.addWidget(self.mail_input)
 
         self.password_input = QLineEdit()
         self.password_input.setPlaceholderText("Contraseña")
