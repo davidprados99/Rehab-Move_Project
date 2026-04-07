@@ -77,6 +77,9 @@ class AddPatientDialog(QDialog):
         if not self.phone_input.text().strip():
             QMessageBox.critical(self, "Error", "El teléfono es obligatorio.")
             return
+        if not self.phone_input.text().strip().isdigit():
+            QMessageBox.critical(self, "Error", "El teléfono debe contener solo números.")
+            return
         if not self.password_input.text().strip():
             QMessageBox.critical(self, "Error", "La contraseña es obligatoria.")
             return

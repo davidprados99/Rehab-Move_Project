@@ -62,8 +62,8 @@ class PhysioDashboard(QWidget):
         self.title.setAlignment(Qt.AlignCenter)
 
         self.table = QTableWidget()
-        self.table.setColumnCount(5)
-        self.table.setHorizontalHeaderLabels(["ID", "Nombre", "Apellidos", "email", "Fecha Inicio"])
+        self.table.setColumnCount(6)
+        self.table.setHorizontalHeaderLabels(["ID", "Nombre", "Apellidos", "Email", "Teléfono", "Fecha Inicio"])
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)  # Select entire rows
 
         #Customize table appearance
@@ -80,8 +80,11 @@ class PhysioDashboard(QWidget):
         header.setSectionResizeMode(1, QHeaderView.Stretch)          
         header.setSectionResizeMode(2, QHeaderView.Stretch)          
         header.setSectionResizeMode(3, QHeaderView.Stretch)          
-        header.setSectionResizeMode(4, QHeaderView.Fixed)            
+        header.setSectionResizeMode(4, QHeaderView.Fixed)
+        header.setSectionResizeMode(5, QHeaderView.Fixed)            
         self.table.setColumnWidth(4, 120)
+        
+        self.table.setColumnWidth(5, 120)
 
         content_layout.addWidget(self.title)
         content_layout.addWidget(self.table)
