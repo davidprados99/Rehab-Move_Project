@@ -84,6 +84,20 @@ class ApiClient:
                 return False, response.json().get("detail", "Error al eliminar paciente")
         except Exception as e:
             return False, str(e)
+        
+    def get_appointments(self, id=None):
+        role_path = self.user_role
+        url = f"{self.base_url}/appointments/{role_path}/{id}"
+
+        headers = {"Authorization": f"Bearer {self.token}"}
+        try:
+            response = requests.get(url, headers=headers)
+            if response.status_code == 200:
+                return True, response.json()
+            else:
+                return False, response.json().get("detail", "Error al obtener citas")
+        except Exception as e:
+            return False, str(e)
     
     def logout(self):
         """Clear the authentication data to log out the user."""

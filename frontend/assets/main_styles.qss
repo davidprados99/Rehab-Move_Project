@@ -142,3 +142,26 @@ QLabel#QLabelFormTitle {
     color: #5DA7A3; 
     margin-bottom: 10px;
 }
+
+/* --- Estilos de Calendar --- */
+
+QCalendarWidget QWidget#qt_calendar_navigationbar {
+    background-color: #5DA7A3;
+}
+
+QCalendarWidget QAbstractItemView:enabled {
+    color: #333;
+    selection-background-color: #5DA7A3;
+    selection-color: white;
+}
+
+/* Días de la semana */
+QCalendarWidget QWidget { 
+    alternate-background-color: #F4F7F6; 
+}
+
+/* El número del día seleccionado */
+QCalendarWidget QAbstractItemView:selected {
+    border-radius: 5px;
+    font-weight: bold;
+}

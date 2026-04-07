@@ -1,6 +1,7 @@
 
 from PySide6.QtWidgets import  QDialog, QTableWidgetItem, QMessageBox
 from PySide6.QtCore import Qt
+from controllers.appointment_controller import AppointmentController
 from views.physio_dashboard import PhysioDashboard
 from views.add_patient_dialog import AddPatientDialog
 
@@ -10,8 +11,12 @@ class PhysioController:
         self.api = api_client
         self.view = PhysioDashboard(self.api)
 
+        self.view.btn_exercises.clicked.connect(self.handle_dashboard_exercises)
         self.view.btn_add.clicked.connect(self.handle_add_patient)
         self.view.btn_delete.clicked.connect(self.handle_delete_patient)
+        self.view.btn_appointments.clicked.connect(self.handle_appointments)
+        self.view.btn_pain_records.clicked.connect(self.handle_pain_records)
+        self.view.btn_exercise_plan.clicked.connect(self.handle_exercises_assigned)
         self.view.btn_logout.clicked.connect(self.close_sesion)
         self.load_patients()
 
@@ -33,6 +38,10 @@ class PhysioController:
             else:
                 print(f"Error al cargar pacientes: {patients}")
                 QMessageBox.critical(self.view, "Error", f"No se pudieron cargar los pacientes: {patients}")
+    
+    def handle_dashboard_exercises(self):
+        # Logic to open the exercise management dialog and handle the process
+        pass
 
     def handle_add_patient(self):
             dialog = AddPatientDialog()
@@ -62,6 +71,19 @@ class PhysioController:
                 self.load_patients()
             else:
                 QMessageBox.critical(self.view, "Error", f"No se pudo eliminar el paciente: {message}")
+    
+    def handle_appointments(self):
+        self.view.close()  # Close the current dashboard view
+        appointment_controller = AppointmentController(self.api)
+        appointment_controller.view.show()
+
+    def handle_pain_records(self):
+        # Logic to open pain records management dialog and handle the process
+        pass
+
+    def handle_exercises_assigned(self):
+        # Logic to open exercise management dialog and handle the process
+        pass
     
     def close_sesion(self):
         confirm = QMessageBox.question(self.view, "Confirmar Cierre de Sesión", "¿Está seguro de que desea cerrar sesión?", QMessageBox.Yes | QMessageBox.No)

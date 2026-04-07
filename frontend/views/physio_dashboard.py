@@ -41,9 +41,9 @@ class PhysioDashboard(QWidget):
         sidebar_layout.addWidget(self.btn_appointments)
         self.btn_appointments.setObjectName("MenuBtn")
 
-        self.btn_pain_record = QPushButton("Registros de Dolor")
-        sidebar_layout.addWidget(self.btn_pain_record)
-        self.btn_pain_record.setObjectName("MenuBtn")
+        self.btn_pain_records = QPushButton("Registros de Dolor")
+        sidebar_layout.addWidget(self.btn_pain_records)
+        self.btn_pain_records.setObjectName("MenuBtn")
 
         self.btn_exercise_plan = QPushButton("Plan de Ejercicio")
         sidebar_layout.addWidget(self.btn_exercise_plan)
