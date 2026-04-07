@@ -11,18 +11,18 @@ from backend import models, schemas
 def get_physio_by_id(db: Session, id_physio: int):
     return db.query(models.Physio).filter(models.Physio.id_physio == id_physio).first()
 
-def get_physio_by_email(db: Session, email: str):
-    return db.query(models.Physio).filter(models.Physio.mail == email).first()
+def get_physio_by_mail(db: Session, mail: str):
+    return db.query(models.Physio).filter(models.Physio.mail == mail).first()
 
 def get_physios(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Physio).offset(skip).limit(limit).all()
 
 def create_physio(db: Session, physio: schemas.PhysioCreate):
     
-    #Check if a physio with the same email already exists to avoid duplicates
-    db_physio = get_physio_by_email(db, email=physio.mail)
+    #Check if a physio with the same mail already exists to avoid duplicates
+    db_physio = get_physio_by_mail(db, mail=physio.mail)
     if db_physio:
-        raise ValueError("A physio with this email already exists.")
+        raise ValueError("A physio with this mail already exists.")
     
     hashed_password = get_password_hash(physio.password) # Hash the password for security reasons
 
@@ -43,11 +43,11 @@ def update_physio(db: Session, id: int, physio_update: schemas.PhysioUpdate):
     if not db_physio:
         raise ValueError("Physio not found.")
 
-    #Check if the email is being updated and if the new email is not already taken by another physio
+    #Check if the mail is being updated and if the new mail is not already taken by another physio
     if physio_update.mail is not None and physio_update.mail != db_physio.mail:
-        existing_physio = get_physio_by_email(db, email=physio_update.mail)
+        existing_physio = get_physio_by_mail(db, mail=physio_update.mail)
         if existing_physio:
-            raise ValueError("A physio with this email already exists.")
+            raise ValueError("A physio with this mail already exists.")
     
     update_data = physio_update.model_dump(exclude_unset=True) # Convert the Pydantic model to a dictionary, excluding fields that were not provided in the update request
     
@@ -75,8 +75,8 @@ def delete_physio(db: Session, id_physio: int):
 def get_patient_by_id(db: Session, id_patient: int):
     return db.query(models.Patient).filter(models.Patient.id_patient == id_patient).first()
 
-def get_patient_by_email(db: Session, email: str):
-    return db.query(models.Patient).filter(models.Patient.mail == email).first()
+def get_patient_by_mail(db: Session, mail: str):
+    return db.query(models.Patient).filter(models.Patient.mail == mail).first()
 
 def get_patients_by_physio(db: Session, id_physio: int, skip: int = 0, limit: int = 100):
     return db.query(models.Patient).filter(models.Patient.id_physio == id_physio).offset(skip).limit(limit).all()
@@ -91,10 +91,10 @@ def create_patient(db: Session, patient: schemas.PatientCreate):
         if not physio:
             raise ValueError("Physio not found.")
         
-    #Check if a patient with the same email already exists to avoid duplicates
-    db_patient = get_patient_by_email(db, email=patient.mail)
+    #Check if a patient with the same mail already exists to avoid duplicates
+    db_patient = get_patient_by_mail(db, mail=patient.mail)
     if db_patient:
-        raise ValueError("A patient with this email already exists.")
+        raise ValueError("A patient with this mail already exists.")
     
     hashed_password = get_password_hash(patient.password) # Hash the password for security reasons
 
@@ -116,11 +116,11 @@ def update_patient(db: Session, id_patient: int, patient_update: schemas.Patient
     if not db_patient:
         raise ValueError("Patient not found.")
     
-    #Check if the email is being updated and if the new email is not already taken by another patient
+    #Check if the mail is being updated and if the new mail is not already taken by another patient
     if patient_update.mail is not None and patient_update.mail != db_patient.mail:
-        existing_patient = get_patient_by_email(db, email=patient_update.mail)
+        existing_patient = get_patient_by_mail(db, mail=patient_update.mail)
         if existing_patient:
-            raise ValueError("A patient with this email already exists.")
+            raise ValueError("A patient with this mail already exists.")
             
     update_data = patient_update.model_dump(exclude_unset=True) 
 

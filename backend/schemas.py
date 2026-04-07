@@ -9,7 +9,7 @@ from backend.models import AppointmentState
 
 #--- Authentication Schemas ---
 class UserLogin(BaseModel):
-    email: EmailStr
+    mail: EmailStr
     password: str
 
 class Token(BaseModel):
@@ -20,7 +20,7 @@ class Token(BaseModel):
     name: str
 
 class TokenData(BaseModel):
-    email: Optional[str] = None
+    mail: Optional[str] = None
     role: Optional[str] = None
 
 #--- Physio Schemas ---
