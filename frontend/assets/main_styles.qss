@@ -102,7 +102,7 @@ QTableWidget::item {
 QTableWidget::item:selected {
     background-color: #E6F4F3; 
     color: #4A8B87;
-    border-left: 4px solid #5DA7A3;
+    border-left: 4px solid #E6F4F3;
 }
 
 QScrollBar:vertical {
@@ -145,23 +145,25 @@ QLabel#QLabelFormTitle {
 
 /* --- Estilos de Calendar --- */
 
-QCalendarWidget QWidget#qt_calendar_navigationbar {
-    background-color: #5DA7A3;
+/* 1. Forzamos a la tabla interna (la que tiene los números) */
+QCalendarWidget QTableView {
+    selection-background-color: #5DA7A3; /* El color de fondo al elegir */
+    selection-color: white;              /* El color del número */
 }
 
-QCalendarWidget QAbstractItemView:enabled {
-    color: #333;
+/* 2. Quitamos el estilo de "botón" que Windows le pone a los días */
+QCalendarWidget QAbstractItemView {
+    background-color: white;
     selection-background-color: #5DA7A3;
     selection-color: white;
 }
 
-/* Días de la semana */
-QCalendarWidget QWidget { 
-    alternate-background-color: #F4F7F6; 
+/* 3. IMPORTANTE: Esto quita el color gris de "foco" que a veces tapa al azul */
+QCalendarWidget QAbstractItemView:focus {
+    selection-background-color: #5DA7A3;
 }
 
-/* El número del día seleccionado */
-QCalendarWidget QAbstractItemView:selected {
-    border-radius: 5px;
-    font-weight: bold;
+/* 4. Barra de navegación (Mes y Año) */
+#qt_calendar_navigationbar {
+    background-color: #5DA7A3;
 }

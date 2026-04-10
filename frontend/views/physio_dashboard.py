@@ -2,7 +2,6 @@ from PySide6.QtWidgets import QAbstractItemView, QDialog, QFrame, QHBoxLayout, Q
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from services.api_client import ApiClient
-from views.add_patient_dialog import AddPatientDialog
 
 class PhysioDashboard(QWidget):
     def __init__(self, api_client):
@@ -33,6 +32,10 @@ class PhysioDashboard(QWidget):
         sidebar_layout.addWidget(self.btn_add)
         self.btn_add.setObjectName("MenuBtn")
 
+        self.btn_mod = QPushButton("Modificar Paciente")
+        sidebar_layout.addWidget(self.btn_mod)
+        self.btn_mod.setObjectName("MenuBtn")
+
         self.btn_delete = QPushButton("Eliminar Paciente")
         sidebar_layout.addWidget(self.btn_delete)
         self.btn_delete.setObjectName("MenuBtn")
@@ -51,7 +54,7 @@ class PhysioDashboard(QWidget):
 
         self.btn_logout = QPushButton("Cerrar Sesión")
         sidebar_layout.addWidget(self.btn_logout)
-        self.btn_logout.setObjectName("MenuBtn")
+        self.btn_logout.setObjectName("CancelBtn")
 
         self.content_container = QFrame()
         self.content_container.setObjectName("ContentArea")
@@ -66,25 +69,25 @@ class PhysioDashboard(QWidget):
         self.table.setHorizontalHeaderLabels(["ID", "Nombre", "Apellidos", "Email", "Teléfono", "Fecha Inicio"])
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)  # Select entire rows
 
-        #Customize table appearance
-        self.table.horizontalHeader().setStretchLastSection(True)
+        #Customize table appearance and behavior
+        self.table.horizontalHeader().setStretchLastSection(True) # Stretch the last column to fill remaining space
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)  # Make the table read-only
         self.table.verticalHeader().setVisible(False)  # Hide row numbers
         self.table.setShowGrid(False)  # Hide grid lines for a cleaner look
         self.table.setAlternatingRowColors(True)  # Alternate row colors for better readability
+        self.table.setSelectionMode(QAbstractItemView.SingleSelection)  # Allow only single row selection
         
 
         # Customize column widths
         header = self.table.horizontalHeader()
-        header.setSectionResizeMode(0, QHeaderView.ResizeToContents) 
-        header.setSectionResizeMode(1, QHeaderView.Stretch)          
-        header.setSectionResizeMode(2, QHeaderView.Stretch)          
-        header.setSectionResizeMode(3, QHeaderView.Stretch)          
-        header.setSectionResizeMode(4, QHeaderView.Fixed)
-        header.setSectionResizeMode(5, QHeaderView.Fixed)            
-        self.table.setColumnWidth(4, 120)
-        
-        self.table.setColumnWidth(5, 120)
+        header.setSectionResizeMode(0, QHeaderView.ResizeToContents) # Adjust width to content for ID column
+        header.setSectionResizeMode(1, QHeaderView.Stretch) # Stretch name column to fill available space
+        header.setSectionResizeMode(2, QHeaderView.Stretch) # Stretch surnames column to fill available space
+        header.setSectionResizeMode(3, QHeaderView.Stretch) # Stretch email column to fill available space
+        header.setSectionResizeMode(4, QHeaderView.Fixed) # Set fixed width for phone column
+        header.setSectionResizeMode(5, QHeaderView.Fixed) # Set fixed width for start date column
+        self.table.setColumnWidth(4, 140) # Set fixed width for phone column
+        self.table.setColumnWidth(5, 140) # Set fixed width for start date column
 
         content_layout.addWidget(self.title)
         content_layout.addWidget(self.table)

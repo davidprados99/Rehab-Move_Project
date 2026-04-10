@@ -19,12 +19,17 @@ class AppointmentView(QWidget):
         self.title.setAlignment(Qt.AlignCenter)
         self.title.setObjectName("SectionTitle")
         
+        self.calendar_layout = QVBoxLayout()
+        self.calendar_layout.setContentsMargins(20, 20, 20, 60)
+
         self.calendar = QCalendarWidget()
         self.calendar.setGridVisible(True)
-        self.calendar.setObjectName("Calendar")
+
+        self.calendar_layout.addWidget(self.calendar)
 
         main_layout.addWidget(self.title)
-        main_layout.addWidget(self.calendar)
+        main_layout.addLayout(self.calendar_layout)
+        
 
         bottom_layout = QHBoxLayout()
         #Add button only for physios to create appointments
@@ -48,44 +53,8 @@ class AppointmentView(QWidget):
         main_layout.addLayout(bottom_layout)
     
     def update_calendar_markers(self, appointments):
-        
-        # Define style for appointment days
-        fmt_done = QTextCharFormat()
-        fmt_done.setBackground(QColor("#5DA7A3")) 
-        fmt_done.setForeground(QColor("white"))
-        fmt_done.setFontWeight(QFont.Bold)
-
-        #Define style for pending appointment 
-        fmt_pending = QTextCharFormat()
-        fmt_pending.setBackground(QColor("#F0E68C")) 
-        fmt_pending.setForeground(QColor("black"))
-        fmt_pending.setFontWeight(QFont.Bold)
-
-        # Define style for cancelled appointment
-        fmt_cancelled = QTextCharFormat()
-        fmt_cancelled.setBackground(QColor("#F08080"))
-        fmt_cancelled.setForeground(QColor("white"))
-        fmt_cancelled.setFontWeight(QFont.Bold)
-
-        # Clean the calendar first
-        self.calendar.setDateTextFormat(QDate(), QTextCharFormat())
-
-        # Mark the days with appointments
-        for appt in appointments:
-            # gET the date part from the datetime string
-            date_str = appt["date"].split("T")[0]
-            qdate = QDate.fromString(date_str, "yyyy-MM-dd")
-            
-            # Check if the date is valid before applying the format
-            if qdate.isValid():
-                if appt["state"] == "completado":
-                    self.calendar.setDateTextFormat(qdate, fmt_done)
-                elif appt["state"] == "pendiente":
-                    self.calendar.setDateTextFormat(qdate, fmt_pending)
-                elif appt["state"] == "cancelado":
-                    self.calendar.setDateTextFormat(qdate, fmt_cancelled)
-
-    
+        pass
+        #TODO - Add markers to the calendar for the dates with appointments
 
 
 

@@ -3,16 +3,19 @@ from PySide6.QtWidgets import  QDialog, QTableWidgetItem, QMessageBox
 from PySide6.QtCore import Qt
 from controllers.appointment_controller import AppointmentController
 from views.physio_dashboard import PhysioDashboard
-from views.add_patient_dialog import AddPatientDialog
+from views.dialogs.add_patient_dialog import AddPatientDialog
+from views.dialogs.mod_patient_dialog import ModPatientDialog
 
 class PhysioController:
 
     def __init__(self, api_client):
         self.api = api_client
         self.view = PhysioDashboard(self.api)
+        self.view.showMaximized()
 
         self.view.btn_exercises.clicked.connect(self.handle_dashboard_exercises)
         self.view.btn_add.clicked.connect(self.handle_add_patient)
+        self.view.btn_mod.clicked.connect(self.handle_mod_patient)
         self.view.btn_delete.clicked.connect(self.handle_delete_patient)
         self.view.btn_appointments.clicked.connect(self.handle_appointments)
         self.view.btn_pain_records.clicked.connect(self.handle_pain_records)
@@ -20,9 +23,11 @@ class PhysioController:
         self.view.btn_logout.clicked.connect(self.close_sesion)
         self.load_patients()
 
+
     def load_patients(self):
             id_physio = self.api.user_id  # Assuming the user role contains the physio ID, adjust as needed
-            success, patients = self.api.get_patients(id_physio=id_physio)
+            success, patients = self.api.get_patients_by_physio(id_physio=id_physio)
+
             if success:
                 self.view.table.setRowCount(0)  # Clear existing rows
 
@@ -35,14 +40,18 @@ class PhysioController:
                     self.view.table.setItem(row_number, 4, QTableWidgetItem(patient.get("phone","N/A")))
                     self.view.table.setItem(row_number, 5, QTableWidgetItem(patient.get("start_date", "N/A")))
 
-                    self.view.table.item(row_number, 0).setTextAlignment(Qt.AlignCenter)
+                    for column in range(6):
+                        self.view.table.item(row_number, column).setTextAlignment(Qt.AlignCenter)
+                
             else:
                 print(f"Error al cargar pacientes: {patients}")
                 QMessageBox.critical(self.view, "Error", f"No se pudieron cargar los pacientes: {patients}")
-    
+
+
     def handle_dashboard_exercises(self):
         # Logic to open the exercise management dialog and handle the process
         pass
+
 
     def handle_add_patient(self):
             dialog = AddPatientDialog()
@@ -55,6 +64,27 @@ class PhysioController:
                     self.load_patients()  # Refresh the patient list
                 else:
                     QMessageBox.critical(self.view, "Error", f"No se pudo añadir el paciente: {message}")
+
+
+    def handle_mod_patient(self):
+        selected_items = self.view.table.selectedItems()
+        if not selected_items:
+            QMessageBox.warning(self.view, "Advertencia", "Por favor, seleccione un paciente para modificar.")
+            return
+        id_patient = selected_items[0].text()
+        
+        dialog = ModPatientDialog()
+        if dialog.exec() == QDialog.Accepted:
+            patient_data = dialog.get_data()
+            final_data = {k: v for k, v in patient_data.items() if v}  # Filter out empty values
+            final_data["id_patient"] = id_patient  # Set the patient ID for the update
+            success, message = self.api.update_patient(id_patient, final_data)
+            if success:
+                QMessageBox.information(self.view, "Éxito", "Paciente modificado correctamente.")
+                self.load_patients()  # Refresh the patient list
+            else:
+                QMessageBox.critical(self.view, "Error", f"No se pudo modificar el paciente: {message}")
+
 
     def handle_delete_patient(self):
         selected_items = self.view.table.selectedItems()
@@ -72,21 +102,24 @@ class PhysioController:
                 self.load_patients()
             else:
                 QMessageBox.critical(self.view, "Error", f"No se pudo eliminar el paciente: {message}")
-    
+
+
     def handle_appointments(self):
         self.view.close()   
         self.appointment_controller = AppointmentController(self.api)
-        self.appointment_controller.view.show()
-        
+        self.appointment_controller.view.showMaximized()
+
 
     def handle_pain_records(self):
         # Logic to open pain records management dialog and handle the process
         pass
 
+
     def handle_exercises_assigned(self):
         # Logic to open exercise management dialog and handle the process
         pass
-    
+
+
     def close_sesion(self):
         confirm = QMessageBox.question(self.view, "Confirmar Cierre de Sesión", "¿Está seguro de que desea cerrar sesión?", QMessageBox.Yes | QMessageBox.No)
         if confirm == QMessageBox.Yes:

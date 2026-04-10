@@ -37,7 +37,8 @@ class AppointmentController:
         id_user = self.api.user_id
         success, appointments = self.api.get_appointments(id=id_user)
         if success:
-            self.view.update_calendar_markers(appointments)
+            #TODO - Process appointments and update calendar markers
+            pass
         else:
             print(f"Error al cargar citas: {appointments}")
             QMessageBox.critical(self.view, "Error", f"No se pudieron cargar las citas: {appointments}")
