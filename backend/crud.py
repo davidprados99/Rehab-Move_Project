@@ -155,6 +155,7 @@ def create_pain_record(db: Session, pain_record: schemas.PainRecordCreate):
         
     db_pain_record = models.PainRecord(
         level_pain=pain_record.level_pain,
+        record_date=pain_record.record_date,
         comment=pain_record.comment,
         id_patient=pain_record.id_patient
     )
@@ -165,7 +166,7 @@ def create_pain_record(db: Session, pain_record: schemas.PainRecordCreate):
 
 def get_pain_records_by_patient(db: Session, id_patient: int, skip: int = 0, limit: int = 100):
     return db.query(models.PainRecord).filter(
-        models.PainRecord.id_patient == id_patient).order_by(models.PainRecord.date.desc()
+        models.PainRecord.id_patient == id_patient).order_by(models.PainRecord.record_date.desc()
         ).offset(skip).limit(limit).all()
 
 def get_pain_record_by_id(db: Session, id_pain_record: int):
