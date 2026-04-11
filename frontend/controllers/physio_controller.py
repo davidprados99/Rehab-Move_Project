@@ -1,5 +1,7 @@
 
-from PySide6.QtWidgets import  QDialog, QTableWidgetItem, QMessageBox
+from operator import index
+
+from PySide6.QtWidgets import  QDialog, QMenu, QTableWidgetItem, QMessageBox
 from PySide6.QtCore import Qt
 from controllers.appointment_controller import AppointmentController
 from views.physio_dashboard import PhysioDashboard
@@ -13,6 +15,7 @@ class PhysioController:
         self.view = PhysioDashboard(self.api)
         self.view.showMaximized()
 
+
         self.view.btn_exercises.clicked.connect(self.handle_dashboard_exercises)
         self.view.btn_add.clicked.connect(self.handle_add_patient)
         self.view.btn_mod.clicked.connect(self.handle_mod_patient)
@@ -22,6 +25,9 @@ class PhysioController:
         self.view.btn_exercise_plan.clicked.connect(self.handle_exercises_assigned)
         self.view.btn_logout.clicked.connect(self.close_sesion)
         self.load_patients()
+
+        self.view.table.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.view.table.customContextMenuRequested.connect(self.show_context_menu)
 
 
     def load_patients(self):
@@ -125,3 +131,20 @@ class PhysioController:
         if confirm == QMessageBox.Yes:
             self.api.logout()
             self.view.close()
+    
+    def show_context_menu(self, pos):
+        menu = QMenu(self.view)
+
+        menu.addAction("Editar", self.handle_mod_patient)
+        menu.addAction("Eliminar", self.handle_delete_patient)
+        menu.addAction("Ver Citas", self.handle_appointments)
+        menu.addAction("Ver Registros de Dolor", self.handle_pain_records)
+        menu.addAction("Ver Ejercicios Asignados", self.handle_exercises_assigned)
+        
+        # If the user right-clicks outside of any valid row, we should not show the context menu
+        index = self.view.table.indexAt(pos)
+        if not index.isValid():
+            return 
+
+        global_pos = self.view.table.viewport().mapToGlobal(pos)
+        menu.exec(global_pos)

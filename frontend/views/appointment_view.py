@@ -1,3 +1,5 @@
+from typing import Counter
+
 from PySide6.QtWidgets import QCalendarWidget, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QTableWidget, QTableWidgetItem, QAbstractItemView, QMessageBox, QDialog
 from PySide6.QtCore import QDate, Qt
 from PySide6.QtGui import QColor, QFont, QIcon, QTextCharFormat
@@ -53,8 +55,32 @@ class AppointmentView(QWidget):
         main_layout.addLayout(bottom_layout)
     
     def update_calendar_markers(self, appointments):
-        pass
-        #TODO - Add markers to the calendar for the dates with appointments
+        # Red. Complete day
+        fmt_full = QTextCharFormat()
+        fmt_full.setBackground(QColor("#F08080"))
+        fmt_full.setForeground(QColor("white"))
+        fmt_full.setFontWeight(QFont.Bold)
+
+        # Green.. Some appointments but not full day
+        fmt_partial = QTextCharFormat()
+        fmt_partial.setBackground(QColor("#5DA7A3"))
+        fmt_partial.setForeground(QColor("white"))
+
+        # Clean all calendar markers first
+        self.calendar.setDateTextFormat(QDate(), QTextCharFormat())  # Reset all
+
+        # Count appointments per day
+        date_list = [appt["date"].split("T")[0] for appt in appointments if appt["state"] != "CANCELADO"]
+        appt_count = Counter(date_list)
+
+        TOTAL_SLOTS = 11  # From 9:00 to 21:00, excluding 14:00
+
+        for date_str, count in appt_count.items():
+            qdate = QDate.fromString(date_str, "yyyy-MM-dd")
+            if count >= TOTAL_SLOTS:
+                self.calendar.setDateTextFormat(qdate, fmt_full)
+            else:
+                self.calendar.setDateTextFormat(qdate, fmt_partial)
 
 
 
