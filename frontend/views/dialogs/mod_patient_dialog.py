@@ -64,10 +64,12 @@ class ModPatientDialog(QDialog):
         #If the email field is not empty, validate it
         if self.email_input.text() and ("@" not in self.email_input.text() or "." not in self.email_input.text()):
             QMessageBox.critical(self, "Error", "El email no es válido.")
+            self.email_input.setFocus()
             return
         #If the phone field is not empty, validate it
         if self.phone_input.text() and not self.phone_input.text().strip().isdigit():
             QMessageBox.critical(self, "Error", "El teléfono debe contener solo números.")
+            self.phone_input.setFocus()
             return
         
         super().accept() # Call the base class accept to close the dialog

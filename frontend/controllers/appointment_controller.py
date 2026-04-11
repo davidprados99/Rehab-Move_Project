@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import  QCalendarWidget, QDialog, QTableWidgetItem, QMessageBox
 from PySide6.QtCore import Qt
+from views.dialogs.add_appt_dialog import AddApptDialog
 from views.dialogs.hour_selection_dialog import HourSelectionDialog
 from views.appointment_view import AppointmentView
 
@@ -18,11 +19,6 @@ class AppointmentController:
             self.view.calendar.setSelectionMode(QCalendarWidget.NoSelection)  
         else:
             self.view.calendar.setSelectionMode(QCalendarWidget.SingleSelection) 
-        
-        if self.api.user_role != "physio":
-            self.view.btn_add_appointment.hide()
-            self.view.btn_mod_appointment.hide()
-            self.view.btn_del_appointment.hide()
 
     def go_back(self):
         self.view.close()
@@ -50,23 +46,30 @@ class AppointmentController:
         # Only physios can manage appointments
         if self.api.user_role != "physio":
             return
-
-        date_str = qdate.toString("yyyy-MM-dd")
         
-        # Filter appointments of the day from the cache
-        appts_today = [a for a in self.all_appointments if date_str in a["date"]]
+        date_iso = qdate.toString("yyyy-MM-dd")
+        appts_today = [a for a in self.all_appointments if a["date"].startswith(date_iso)]
 
         # Open the dialog
-        dialog = HourSelectionDialog(date_str, appts_today, self.view)
+        dialog = HourSelectionDialog(qdate, appts_today, self.view)
         if dialog.exec() == QDialog.Accepted:
             if dialog.action_type == "ADD":
-                self.open_add_appointment_form(date_str, dialog.selected_hour)
+                self.open_add_appointment_form(qdate, dialog.selected_hour)
             elif dialog.action_type == "DELETE":
                 self.confirm_delete_appointment(dialog.appointment_id)
 
-    def open_add_appointment_form(self, date_str, hour_str):
-        # TODO - Open a form to select patient and confirm creation of the appointment at the selected date and hour
-        pass
+    def open_add_appointment_form(self, qdate, hour_str):
+        dialog = AddApptDialog(self.view)
+        dialog.date_str = f"{qdate.toString('yyyy-MM-dd')}T{hour_str}:00"  # Set the date for the new appointment
+        if dialog.exec() == QDialog.Accepted:
+            data = dialog.get_data()
+            data["id_physio"] = self.api.user_id  # Set the physio ID to the logged-in user
+            success, message = self.api.create_appointment(data)
+            if success:
+                QMessageBox.information(self.view, "Éxito", "Cita creada exitosamente.")
+                self.load_appointments() # Recargar para refrescar colores
+            else:
+                QMessageBox.critical(self.view, "Error", f"No se pudo crear la cita: {message}")
 
     def confirm_delete_appointment(self, appt_id):
         reply = QMessageBox.question(self.view, "Confirmar", "¿Deseas eliminar esta cita?", 

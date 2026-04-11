@@ -1,10 +1,11 @@
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QPushButton, QLabel, QScrollArea, QWidget
-from PySide6.QtCore import Qt
+from PySide6.QtCore import QDate, Qt
 
 class HourSelectionDialog(QDialog):
-    def __init__(self, date_str, appointments_of_day, parent=None):
+    def __init__(self, qdate, appointments_of_day, parent=None):
         super().__init__(parent)
-        self.setWindowTitle(f"Horas disponibles - {date_str}")
+
+        self.setWindowTitle(f"Horas disponibles - {qdate.toString('dd/MM/yyyy')}")
         self.setMinimumSize(350, 500)
         
         self.selected_hour = None
@@ -12,7 +13,7 @@ class HourSelectionDialog(QDialog):
         self.appointment_id = None 
 
         layout = QVBoxLayout(self)
-        layout.addWidget(QLabel(f"Gestión de citas para el día: {date_str}"))
+        layout.addWidget(QLabel(f"Gestión de citas para el día: {qdate.toString('dd/MM/yyyy')}"))
 
         # Scroll area if there are many hours
         scroll = QScrollArea()
@@ -43,17 +44,21 @@ class HourSelectionDialog(QDialog):
                     btn.setText(f"{hour_str} - OCUPADO" + f" ({appt['patient']['name']} {appt['patient']['surnames']})")
                     btn.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;") # Red
                     btn.clicked.connect(lambda ch, h=hour_str, id=appt["id_appointment"]: self.handle_click(h, "DELETE", id))
+                    btn.setToolTip(f"{appt['notes']}" if appt['notes'] else "Sin notas adicionales")
                 else:
                     # 3. Free
                     btn.setText(f"{hour_str} - LIBRE")
                     btn.setStyleSheet("background-color: white; color: #2c3e50; border: 1px solid #5DA7A3;") # White with border 
                     btn.clicked.connect(lambda ch, h=hour_str: self.handle_click(h, "ADD"))
+                    btn.setToolTip("Haz clic para crear una cita en esta hora")
 
             scroll_layout.addWidget(btn)
 
         scroll.setWidget(scroll_content)
         scroll.setWidgetResizable(True)
         layout.addWidget(scroll)
+
+        
 
     def handle_click(self, hour, action, appt_id=None):
         self.selected_hour = hour

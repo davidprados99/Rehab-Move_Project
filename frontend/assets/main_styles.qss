@@ -167,3 +167,14 @@ QCalendarWidget QAbstractItemView:focus {
 #qt_calendar_navigationbar {
     background-color: #5DA7A3;
 }
+
+/* --- Estilo de QToolTip --- */
+
+QToolTip {
+    background-color: #333333;      /* Fondo oscuro */
+    color: white;                   /* Texto blanco */
+    border: 1px solid #5DA7A3;      /* Borde Teal a juego con tu app */
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 12px;
+}

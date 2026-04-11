@@ -64,24 +64,31 @@ class AddPatientDialog(QDialog):
         """Override accept to validate input before closing the dialog."""
         if not self.name_input.text().strip():
             QMessageBox.critical(self, "Error", "El nombre es obligatorio.")
+            self.name_input.setFocus()
             return
         if not self.surnames_input.text().strip():
             QMessageBox.critical(self, "Error", "Los apellidos son obligatorios.")
+            self.surnames_input.setFocus()
             return
         if not self.email_input.text().strip():
             QMessageBox.critical(self, "Error", "El email es obligatorio.")
+            self.email_input.setFocus()
             return
         if "@" not in self.email_input.text() or "." not in self.email_input.text():
             QMessageBox.critical(self, "Error", "El email no es válido.")
+            self.email_input.setFocus()
             return
         if not self.phone_input.text().strip():
             QMessageBox.critical(self, "Error", "El teléfono es obligatorio.")
+            self.phone_input.setFocus()
             return
         if not self.phone_input.text().strip().isdigit():
             QMessageBox.critical(self, "Error", "El teléfono debe contener solo números.")
+            self.phone_input.setFocus()
             return
         if not self.password_input.text().strip():
             QMessageBox.critical(self, "Error", "La contraseña es obligatoria.")
+            self.password_input.setFocus()
             return
         
         super().accept() # Call the base class accept to close the dialog

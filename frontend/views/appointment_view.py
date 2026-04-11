@@ -1,8 +1,8 @@
 from typing import Counter
 
-from PySide6.QtWidgets import QCalendarWidget, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QTableWidget, QTableWidgetItem, QAbstractItemView, QMessageBox, QDialog
+from PySide6.QtWidgets import QCalendarWidget, QStyledItemDelegate, QTableView, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QTableWidget, QTableWidgetItem, QAbstractItemView, QMessageBox, QDialog
 from PySide6.QtCore import QDate, Qt
-from PySide6.QtGui import QColor, QFont, QIcon, QTextCharFormat
+from PySide6.QtGui import QColor, QFont, QIcon, QPen, QTextCharFormat
 
 class AppointmentView(QWidget):
 
@@ -32,27 +32,9 @@ class AppointmentView(QWidget):
         main_layout.addWidget(self.title)
         main_layout.addLayout(self.calendar_layout)
         
-
-        bottom_layout = QHBoxLayout()
-        #Add button only for physios to create appointments
-        self.btn_add_appointment = QPushButton("Añadir Cita")
-        self.btn_add_appointment.setObjectName("LoginBtn")
-
-        self.btn_mod_appointment = QPushButton("Modificar Cita")
-        self.btn_mod_appointment.setObjectName("LoginBtn")
-
-        self.btn_del_appointment = QPushButton("Eliminar Cita")
-        self.btn_del_appointment.setObjectName("LoginBtn")
-
         self.btn_back = QPushButton("Volver")
         self.btn_back.setObjectName("CancelBtn")
-        
-        bottom_layout.addWidget(self.btn_add_appointment)
-        bottom_layout.addWidget(self.btn_mod_appointment)
-        bottom_layout.addWidget(self.btn_del_appointment)
-        bottom_layout.addWidget(self.btn_back)
-
-        main_layout.addLayout(bottom_layout)
+        main_layout.addWidget(self.btn_back)
     
     def update_calendar_markers(self, appointments):
         # Red. Complete day
@@ -81,6 +63,14 @@ class AppointmentView(QWidget):
                 self.calendar.setDateTextFormat(qdate, fmt_full)
             else:
                 self.calendar.setDateTextFormat(qdate, fmt_partial)
+
+        # Additionally, underline today's date      
+        today = QDate.currentDate()
+        fmt = self.calendar.dateTextFormat(today)
+        fmt.setFontUnderline(True)     
+        fmt.setFontWeight(QFont.ExtraBold)
+        self.calendar.setDateTextFormat(today, fmt)
+        
 
 
 
