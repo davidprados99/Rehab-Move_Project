@@ -1,6 +1,6 @@
 from datetime import date
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from backend.security import get_password_hash
 from backend import models, schemas
 
@@ -207,6 +207,12 @@ def get_appointments_by_patient(db: Session, id_patient: int, date_filter: date 
     if date_filter:
         query = query.filter(models.Appointment.date == date_filter)
     return query.offset(skip).limit(limit).all()
+
+def get_appointments_with_patients(db: Session, physio_id: int):
+    return db.query(models.Appointment)\
+            .options(joinedload(models.Appointment.patient))\
+            .filter(models.Appointment.id_physio == physio_id)\
+            .all()
 
 def get_appointment_by_id(db: Session, id_appointment: int):
     return db.query(models.Appointment).filter(models.Appointment.id_appointment == id_appointment).first()

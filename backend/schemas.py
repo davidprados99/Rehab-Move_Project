@@ -141,6 +141,12 @@ class ExerciseAssignmentUpdate(BaseModel):
     id_exercise: Optional[int] = None
 
 #--- Appointment Schemas ---
+class PatientSummary(BaseModel):
+    name: str
+    surnames: str
+    class Config:
+        from_attributes = True
+
 class AppointmentBase(BaseModel):
     date: datetime
     state: AppointmentState = AppointmentState.PENDIENTE
@@ -153,6 +159,7 @@ class AppointmentCreate(AppointmentBase):
 
 class Appointment(AppointmentBase):
     id_appointment: int
+    patient : PatientSummary  # Include patient name and surnames for easier display in the frontend
     class Config:
         from_attributes = True
     
