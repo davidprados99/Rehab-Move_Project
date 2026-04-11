@@ -103,7 +103,9 @@ class ExerciseAssignment(Base):
     # Son of both patient and exercise, if either is deleted, the assignment will be deleted too (cascade delete)
     patient = relationship("Patient", back_populates="assignments")
     exercise = relationship("Exercise", back_populates="assignments")
-    completions = relationship("ExerciseDone", back_populates="assignment")
+    
+    # Father of exercise completions, if an assignment is deleted, all its completions will be deleted too (cascade delete)
+    completions = relationship("ExerciseDone", back_populates="assignment", cascade="all, delete-orphan", passive_deletes=True)
 
 
 class ExerciseDone(Base):
