@@ -116,11 +116,9 @@ class PhysioController:
 
     def handle_pain_records(self):
         selected_items = self.view.table.selectedItems() if self.view.table.selectedItems() else []
-        print("Selected items for pain records:", [item.text() for item in selected_items]) 
         if not selected_items:
             QMessageBox.warning(self.view, "Advertencia", "Por favor, seleccione un paciente para ver sus registros de dolor.")
             return
-        print ("Selected patient ID for pain records:", selected_items[0].text())
         id_patient = selected_items[0].text()
         self.view.close()
         self.pain_record_controller = PainRecordController(self.api, id_patient)
