@@ -276,7 +276,6 @@ def read_appointments_by_physio(id_physio: int, skip: int = 0, limit: int = 100,
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 
-
 @app.patch("/appointments/{id_appointment}", response_model=schemas.Appointment, tags=["Appointments"])
 def update_appointment(id_appointment: int, appointment_update: schemas.AppointmentUpdate, db: Session = Depends(get_db)):
     try:
