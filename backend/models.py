@@ -68,7 +68,7 @@ class PainRecord(Base):
     __tablename__ = "pain_record"
     id_pain_record = Column(Integer, primary_key=True, index=True)
     level_pain = Column(Integer)
-    date = Column(Date, default=datetime.date.today)
+    record_date = Column(Date, default=datetime.date.today)
     comment = Column(Text)
     id_patient = Column(Integer, ForeignKey("patient.id_patient", ondelete="CASCADE"))
 
