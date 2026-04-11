@@ -273,7 +273,7 @@ def delete_appointment(db: Session, id_appointment: int):
 
 
 def get_exercises(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Exercise).filter(models.Exercise.active == True).offset(skip).limit(limit).all()
+    return db.query(models.Exercise).order_by(models.Exercise.id_exercise).offset(skip).limit(limit).all()
 
 def get_exercise_by_id(db: Session, id_exercise: int):
     return db.query(models.Exercise).filter(models.Exercise.id_exercise == id_exercise).first()
