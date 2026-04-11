@@ -1,12 +1,10 @@
-
-from operator import index
-
 from PySide6.QtWidgets import  QDialog, QMenu, QTableWidgetItem, QMessageBox
 from PySide6.QtCore import Qt
 from controllers.appointment_controller import AppointmentController
 from views.physio_dashboard import PhysioDashboard
 from views.dialogs.add_patient_dialog import AddPatientDialog
 from views.dialogs.mod_patient_dialog import ModPatientDialog
+from controllers.pain_record_controller import PainRecordController
 
 class PhysioController:
 
@@ -73,7 +71,7 @@ class PhysioController:
 
 
     def handle_mod_patient(self):
-        selected_items = self.view.table.selectedItems()
+        selected_items = self.view.table.selectedItems() if self.view.table.selectedItems() else []
         if not selected_items:
             QMessageBox.warning(self.view, "Advertencia", "Por favor, seleccione un paciente para modificar.")
             return
@@ -117,8 +115,16 @@ class PhysioController:
 
 
     def handle_pain_records(self):
-        # Logic to open pain records management dialog and handle the process
-        pass
+        selected_items = self.view.table.selectedItems() if self.view.table.selectedItems() else []
+        print("Selected items for pain records:", [item.text() for item in selected_items]) 
+        if not selected_items:
+            QMessageBox.warning(self.view, "Advertencia", "Por favor, seleccione un paciente para ver sus registros de dolor.")
+            return
+        print ("Selected patient ID for pain records:", selected_items[0].text())
+        id_patient = selected_items[0].text()
+        self.view.close()
+        self.pain_record_controller = PainRecordController(self.api, id_patient)
+        self.pain_record_controller.view.showMaximized()
 
 
     def handle_exercises_assigned(self):
