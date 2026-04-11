@@ -178,3 +178,32 @@ QToolTip {
     border-radius: 4px;
     font-size: 12px;
 }
+
+/* Contenedor del diálogo video */
+QDialog#VideoDialog {
+    background-color: #ffffff;
+}
+
+/* Título del ejercicio */
+QLabel#ExerciseTitle {
+    font-size: 22px;
+    font-weight: bold;
+    color: #5DA7A3;
+    padding-bottom: 5px;
+}
+
+/* La descripción */
+QLabel#ExerciseDescription {
+    font-size: 14px;
+    color: #555555;
+    background-color: #f9f9f9;
+    border-left: 4px solid #5DA7A3;
+    padding: 10px;
+}
+
+/* El reproductor de vídeo (marco) */
+QWebEngineView#VideoPlayer {
+    background-color: #000000;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}

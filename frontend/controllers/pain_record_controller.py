@@ -48,7 +48,6 @@ class PainRecordController:
                 picker= 10)
         
         ax.set_title('Evolución del Dolor en el Tiempo')
-        ax.set_xlabel('Fecha')
         ax.set_ylabel('Nivel de Dolor')
         ax.set_ylim(-0.5, 10.5)
         ax.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.7)

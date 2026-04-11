@@ -5,6 +5,7 @@ from views.physio_dashboard import PhysioDashboard
 from views.dialogs.add_patient_dialog import AddPatientDialog
 from views.dialogs.mod_patient_dialog import ModPatientDialog
 from controllers.pain_record_controller import PainRecordController
+from controllers.exercises_controller import ExercisesController
 
 class PhysioController:
 
@@ -20,7 +21,6 @@ class PhysioController:
         self.view.btn_delete.clicked.connect(self.handle_delete_patient)
         self.view.btn_appointments.clicked.connect(self.handle_appointments)
         self.view.btn_pain_records.clicked.connect(self.handle_pain_records)
-        self.view.btn_exercise_plan.clicked.connect(self.handle_exercises_assigned)
         self.view.btn_logout.clicked.connect(self.close_sesion)
         self.load_patients()
 
@@ -53,21 +53,21 @@ class PhysioController:
 
 
     def handle_dashboard_exercises(self):
-        # Logic to open the exercise management dialog and handle the process
-        pass
+        self.view.close()
+        self.exercises_controller = ExercisesController(self.api)
 
 
     def handle_add_patient(self):
-            dialog = AddPatientDialog()
-            if dialog.exec() == QDialog.Accepted:
-                patient_data = dialog.get_data()
-                patient_data["id_physio"] = self.api.user_id  # Set the physio ID for the new patient
-                success, message = self.api.add_patient(patient_data)
-                if success:
-                    QMessageBox.information(self.view, "Éxito", "Paciente añadido correctamente.")
-                    self.load_patients()  # Refresh the patient list
-                else:
-                    QMessageBox.critical(self.view, "Error", f"No se pudo añadir el paciente: {message}")
+        dialog = AddPatientDialog()
+        if dialog.exec() == QDialog.Accepted:
+            patient_data = dialog.get_data()
+            patient_data["id_physio"] = self.api.user_id  # Set the physio ID for the new patient
+            success, message = self.api.add_patient(patient_data)
+            if success:
+                QMessageBox.information(self.view, "Éxito", "Paciente añadido correctamente.")
+                self.load_patients()  # Refresh the patient list
+            else:
+                QMessageBox.critical(self.view, "Error", f"No se pudo añadir el paciente: {message}")
 
 
     def handle_mod_patient(self):
@@ -125,11 +125,6 @@ class PhysioController:
         self.pain_record_controller.view.showMaximized()
 
 
-    def handle_exercises_assigned(self):
-        # Logic to open exercise management dialog and handle the process
-        pass
-
-
     def close_sesion(self):
         confirm = QMessageBox.question(self.view, "Confirmar Cierre de Sesión", "¿Está seguro de que desea cerrar sesión?", QMessageBox.Yes | QMessageBox.No)
         if confirm == QMessageBox.Yes:
@@ -141,9 +136,7 @@ class PhysioController:
 
         menu.addAction("Editar", self.handle_mod_patient)
         menu.addAction("Eliminar", self.handle_delete_patient)
-        menu.addAction("Ver Citas", self.handle_appointments)
         menu.addAction("Ver Registros de Dolor", self.handle_pain_records)
-        menu.addAction("Ver Ejercicios Asignados", self.handle_exercises_assigned)
         
         # If the user right-clicks outside of any valid row, we should not show the context menu
         index = self.view.table.indexAt(pos)
