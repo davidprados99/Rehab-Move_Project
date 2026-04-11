@@ -39,7 +39,6 @@ class AppointmentController:
             self.all_appointments = appointments  # Update the cache
             self.view.update_calendar_markers(appointments)
         else:
-            print(f"Error al cargar citas: {appointments}")
             QMessageBox.critical(self.view, "Error", f"No se pudieron cargar las citas: {appointments}")
     
     def handle_date_clicked(self, qdate):
@@ -67,7 +66,7 @@ class AppointmentController:
             success, message = self.api.create_appointment(data)
             if success:
                 QMessageBox.information(self.view, "Éxito", "Cita creada exitosamente.")
-                self.load_appointments() # Recargar para refrescar colores
+                self.load_appointments() # Reload to refresh calendar markers
             else:
                 QMessageBox.critical(self.view, "Error", f"No se pudo crear la cita: {message}")
 
@@ -78,6 +77,6 @@ class AppointmentController:
             success, message = self.api.delete_appointment(appt_id)
             if success:
                 QMessageBox.information(self.view, "Éxito", "Cita eliminada.")
-                self.load_appointments() # Recargar para refrescar colores
+                self.load_appointments() # Reload to refresh calendar markers
             else:
                 QMessageBox.critical(self.view, "Error", message)

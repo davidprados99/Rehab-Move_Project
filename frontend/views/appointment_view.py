@@ -9,6 +9,7 @@ class AppointmentView(QWidget):
     def __init__(self, api_client, parent=None):
         super().__init__(parent)
         self.api = api_client
+        self.painted_dates = []  # To keep track of which dates we've marked in the calendar
         self.setWindowTitle("Rehab & Move - Citas")
         self.setMinimumSize(600, 400)
         self.setWindowIcon(QIcon("assets/logo_Rehab&Move.png"))
@@ -37,6 +38,11 @@ class AppointmentView(QWidget):
         main_layout.addWidget(self.btn_back)
     
     def update_calendar_markers(self, appointments):
+        clean_fmt = QTextCharFormat() 
+        for qdate in self.painted_dates:
+            self.calendar.setDateTextFormat(qdate, clean_fmt)
+        self.painted_dates.clear() 
+
         # Red. Complete day
         fmt_full = QTextCharFormat()
         fmt_full.setBackground(QColor("#F08080"))
@@ -52,13 +58,14 @@ class AppointmentView(QWidget):
         self.calendar.setDateTextFormat(QDate(), QTextCharFormat())  # Reset all
 
         # Count appointments per day
-        date_list = [appt["date"].split("T")[0] for appt in appointments if appt["state"] != "CANCELADO"]
+        date_list = [appt["date"].split("T")[0] for appt in appointments if appt["state"] != "cancelado"]
         appt_count = Counter(date_list)
 
-        TOTAL_SLOTS = 11  # From 9:00 to 21:00, excluding 14:00
+        TOTAL_SLOTS = 12  # From 9:00 to 22:00, excluding 14:00
 
         for date_str, count in appt_count.items():
             qdate = QDate.fromString(date_str, "yyyy-MM-dd")
+            self.painted_dates.append(qdate)  # Keep track of painted dates to reset later
             if count >= TOTAL_SLOTS:
                 self.calendar.setDateTextFormat(qdate, fmt_full)
             else:
@@ -70,6 +77,7 @@ class AppointmentView(QWidget):
         fmt.setFontUnderline(True)     
         fmt.setFontWeight(QFont.ExtraBold)
         self.calendar.setDateTextFormat(today, fmt)
+        self.painted_dates.append(today)
         
 
 
