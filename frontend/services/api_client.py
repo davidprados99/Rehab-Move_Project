@@ -117,27 +117,27 @@ class ApiClient:
 
     def create_pain_record(self, pain_data):
         """Create a new pain record (for patients)"""
-        return self._make_request("POST", "/pain-records/", json=pain_data)
+        return self._make_request("POST", "/pain_records/", json=pain_data)
 
 
     def get_pain_records(self, id_patient):
         """Get pain records for a patient (for physios and patients)"""
-        return self._make_request("GET", f"/pain-records/patient/{id_patient}")
+        return self._make_request("GET", f"/pain_records/patient/{id_patient}")
 
 
     def get_pain_records_id(self, id_pain_record):
         """Get a specific pain record by ID (for physios and patients)"""
-        return self._make_request("GET", f"/pain-records/{id_pain_record}")
+        return self._make_request("GET", f"/pain_records/{id_pain_record}")
 
 
     def update_pain_record(self, id_pain_record, pain_data):
         """Update an existing pain record (for patients)"""
-        return self._make_request("PATCH", f"/pain-records/{id_pain_record}", json=pain_data)  
+        return self._make_request("PATCH", f"/pain_records/{id_pain_record}", json=pain_data)  
 
 
     def delete_pain_record(self, id_pain_record):
         """Delete a pain record (for patients)"""
-        return self._make_request("DELETE", f"/pain-records/{id_pain_record}")
+        return self._make_request("DELETE", f"/pain_records/{id_pain_record}")
 
 
     # --- Exercises management ---
