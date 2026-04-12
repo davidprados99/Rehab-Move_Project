@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QDialog, QMessageBox, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QFormLayout, QDateEdit
-from PySide6.QtCore import Qt, QDate
+from PySide6.QtCore import QDate
 from PySide6.QtGui import QIcon
 
 class AddPatientDialog(QDialog):
@@ -40,8 +40,8 @@ class AddPatientDialog(QDialog):
 
         self.form_layout.addRow("Nombre:", self.name_input)
         self.form_layout.addRow("Apellidos:", self.surnames_input)
-        self.form_layout.addRow("email:", self.email_input)
-        self.form_layout.addRow("Teléfono", self.phone_input)
+        self.form_layout.addRow("Email:", self.email_input)
+        self.form_layout.addRow("Teléfono:", self.phone_input)
         self.form_layout.addRow("Contraseña:", self.password_input)
         layout.addLayout(self.form_layout)
 

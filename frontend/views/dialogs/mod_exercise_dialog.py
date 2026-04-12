@@ -1,5 +1,4 @@
-from PySide6.QtWidgets import QCheckBox, QDialog, QMessageBox, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QFormLayout, QDateEdit
-from PySide6.QtCore import Qt, QDate
+from PySide6.QtWidgets import QCheckBox, QDialog,QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QFormLayout
 from PySide6.QtGui import QIcon
 
 class ModExerciseDialog(QDialog):

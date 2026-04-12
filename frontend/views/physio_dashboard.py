@@ -24,10 +24,6 @@ class PhysioDashboard(QWidget):
         sidebar_layout.setSpacing(20)
 
         # Sidebar buttons
-        self.btn_exercises = QPushButton("Menu Ejercicios")
-        sidebar_layout.addWidget(self.btn_exercises)
-        self.btn_exercises.setObjectName("MenuBtn")
-
         self.btn_add = QPushButton("Añadir Paciente")
         sidebar_layout.addWidget(self.btn_add)
         self.btn_add.setObjectName("MenuBtn")
@@ -42,11 +38,19 @@ class PhysioDashboard(QWidget):
 
         self.btn_appointments = QPushButton("Citas")
         sidebar_layout.addWidget(self.btn_appointments)
-        self.btn_appointments.setObjectName("MenuBtn")
+        self.btn_appointments.setObjectName("MenuBtn2")
 
         self.btn_pain_records = QPushButton("Registros de Dolor")
         sidebar_layout.addWidget(self.btn_pain_records)
-        self.btn_pain_records.setObjectName("MenuBtn")
+        self.btn_pain_records.setObjectName("MenuBtn2")
+
+        self.btn_exercises = QPushButton("Menu Ejercicios")
+        sidebar_layout.addWidget(self.btn_exercises)
+        self.btn_exercises.setObjectName("MenuBtn")
+
+        self.btn_assign_exercises = QPushButton("Ejercicios Asignados")
+        sidebar_layout.addWidget(self.btn_assign_exercises)
+        self.btn_assign_exercises.setObjectName("MenuBtn")
 
         self.btn_logout = QPushButton("Cerrar Sesión")
         sidebar_layout.addWidget(self.btn_logout)

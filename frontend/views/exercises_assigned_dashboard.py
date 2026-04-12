@@ -2,11 +2,12 @@ from PySide6.QtWidgets import QAbstractItemView, QFrame, QHBoxLayout, QHeaderVie
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 
-class ExercisesDashboard(QWidget):
-    def __init__(self, api_client):
+class ExercisesAssignedDashboard(QWidget):
+    def __init__(self, api_client, id_patient):
         super().__init__()
         self.api = api_client
-        self.setWindowTitle("Gestión de Ejercicios")
+        self.id_patient = id_patient
+        self.setWindowTitle(f"Ejercicios Asignados - Paciente {self.id_patient}")
         self.setMinimumSize(800, 600)
         self.setWindowIcon(QIcon("assets/logo_Rehab&Move.png"))
         self.init_ui()
@@ -24,21 +25,17 @@ class ExercisesDashboard(QWidget):
         sidebar_layout.setSpacing(20)
 
         #Sidebar buttons
-        self.btn_add_exercise = QPushButton("Añadir Ejercicio")
-        sidebar_layout.addWidget(self.btn_add_exercise)
-        self.btn_add_exercise.setObjectName("MenuBtn")
-
-        self.btn_mod_exercise = QPushButton("Modificar Ejercicio")
-        sidebar_layout.addWidget(self.btn_mod_exercise)
-        self.btn_mod_exercise.setObjectName("MenuBtn")
-
-        self.btn_delete_exercise = QPushButton("Eliminar Ejercicio")
-        sidebar_layout.addWidget(self.btn_delete_exercise)
-        self.btn_delete_exercise.setObjectName("MenuBtn")
-
         self.btn_assign_exercise = QPushButton("Asignar Ejercicio")
         sidebar_layout.addWidget(self.btn_assign_exercise)
         self.btn_assign_exercise.setObjectName("MenuBtn")
+
+        self.btn_edit_exercise = QPushButton("Editar Plan")
+        sidebar_layout.addWidget(self.btn_edit_exercise)
+        self.btn_edit_exercise.setObjectName("MenuBtn")
+
+        self.btn_delete_exercise_assign = QPushButton("Eliminar Ejercicio")
+        sidebar_layout.addWidget(self.btn_delete_exercise_assign)
+        self.btn_delete_exercise_assign.setObjectName("MenuBtn")
 
         self.btn_back = QPushButton("Volver al Dashboard")
         sidebar_layout.addWidget(self.btn_back)
@@ -48,13 +45,13 @@ class ExercisesDashboard(QWidget):
         self.content_container.setObjectName("ContentArea")
         content_layout = QVBoxLayout(self.content_container)
 
-        self.title = QLabel("Gestión de Ejercicios")
+        self.title = QLabel(f"Ejercicios Asignados - Paciente {self.id_patient}")
         self.title.setObjectName("SectionTitle")
         self.title.setAlignment(Qt.AlignCenter)
 
         self.table = QTableWidget()
-        self.table.setColumnCount(5)
-        self.table.setHorizontalHeaderLabels(["ID", "Nombre", "Descripción", "URL", "Activo"])
+        self.table.setColumnCount(7)
+        self.table.setHorizontalHeaderLabels(["ID", "Frecuencia Semanal", "Series", "Repeticiones", "Fecha Inicio", "Fecha Fin", "Ejercicio"])
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)  # Select entire rows
 
         #Customize table appearance and behavior
@@ -73,7 +70,8 @@ class ExercisesDashboard(QWidget):
         header.setSectionResizeMode(2, QHeaderView.Stretch) # Stretch description column to fill available space
         header.setSectionResizeMode(3, QHeaderView.Stretch) # Stretch URL column to fill available space
         header.setSectionResizeMode(4, QHeaderView.Fixed) # Set fixed width for active column
-        self.table.setColumnWidth(4, 100) # Set fixed width for active column
+        header.setSectionResizeMode(5, QHeaderView.Fixed) # Set fixed width for active column
+        header.setSectionResizeMode(6, QHeaderView.Fixed) # Set fixed width for active column
 
         content_layout.addWidget(self.title)
         content_layout.addWidget(self.table)

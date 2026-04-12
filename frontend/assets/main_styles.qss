@@ -72,6 +72,23 @@ QPushButton#MenuBtn:hover {
     background-color: #3D7571; 
 }
 
+
+QPushButton#MenuBtn2 {
+    background-color: #9ff2eb; 
+    color: #2D5A57;           
+    border: 1px solid #B2D8D5;
+    border-radius: 8px;
+    margin: 5px 12px;
+    padding: 12px;
+    font-weight: bold;
+}
+
+
+QPushButton#MenuBtn2:hover {
+    background-color: #82fff5; 
+    border-color: #4D8E8A;
+}
+
 /* --- Estilos para la Tabla de Pacientes --- */
 
 QTableWidget {
@@ -145,25 +162,21 @@ QLabel#QLabelFormTitle {
 
 /* --- Estilos de Calendar --- */
 
-/* 1. Forzamos a la tabla interna (la que tiene los números) */
-QCalendarWidget QTableView {
+QCalendarWidget#CitasCalendar QTableView {
     selection-background-color: #5DA7A3; /* El color de fondo al elegir */
     selection-color: white;              /* El color del número */
 }
 
-/* 2. Quitamos el estilo de "botón" que Windows le pone a los días */
-QCalendarWidget QAbstractItemView {
+QCalendarWidget#CitasCalendar QAbstractItemView {
     background-color: white;
     selection-background-color: #5DA7A3;
     selection-color: white;
 }
 
-/* 3. IMPORTANTE: Esto quita el color gris de "foco" que a veces tapa al azul */
-QCalendarWidget QAbstractItemView:focus {
+QCalendarWidget#CitasCalendar QAbstractItemView:focus {
     selection-background-color: #5DA7A3;
 }
 
-/* 4. Barra de navegación (Mes y Año) */
 #qt_calendar_navigationbar {
     background-color: #5DA7A3;
 }
@@ -206,4 +219,148 @@ QWebEngineView#VideoPlayer {
     background-color: #000000;
     border: 1px solid #ddd;
     border-radius: 10px;
+}
+
+/* --- Estilos para Dialog --- */
+
+QLineEdit, QDateEdit, QComboBox {
+    margin-bottom: 10px; 
+}
+
+QLineEdit {
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    padding: 8px 12px;
+    background-color: #ffffff;
+    font-size: 14px;
+    color: #333;
+    selection-background-color: #5DA7A3; /* Color al resaltar texto */
+}
+
+QLineEdit:hover {
+    border-color: #ccc;
+}
+
+QLineEdit:focus {
+    border-color: #5DA7A3;
+    background-color: #f9fdfd; /* Sutil tinte teal al escribir */
+}
+
+QLineEdit:disabled {
+    background-color: #f4f4f4;
+    color: #888;
+    border-color: #eee;
+}
+
+QDialog QLabel {
+    color: #444;
+    font-size: 14px;
+    margin-bottom: 10px;
+    margin-right: 20px;
+}
+
+QDateEdit {
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    padding: 5px 10px;
+    background-color: white;
+    color: #333;
+    font-size: 14px;
+    min-width: 120px;
+}
+
+QDateEdit:hover {
+    border-color: #5DA7A3;
+}
+
+QDateEdit:focus {
+    border-color: #5DA7A3;
+    background-color: #f0f9f8; /* Un toque de luz al seleccionar */
+}
+
+QDateEdit::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 30px;
+    border-left: 1px solid #ddd;
+}
+
+QCalendarWidget QWidget {
+    background-color: white;
+}
+
+QCalendarWidget QToolButton {
+    color: white;
+    background-color: #5DA7A3;
+    border-radius: 4px;
+    margin: 5px;
+}
+
+QCalendarWidget QTableView {
+    selection-background-color: #5DA7A3;
+    selection-color: white;
+    border: 1px solid #ddd;
+}
+
+QCheckBox {
+    spacing: 8px; 
+    font-size: 14px;
+    color: #333;
+}
+
+QCheckBox::indicator {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+}
+
+QCheckBox::indicator:hover {
+    border-color: #5DA7A3;
+}
+
+QCheckBox::indicator:checked {
+    background-color: #5DA7A3;
+    border-color: #5DA7A3;
+    /* Aquí podrías usar una imagen de un check blanco si tienes el icono */
+    image: url(assets/check_white.png); 
+}
+
+QCheckBox::indicator:checked:pressed {
+    background-color: #4A8C88;
+}
+
+QComboBox {
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    padding: 8px;
+    background-color: white;
+    min-width: 200px;
+}
+
+QComboBox:hover {
+    border-color: #5DA7A3;
+}
+
+QComboBox::drop-down {
+    border: none;
+    width: 30px;
+}
+
+QComboBox::down-arrow {
+border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #5DA7A3;
+    width: 0;
+    height: 0;
+    margin-right: 10px;
+}
+
+QComboBox QAbstractItemView {
+    border: 1px solid #ddd;
+    selection-background-color: #5DA7A3;
+    selection-color: white;
+    background-color: white;
+    outline: none;
 }

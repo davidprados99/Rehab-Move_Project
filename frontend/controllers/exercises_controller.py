@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import  QDialog, QMenu, QTableWidgetItem, QMessageBox
 from PySide6.QtCore import Qt
 
+from views.dialogs.add_exercise_assig_dialog import AddExerciseAssigDialog
 from views.exercises_dashboard import ExercisesDashboard
 from views.dialogs.add_exercise_dialog import AddExerciseDialog
 from views.dialogs.mod_exercise_dialog import ModExerciseDialog
@@ -43,7 +44,6 @@ class ExercisesController:
                     self.view.table.item(row_number, column).setTextAlignment(Qt.AlignCenter)
         
         else:
-            print(f"Error al cargar ejercicios: {exercises}")
             QMessageBox.critical(self.view, "Error", f"No se pudieron cargar los ejercicios: {exercises}")
         
     def handle_add_exercise(self):
@@ -94,8 +94,14 @@ class ExercisesController:
                 QMessageBox.critical(self.view, "Error", f"No se pudo eliminar el ejercicio con ID {id_exercise}: {message}")
 
     def handle_assign_exercise(self):
-        # Logic to open assign exercise dialog and handle the process
-        pass
+        dialog = AddExerciseAssigDialog(self.api)
+        if dialog.exec() == QDialog.Accepted:
+            assignment_data = dialog.get_data()
+            success, message = self.api.create_exercise_assignment(assignment_data)
+            if success:
+                QMessageBox.information(self.view, "Éxito", "Ejercicio asignado correctamente.")
+            else:
+                QMessageBox.critical(self.view, "Error", f"No se pudo asignar el ejercicio: {message}")
 
     def go_back(self):
         self.view.close()

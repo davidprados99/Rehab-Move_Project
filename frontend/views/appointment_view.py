@@ -26,6 +26,7 @@ class AppointmentView(QWidget):
         self.calendar_layout.setContentsMargins(20, 20, 20, 60)
 
         self.calendar = QCalendarWidget()
+        self.calendar.setObjectName("CitasCalendar")
         self.calendar.setGridVisible(True)
 
         self.calendar_layout.addWidget(self.calendar)

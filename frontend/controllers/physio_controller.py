@@ -6,6 +6,7 @@ from views.dialogs.add_patient_dialog import AddPatientDialog
 from views.dialogs.mod_patient_dialog import ModPatientDialog
 from controllers.pain_record_controller import PainRecordController
 from controllers.exercises_controller import ExercisesController
+from controllers.exercises_assigned_controller import ExercisesAssignedController
 
 class PhysioController:
 
@@ -21,6 +22,7 @@ class PhysioController:
         self.view.btn_delete.clicked.connect(self.handle_delete_patient)
         self.view.btn_appointments.clicked.connect(self.handle_appointments)
         self.view.btn_pain_records.clicked.connect(self.handle_pain_records)
+        self.view.btn_assign_exercises.clicked.connect(self.handle_exercises_assigned)
         self.view.btn_logout.clicked.connect(self.close_sesion)
         self.load_patients()
 
@@ -48,7 +50,6 @@ class PhysioController:
                         self.view.table.item(row_number, column).setTextAlignment(Qt.AlignCenter)
                 
             else:
-                print(f"Error al cargar pacientes: {patients}")
                 QMessageBox.critical(self.view, "Error", f"No se pudieron cargar los pacientes: {patients}")
 
 
@@ -123,6 +124,16 @@ class PhysioController:
         self.view.close()
         self.pain_record_controller = PainRecordController(self.api, id_patient)
         self.pain_record_controller.view.showMaximized()
+    
+    def handle_exercises_assigned(self):
+        selected_items = self.view.table.selectedItems() if self.view.table.selectedItems() else []
+        if not selected_items:
+            QMessageBox.warning(self.view, "Advertencia", "Por favor, seleccione un paciente para ver sus ejercicios asignados.")
+            return
+        id_patient = selected_items[0].text()
+        self.view.close()
+        self.exercises_assigned_controller = ExercisesAssignedController(self.api, id_patient)
+        self.exercises_assigned_controller.view.showMaximized()
 
 
     def close_sesion(self):

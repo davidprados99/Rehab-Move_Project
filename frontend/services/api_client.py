@@ -65,10 +65,15 @@ class ApiClient:
 
     # --- Patient Management (for Physios) ---
 
-
+    
     def add_patient(self, patient_data):
         """Add a new patient (for physios)"""
         return self._make_request("POST", "/patients/", json=patient_data)
+
+
+    def get_patients(self, skip=0, limit=100):
+        """Get the list of patients (for physios)"""
+        return self._make_request("GET", "/patients/", params={"skip": skip, "limit": limit})
 
 
     def get_patients_by_physio(self, skip=0, limit=100, id_physio=None):

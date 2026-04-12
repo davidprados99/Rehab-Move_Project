@@ -58,7 +58,8 @@ class AppointmentController:
                 self.confirm_delete_appointment(dialog.appointment_id)
 
     def open_add_appointment_form(self, qdate, hour_str):
-        dialog = AddApptDialog(self.view)
+        dialog = AddApptDialog(self.api)
+        dialog.load_data_api() 
         dialog.date_str = f"{qdate.toString('yyyy-MM-dd')}T{hour_str}:00"  # Set the date for the new appointment
         if dialog.exec() == QDialog.Accepted:
             data = dialog.get_data()

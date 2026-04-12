@@ -17,7 +17,7 @@ def main():
         style = load_stylesheet("assets/main_styles.qss")
         app.setStyleSheet(style)
     except FileNotFoundError:
-        print("Aviso: No se encontró el archivo de estilos.")
+        print("Stylesheet not found. Continuing with default style.")
 
     # 2. Instantiate the controller, which will create the view and handle the logic
     controller = LoginController()

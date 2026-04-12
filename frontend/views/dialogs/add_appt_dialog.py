@@ -1,10 +1,11 @@
-from PySide6.QtWidgets import QDialog, QFormLayout, QHBoxLayout, QLineEdit, QMessageBox, QPushButton, QVBoxLayout, QLabel
+from PySide6.QtWidgets import QComboBox, QCompleter, QDialog, QFormLayout, QHBoxLayout, QLineEdit, QMessageBox, QPushButton, QVBoxLayout, QLabel
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 
 class AddApptDialog(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, api_client, parent=None):
         super().__init__(parent)
+        self.api_client = api_client
         self.setWindowTitle("Agregar Cita")
         self.setWindowIcon(QIcon("assets/logo_Rehab&Move.png"))
         self.resize(350, 500)
@@ -21,13 +22,16 @@ class AddApptDialog(QDialog):
         self.form_layout = QFormLayout()
         self.form_layout.setSpacing(15)
 
-        self.id_patient_input = QLineEdit()
-        self.id_patient_input.setPlaceholderText("ID del paciente")
+        self.name_patient = QComboBox()
+        self.name_patient.setEditable(True)
+        self.name_patient.setPlaceholderText("Nombre del paciente")
+        self.name_patient.completer().setFilterMode(Qt.MatchContains)
+        self.name_patient.completer().setCompletionMode(QCompleter.PopupCompletion)
 
         self.notes_input = QLineEdit()
         self.notes_input.setPlaceholderText("Notas adicionales para la cita")
 
-        self.form_layout.addRow("ID Paciente:", self.id_patient_input)
+        self.form_layout.addRow("Paciente:", self.name_patient)
         self.form_layout.addRow("Notas:", self.notes_input)
         layout.addLayout(self.form_layout)
 
@@ -46,17 +50,24 @@ class AddApptDialog(QDialog):
         self.cancel_btn.clicked.connect(self.reject) # Close with reject code to indicate cancellation
     
     def accept(self):
-        # Basic validation: Ensure patient ID is entered and is a number
-        if not self.id_patient_input.text().strip():
-            QMessageBox.critical(self, "Error", "El ID del paciente es obligatorio.")
-            self.id_patient_input.setFocus()
-            return
-        if not self.id_patient_input.text().strip().isdigit():
-            QMessageBox.critical(self, "Error", "El ID del paciente debe ser un número.")
-            self.id_patient_input.setFocus()
-            return
-        
+        # Basic validation: Ensure patient is selected
+        if not self.name_patient.currentText().strip():
+            QMessageBox.critical(self, "Error", "El paciente es obligatorio.")
+            self.name_patient.setFocus()
+            return    
         super().accept()  # Call the base class accept to close the dialog with success code
+    
+    def load_data_api(self):
+        # Load patients and exercises from the API to populate the combo boxes
+        self.name_patient.clear()
+        success_patients, patients = self.api_client.get_patients()
+
+
+        if success_patients:
+            for patient in patients:
+                self.name_patient.addItem(f"{patient.get('id_patient', 'N/A')} - {patient.get('name', 'N/A')} {patient.get('surnames', 'N/A')}")
+        else:
+            QMessageBox.critical(self, "Error", f"No se pudieron cargar los pacientes: {patients}")
 
     def get_data(self):
         """Return the data entered by the user as a dictionary."""
@@ -64,6 +75,6 @@ class AddApptDialog(QDialog):
             "date": self.date_str,  # This should be set when opening the dialog
             "state": "pendiente",  # Default state for new appointments
             "notes": self.notes_input.text().strip() if self.notes_input.text().strip() else None,
-            "id_patient": int(self.id_patient_input.text().strip()),
+            "id_patient": int(self.name_patient.currentText().split(" - ")[0]),
             "id_physio": None  # This should be set by the controller based on the logged-in physio
         }
