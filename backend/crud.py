@@ -83,7 +83,7 @@ def get_patients_by_physio(db: Session, id_physio: int, skip: int = 0, limit: in
     return db.query(models.Patient).filter(models.Patient.id_physio == id_physio).order_by(models.Patient.id_patient).offset(skip).limit(limit).all()
 
 def get_patients(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Patient).offset(skip).limit(limit).all()
+    return db.query(models.Patient).order_by(models.Patient.id_patient).offset(skip).limit(limit).all()
 
 def create_patient(db: Session, patient: schemas.PatientCreate):
 

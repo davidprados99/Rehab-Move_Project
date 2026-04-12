@@ -114,6 +114,15 @@ class ExerciseUpdate(BaseModel):
     active: Optional[bool] = None
 
 #--- Exercise Assignment Schemas ---
+
+class ExerciseSummary(BaseModel):
+    id_exercise: int
+    name: str
+    description: str | None = None
+    video_url: str | None = None
+    class Config:
+        from_attributes = True
+        
 class ExerciseAssignmentBase(BaseModel):
     weekly_frequency: int
     series: int
@@ -128,6 +137,7 @@ class ExerciseAssignmentCreate(ExerciseAssignmentBase):
 
 class ExerciseAssignment(ExerciseAssignmentBase):
     id_assignment: int
+    exercise: ExerciseSummary  # Include exercise name for easier display in the frontend
     class Config:
         from_attributes = True
 
