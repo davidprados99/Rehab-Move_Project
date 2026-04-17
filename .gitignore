@@ -14,3 +14,11 @@ __pycache__/
 # IDE
 .vscode/
 .idea/
+
+# Web 
+frontend-web/node_modules/
+frontend-web/dist/
+frontend-web/dist-ssr/
+frontend-web/*.local
+
+.DS_Store
