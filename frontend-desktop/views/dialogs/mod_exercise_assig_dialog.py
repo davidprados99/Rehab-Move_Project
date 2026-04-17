@@ -9,7 +9,7 @@ class ModExerciseAssigDialog(QDialog):
         self.api_client = api_client
         self.setWindowTitle("Editar Plan de Ejercicio")
         self.setMinimumWidth(400)
-        self.setWindowIcon(QIcon("assets/logo_Rehab&Move.png"))
+        self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
         self.init_ui()
         self.load_data_api()
         

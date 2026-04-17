@@ -12,7 +12,7 @@ class PainRecordView(QWidget):
         self.id_patient = id_patient
         self.setWindowTitle("Registro de Dolor")
         self.setMinimumSize(600, 400)
-        self.setWindowIcon(QIcon("assets/logo_Rehab&Move.png"))
+        self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
         self.init_ui()
     
     def init_ui(self):

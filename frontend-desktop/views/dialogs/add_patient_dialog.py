@@ -8,7 +8,7 @@ class AddPatientDialog(QDialog):
         super().__init__(parent)
         self.setWindowTitle("Añadir Nuevo Paciente")
         self.setMinimumWidth(400)
-        self.setWindowIcon(QIcon("assets/logo_Rehab&Move.png"))
+        self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
         self.init_ui()
         
     def init_ui(self):

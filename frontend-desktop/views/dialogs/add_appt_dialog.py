@@ -7,7 +7,7 @@ class AddApptDialog(QDialog):
         super().__init__(parent)
         self.api_client = api_client
         self.setWindowTitle("Agregar Cita")
-        self.setWindowIcon(QIcon("assets/logo_Rehab&Move.png"))
+        self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
         self.resize(350, 500)
         self.init_ui()
         

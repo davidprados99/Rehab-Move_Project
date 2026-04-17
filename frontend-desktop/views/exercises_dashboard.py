@@ -8,7 +8,7 @@ class ExercisesDashboard(QWidget):
         self.api = api_client
         self.setWindowTitle("Gestión de Ejercicios")
         self.setMinimumSize(800, 600)
-        self.setWindowIcon(QIcon("assets/logo_Rehab&Move.png"))
+        self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
         self.init_ui()
     
     def init_ui(self):

@@ -12,7 +12,7 @@ class AppointmentView(QWidget):
         self.painted_dates = []  # To keep track of which dates we've marked in the calendar
         self.setWindowTitle("Rehab & Move - Citas")
         self.setMinimumSize(600, 400)
-        self.setWindowIcon(QIcon("assets/logo_Rehab&Move.png"))
+        self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
         self.init_ui()
     
     def init_ui(self):

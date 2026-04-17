@@ -8,7 +8,7 @@ class LoginView(QWidget):
         self.setWindowTitle("Rehab & Move - Login")
         self.setMinimumWidth(300)
         self.setMinimumHeight(200)
-        self.setWindowIcon(QIcon("assets/logo_Rehab&Move.png"))
+        self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
         self.init_ui()
 
     def init_ui(self):
@@ -31,7 +31,7 @@ class LoginView(QWidget):
 
         # Logo
         self.logo_label = QLabel()
-        pixmap = QPixmap("assets/logo_Rehab&Move.png")
+        pixmap = QPixmap("assets/logo_Rehab_Move.png")
         self.logo_label.setPixmap(pixmap.scaled(120, 120, Qt.KeepAspectRatio, Qt.SmoothTransformation))
         self.logo_label.setAlignment(Qt.AlignCenter)
         card_layout.addWidget(self.logo_label)

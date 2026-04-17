@@ -7,7 +7,7 @@ class VideoDialog(QDialog):
     def __init__(self,name, description, video_url, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Video del ejercicio")
-        self.setWindowIcon(QIcon("assets/logo_Rehab&Move.png"))
+        self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
         self.setMinimumSize(800, 600)
 
         layout = QVBoxLayout(self)
