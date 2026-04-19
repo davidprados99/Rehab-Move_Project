@@ -12,6 +12,7 @@ class LoginController:
         
         # Connect the login button to the handler
         self.view.login_btn.clicked.connect(self.handle_login)
+        self.view.cancel_btn.clicked.connect(self.handle_cancel)
 
     def handle_login(self):
         self.view.show()  # Ensure the login view is visible
@@ -33,3 +34,8 @@ class LoginController:
                 self.dashboard.show()
         else:
             QMessageBox.critical(self.view, "Error", f"Login fallido: {message}")
+        
+    def handle_cancel(self):
+        self.view.email_input.clear()
+        self.view.password_input.clear()
+        self.view.close()

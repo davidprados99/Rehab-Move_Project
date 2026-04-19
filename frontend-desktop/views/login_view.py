@@ -57,5 +57,10 @@ class LoginView(QWidget):
         self.login_btn.setObjectName("LoginBtn")
         card_layout.addWidget(self.login_btn)
 
+        #Canel button
+        self.cancel_btn = QPushButton("Cancelar")
+        self.cancel_btn.setObjectName("CancelBtn")
+        card_layout.addWidget(self.cancel_btn)
+
         main_layout.addWidget(self.card)
         
