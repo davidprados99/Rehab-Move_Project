@@ -1,6 +1,9 @@
+import os
+
 from fastapi import FastAPI, Depends, HTTPException, security, status
 from sqlalchemy.orm import Session
 from typing import List
+from fastapi.middleware.cors import CORSMiddleware
 
 from backend import models, schemas, crud
 from backend.database import engine, get_db
@@ -16,6 +19,21 @@ app = FastAPI(
     description="API for managing physiotherapists, patients, appointments, and pain records in the Rehab & Move application.",
     version="1.0.0"
 )
+origins_env = os.getenv("ALLOWED_ORIGINS")
+if not origins_env:
+    raise ValueError("ALLOWED_ORIGINS environment variable is not set. Please set it to a comma-separated list of allowed origins.")
+
+origins = origins_env.split(",")
+
+# Configure CORS middleware to allow requests from the React frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 #--- Authentication Endpoint ---
 

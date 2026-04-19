@@ -10,8 +10,11 @@ from passlib.context import CryptContext
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # Secret key and algorithm for JWT
-ALGORITHM = os.getenv("ALGORITHM", "HS256")  # Default to HS256 if not set in environment variables
-SECRET_KEY = os.getenv("SECRET_KEY", "una_clave_secreta_temporal_muy_larga_y_segura_99")  # Default to a long, secure string if not set in environment variables
+ALGORITHM = os.getenv("ALGORITHM", "HS256")
+SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    raise ValueError("SECRET_KEY environment variable is not set. Please set it to a secure random string.")
+
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
 
 #--- Password Functions ---
