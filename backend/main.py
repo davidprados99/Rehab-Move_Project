@@ -1,5 +1,6 @@
 import os
 
+from dotenv import load_dotenv
 from fastapi import FastAPI, Depends, HTTPException, security, status
 from sqlalchemy.orm import Session
 from typing import List
@@ -13,6 +14,8 @@ from backend.security import verify_password, create_access_token
 
 # Make the database tables based on the models defined in models.py if not already created
 models.Base.metadata.create_all(bind=engine)
+
+load_dotenv()
 
 app = FastAPI(
     title="Rehab & Move API",

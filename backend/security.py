@@ -1,10 +1,14 @@
 from datetime import datetime, timedelta, timezone
 import os
+import sys
 from typing import Optional
+from dotenv import load_dotenv
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
 # security.py is responsible for handling security-related functions, such as password hashing and verification. It uses the Passlib
+
+load_dotenv()
 
 # Configurate the motor of password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -13,7 +17,12 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 SECRET_KEY = os.getenv("SECRET_KEY")
 if not SECRET_KEY:
-    raise ValueError("SECRET_KEY environment variable is not set. Please set it to a secure random string.")
+    if "pytest" in sys.modules:
+        # During testing, we can use a default secret key
+        SECRET_KEY ="test_secret_key_for_testing_purposes_only"
+    else:
+        raise ValueError("SECRET_KEY environment variable is not set. Please set it to a secure random string.")
+
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
 
