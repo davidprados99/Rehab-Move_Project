@@ -74,15 +74,6 @@ const PatientDashboard: React.FC = () => {
                     imageAlt="Icono de dolor"
                 />
 
-                {/*Web logo*/}
-                <div className="flex justify-center my-10">
-                    <img
-                        src={logo}
-                        alt="Logo de Rehab & Move"
-                        className="h-16"
-                    />
-                </div>
-
                 {/* Footer */}
                 <footer className="text-center mt-10 text-sm text-gray-500">
                     &copy; 2026 Rehab & Move. Todos los derechos reservados.

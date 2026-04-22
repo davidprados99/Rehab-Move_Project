@@ -27,8 +27,6 @@ function Login() {
             localStorage.setItem('role', data.role);
             localStorage.setItem('user_id', data.user_id.toString());
             localStorage.setItem('name', data.name);
-
-            alert(`¡Hola ${data.name}!`);
             
             // Redirect based on user role
             if (data.role == 'physio') {
