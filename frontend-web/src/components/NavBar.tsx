@@ -38,7 +38,7 @@ const NavBar: React.FC = () => {
                             <>
                                 <NavLink title="Mis Ejercicios" to="/exercise-assigned" className={linkStyles}>Mis Ejercicios</NavLink>
                                 <NavLink title="Mis Citas" to="/appointments" className={linkStyles}>Mis Citas</NavLink>
-                                <NavLink title="Registros de Dolor" to="/pain-registry" className={linkStyles}>Registros de Dolor</NavLink>
+                                <NavLink title="Registros de Dolor" to="/pain-registry" className={linkStyles}>Registro de Dolor</NavLink>
                             </>
                         )}
                     </div>

@@ -38,6 +38,8 @@ function Login() {
         } catch (error: any) {
             console.error('Login error:', error);
             alert('Error al iniciar sesión. Por favor, inténtelo de nuevo.');
+            setEmail('');
+            setPassword('');
         } finally {
             setLoading(false);
         }
