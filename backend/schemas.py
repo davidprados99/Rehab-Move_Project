@@ -182,7 +182,7 @@ class AppointmentUpdate(BaseModel):
 
 #--- Exercise Done Schemas ---
 class ExerciseDoneBase(BaseModel):
-    date: datetime
+    done_date: datetime = None
     id_assignment: int
 
 class ExerciseDoneCreate(ExerciseDoneBase):
@@ -194,5 +194,5 @@ class ExerciseDone(ExerciseDoneBase):
         from_attributes = True
 
 class ExerciseDoneUpdate(BaseModel):
-    date: Optional[datetime] = None
+    done_date: Optional[datetime] = None
     id_assignment: Optional[int] = None

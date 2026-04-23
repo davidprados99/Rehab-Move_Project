@@ -1,5 +1,6 @@
 from datetime import date
 
+from sqlalchemy import func
 from sqlalchemy.orm import Session, joinedload
 from backend.security import get_password_hash
 from backend import models, schemas
@@ -406,7 +407,18 @@ def get_exercise_done_by_assignment(db: Session, id_assignment: int):
     return db.query(models.ExerciseDone).filter(models.ExerciseDone.id_assignment == id_assignment).all()   
 
 def get_exercise_done_by_id(db: Session, id_exercise_done: int):
-    return db.query(models.ExerciseDone).filter(models.ExerciseDone.id_exercise_done == id_exercise_done).first()
+    return db.query(models.ExerciseDone).filter(models.ExerciseDone.id_done == id_exercise_done).first()
+
+def get_exercise_done_by_patient(db: Session, id_patient: int):
+    return db.query(models.ExerciseDone).join(models.ExerciseAssignment).filter(
+        models.ExerciseAssignment.id_patient == id_patient).all()
+
+def get_exercise_done_today_by_patient(db: Session, id_patient: int):
+    today = date.today()
+    return db.query(models.ExerciseDone).join(models.ExerciseAssignment).filter(
+        models.ExerciseAssignment.id_patient == id_patient,
+        func.date(models.ExerciseDone.done_date) == today
+    ).all()
 
 def mark_exercise_done(db: Session, exercise_done: schemas.ExerciseDoneCreate):
 
@@ -416,7 +428,7 @@ def mark_exercise_done(db: Session, exercise_done: schemas.ExerciseDoneCreate):
             raise ValueError("Exercise assignment not found.")
     
     db_exercise_done = models.ExerciseDone(
-        date=exercise_done.date,
+        done_date=exercise_done.done_date,
         id_assignment=exercise_done.id_assignment
     )
     db.add(db_exercise_done)
@@ -425,7 +437,7 @@ def mark_exercise_done(db: Session, exercise_done: schemas.ExerciseDoneCreate):
     return db_exercise_done
 
 def delete_exercise_done(db: Session, id_exercise_done: int):
-    db_exercise_done = db.query(models.ExerciseDone).filter(models.ExerciseDone.id_exercise_done == id_exercise_done).first()
+    db_exercise_done = db.query(models.ExerciseDone).filter(models.ExerciseDone.id_done == id_exercise_done).first()
     if not db_exercise_done:
         raise ValueError("Exercise done record not found.")
     
@@ -434,7 +446,7 @@ def delete_exercise_done(db: Session, id_exercise_done: int):
     return {"message": "Exercise done record deleted successfully."}
 
 def update_exercise_done(db: Session, id_exercise_done: int, exercise_done_update: schemas.ExerciseDoneUpdate):
-    db_exercise_done = db.query(models.ExerciseDone).filter(models.ExerciseDone.id_exercise_done == id_exercise_done).first()
+    db_exercise_done = db.query(models.ExerciseDone).filter(models.ExerciseDone.id_done == id_exercise_done).first()
     if not db_exercise_done:
         raise ValueError("Exercise done record not found.")
     

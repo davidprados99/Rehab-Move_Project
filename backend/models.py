@@ -1,6 +1,6 @@
 import enum
 
-from sqlalchemy import Column, Integer, String, ForeignKey, Date, DateTime, Text, Boolean, CheckConstraint
+from sqlalchemy import Column, Integer, String, ForeignKey, Date, DateTime, Text, Boolean, CheckConstraint, func
 from sqlalchemy.orm import relationship
 from backend.database import Base
 import datetime
@@ -111,7 +111,7 @@ class ExerciseAssignment(Base):
 class ExerciseDone(Base):
     __tablename__ = "exercise_done"
     id_done = Column(Integer, primary_key=True, index=True)
-    done_date = Column(DateTime, default=datetime.datetime.utcnow)
+    done_date = Column(DateTime, server_default=func.now())
     id_assignment = Column(Integer, ForeignKey("exercise_assignment.id_assignment", ondelete="CASCADE"))
 
     # Son of exercise assignment, if the assignment is deleted, the completion will be deleted too (cascade delete)

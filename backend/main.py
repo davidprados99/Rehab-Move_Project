@@ -493,6 +493,22 @@ def read_exercises_done_by_assignment(id_assignment: int, skip: int = 0, limit: 
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
+@app.get("/exercises_done/patient/{id_patient}/today", response_model=List[schemas.ExerciseDone], tags=["Exercises Done"])
+def read_exercises_done_today_by_patient(id_patient: int, db: Session = Depends(get_db)):
+    try:
+        exercises_done = crud.get_exercise_done_today_by_patient(db, id_patient=id_patient)
+        return exercises_done
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
+@app.get("/exercises_done/patient/{id_patient}", response_model=List[schemas.ExerciseDone], tags=["Exercises Done"])
+def read_exercises_done_by_patient(id_patient: int, db: Session = Depends(get_db)):
+    try:
+        exercises_done = crud.get_exercise_done_by_patient(db, id_patient=id_patient)
+        return exercises_done
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
 @app.patch("/exercises_done/{id_exercise_done}", response_model=schemas.ExerciseDone, tags=["Exercises Done"])
 def update_exercise_done(id_exercise_done: int, exercise_done_update: schemas.ExerciseDoneUpdate, db: Session = Depends(get_db)):
     try:
