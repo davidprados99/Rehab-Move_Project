@@ -2,7 +2,7 @@ export interface Exercise {
     id_exercise: number;
     name: string;
     description: string;
-    video_url?: string;
+    video_url: string;
     active: boolean;
 }
 

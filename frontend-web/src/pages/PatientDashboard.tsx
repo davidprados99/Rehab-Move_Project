@@ -13,14 +13,17 @@ import type { Appointment} from '../models/Clinical';
 
 //Use const to define the component, and React.FC for type safety
 const PatientDashboard: React.FC = () => {
+    // State variables to hold assigned exercises, appointments, and loading status
     const navigate = useNavigate();
     const [exercissesAssigned, setExercisesAssigned] = useState<ExerciseAssignment[]>([]);
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [loading, setLoading] = useState(true);
 
+    // Get user ID and name from local storage
     const userId = localStorage.getItem('user_id');
     const userName = localStorage.getItem('name');
 
+    // Fetch assigned exercises and appointments when the component mounts
     useEffect(() => {
         const fetchData = async () => {
             try {

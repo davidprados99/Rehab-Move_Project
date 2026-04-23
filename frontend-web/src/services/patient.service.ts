@@ -2,6 +2,7 @@ import api from './api';
 import type { ExerciseAssignment } from '../models/Exercise';
 import type { Appointment } from '../models/Clinical';
 import type { PainRecord } from '../models/Clinical';
+import type { ExerciseDone } from '../models/Exercise';
 
 export const PatientService = {
 
@@ -12,6 +13,16 @@ export const PatientService = {
             return response.data;
         } catch (error) {
             console.error('Error fetching assigned exercises:', error);
+            throw error;
+        }
+    },
+
+    getExerciseDoneToday: async (patientId: number): Promise<ExerciseDone[]> => {
+        try {
+            const response = await api.get(`/exercises_done/patient/${patientId}/today`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching exercises done today:', error);
             throw error;
         }
     },
@@ -31,15 +42,28 @@ export const PatientService = {
     postRegistryPain: async (patientId: number, painLevel: number, comment: string): Promise<PainRecord> => {
         try {
             const response = await api.post(`/pain-records`, {
-                painLevel,
+                level_pain: painLevel,
                 comment,
-                record_date: new Date().toISOString(),
-                patientId
+                id_patient: patientId
             });
             return response.data;
         } catch (error) {
             console.error('Error posting pain registry:', error);
             throw error;
         }
+    },
+
+    markExerciseAsDone: async (assignmentId: number): Promise<ExerciseDone> => {
+        try {
+            const response = await api.post(`/exercises_done`, {
+                id_assignment: assignmentId,
+                done_date: new Date().toISOString()
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error marking exercise as done:', error);
+            throw error;
+        }
     }
+
 };
