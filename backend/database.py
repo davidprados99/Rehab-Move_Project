@@ -28,7 +28,12 @@ else:
     # If all variables are present, we connect to PostgreSQL
     SQLALCHEMY_DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     print(f"Conectado a PostgreSQL: {DB_NAME}")
-    engine = create_engine(SQLALCHEMY_DATABASE_URL)
+    engine = create_engine(SQLALCHEMY_DATABASE_URL,
+                            pool_size=10, # Size of the connection pool     
+                            max_overflow=20, # Maximum number of connections that can be created beyond the pool_size         
+                            pool_recycle=300, # Recycle connections after 300 seconds to prevent stale connections     
+                            pool_pre_ping=True # Enable pre-ping to check if connections are alive before using them
+                            )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
