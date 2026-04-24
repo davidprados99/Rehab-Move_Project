@@ -217,6 +217,10 @@ class ApiClient:
     def get_exercises_done(self, id_assignment):
         """Get exercises marked as done for a specific assignment (for patients)"""
         return self._make_request("GET", f"/exercises_done/assignment/{id_assignment}")
+    
+    def get_exercises_done_today(self, id_patient):
+        """Get exercises marked as done today for a patient (for patients)"""
+        return self._make_request("GET", f"/exercises_done/patient/{id_patient}/today")
 
 
     def update_exercise_done(self, id_exercise_done, done_data):

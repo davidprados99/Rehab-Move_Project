@@ -50,8 +50,8 @@ class ExercisesAssignedDashboard(QWidget):
         self.title.setAlignment(Qt.AlignCenter)
 
         self.table = QTableWidget()
-        self.table.setColumnCount(7)
-        self.table.setHorizontalHeaderLabels(["ID", "Frecuencia Semanal", "Series", "Repeticiones", "Fecha Inicio", "Fecha Fin", "Ejercicio"])
+        self.table.setColumnCount(8)
+        self.table.setHorizontalHeaderLabels(["ID", "Frecuencia Semanal", "Series", "Repeticiones", "Fecha Inicio", "Fecha Fin", "Ejercicio", "Hecho Hoy"])
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)  # Select entire rows
 
         #Customize table appearance and behavior
@@ -71,8 +71,8 @@ class ExercisesAssignedDashboard(QWidget):
         header.setSectionResizeMode(3, QHeaderView.Stretch) # Stretch URL column to fill available space
         header.setSectionResizeMode(4, QHeaderView.Fixed) # Set fixed width for active column
         header.setSectionResizeMode(5, QHeaderView.Fixed) # Set fixed width for active column
-        header.setSectionResizeMode(6, QHeaderView.Fixed) # Set fixed width for active column
-
+        header.setSectionResizeMode(6, QHeaderView.Stretch) # Set fixed width for active column
+        header.setSectionResizeMode(7, QHeaderView.Stretch) # Set fixed width for active column
         content_layout.addWidget(self.title)
         content_layout.addWidget(self.table)
         main_layout.addWidget(self.sidebar)

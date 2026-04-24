@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QDialog, QMenu, QTableWidgetItem, QMessageBox
+from PySide6.QtWidgets import QCheckBox, QDialog, QHBoxLayout, QMenu, QTableWidgetItem, QMessageBox, QWidget
 from views.dialogs.add_exercise_assig_dialog import AddExerciseAssigDialog
 from views.exercises_assigned_dashboard import ExercisesAssignedDashboard
 from views.dialogs.mod_exercise_assig_dialog import ModExerciseAssigDialog
@@ -16,6 +16,7 @@ class ExercisesAssignedController:
         self.view.btn_delete_exercise_assign.clicked.connect(self.handle_delete_exercise_assign)
         self.view.btn_back.clicked.connect(self.go_back)
         self.load_exercises_assigned()
+        self.load_exercises_done_today()
         self.view.table.setContextMenuPolicy(Qt.CustomContextMenu)
         self.view.table.customContextMenuRequested.connect(self.show_context_menu)
 
@@ -42,6 +43,35 @@ class ExercisesAssignedController:
         else:
             QMessageBox.critical(self.view, "Error", f"No se pudieron cargar los ejercicios: {exercises}")
     
+    def load_exercises_done_today(self):
+        success, exercises_done = self.api.get_exercises_done_today(self.id_patient)
+        # This method will mark the exercises that have been done today in the table.
+        if success:
+            exercises_done_dict = {exercise_done["id_assignment"]: exercise_done for exercise_done in exercises_done}
+            for row in range(self.view.table.rowCount()):
+                id_assignment = int(self.view.table.item(row, 0).text())
+                
+                # Create a checkbox widget to indicate if the exercise has been done today
+                container = QWidget()
+                layout = QHBoxLayout(container)
+                checkbox = QCheckBox()
+                
+                # If the current assignment ID is in the exercises_done_dict, it means it has been marked as done today, so we check the checkbox
+                if id_assignment in exercises_done_dict:
+                    checkbox.setCheckState(Qt.Checked)
+                else:
+                    checkbox.setCheckState(Qt.Unchecked)
+                
+                checkbox.setEnabled(False)  # Disable the checkbox to prevent user interaction
+                layout.addWidget(checkbox) 
+                layout.setAlignment(Qt.AlignCenter)
+                layout.setContentsMargins(0, 0, 0, 0)
+                container.setLayout(layout)
+                self.view.table.setCellWidget(row, 7, container) # Set the checkbox widget in the last column of the table
+                self.view.table.setItem(row, 7, QTableWidgetItem(""))  # Set an empty item to ensure the cell is recognized as occupied
+        else:
+            QMessageBox.critical(self.view, "Error", f"No se pudieron cargar los ejercicios hechos hoy: {exercises_done}")
+    
     def handle_assign_exercise(self):
         dialog = AddExerciseAssigDialog(self.api)
         dialog.load_data_api()
@@ -51,6 +81,7 @@ class ExercisesAssignedController:
             if success:
                 QMessageBox.information(self.view, "Éxito", "Ejercicio asignado correctamente.")
                 self.load_exercises_assigned()
+                self.load_exercises_done_today()
             else:
                 QMessageBox.critical(self.view, "Error", f"No se pudo asignar el ejercicio: {message}")
     
@@ -70,6 +101,7 @@ class ExercisesAssignedController:
             if success:
                 QMessageBox.information(self.view, "Éxito", "Ejercicio modificado correctamente.")
                 self.load_exercises_assigned()  # Refresh the exercise list
+                self.load_exercises_done_today()  # Refresh the exercises done today
             else:
                 QMessageBox.critical(self.view, "Error", f"No se pudo modificar el ejercicio: {message}")
 
@@ -86,6 +118,7 @@ class ExercisesAssignedController:
             if success:
                 QMessageBox.information(self.view, "Éxito", f"Ejercicio asignado con ID {id_exercise_assignment} eliminado correctamente.")
                 self.load_exercises_assigned()  # Refresh the list after deletion
+                self.load_exercises_done_today()  # Refresh the exercises done today
             else:
                 QMessageBox.critical(self.view, "Error", f"No se pudo eliminar el ejercicio: {message}")
 
