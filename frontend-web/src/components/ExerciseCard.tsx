@@ -1,3 +1,7 @@
+import React from 'react';
+import tick from '../assets/tick.png';
+import '../index.css';
+
 interface ExerciseCardProps {
     name: string;
     description: string;
@@ -5,12 +9,22 @@ interface ExerciseCardProps {
     isCompleted: boolean;
     onButtonClick?: () => void;
     className?: string;
+    weekly_frequency: number;
+    series: number;
+    repetitions: number;
+    start_date: string;
+    end_date: string;
 }
 
 const ExerciseCard: React.FC<ExerciseCardProps> = ({
     name,
     description,
     video_url,
+    weekly_frequency,
+    series,
+    repetitions,
+    start_date,
+    end_date,
     onButtonClick,
     isCompleted,
     className = "",
@@ -44,7 +58,7 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({
     const embedUrl = getEmbedUrl(video_url);
 
     return (
-        <div className={`bg-white rounded-rehab shadow-lg overflow-hidden flex flex-col w-full max-w-sm mx-auto border border-gray-100 ${className}`}>
+        <div className={`bg-rehab-dark rounded-rehab shadow-lg overflow-hidden flex flex-col w-full max-w-sm mx-auto border border-gray-100 ${className}`}>
             
             {/* Video container */}
             <div className="w-full aspect-video bg-black">
@@ -59,19 +73,32 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({
 
             {/* Text container */}
             <div className="p-6 flex-1 flex flex-col">
-                <h2 className="text-xl font-bold text-rehab-dark mb-2">{name}</h2>
-                <p className="text-gray-600 line-clamp-3 md:line-clamp-none">{description}</p>
+                <h2 className="text-2xl text-center font-bold text-rehab-light mb-4">{name}</h2>
+                <p className="text-rehab-light text-opacity-80 line-clamp-3 md:line-clamp-none">{description}</p>
+            </div>
+            {/* Details container */}
+            <div className="px-6 py-4 border-t">
+                <details>
+                    <summary className="cursor-pointer text-rehab-light mb-2">Ver detalles</summary>
+                    <p className="text-xs text-rehab-light mb-1"><span className="font-semibold">Frecuencia semanal:</span> {weekly_frequency}</p>
+                    <p className="text-xs text-rehab-light mb-1"><span className="font-semibold">Series:</span> {series}</p>
+                    <p className="text-xs text-rehab-light mb-1"><span className="font-semibold">Repeticiones:</span> {repetitions}</p>
+                    <p className="text-xs text-rehab-light mb-1"><span className="font-semibold">Fecha de inicio:</span> {new Date(start_date).toLocaleDateString()}</p>
+                    <p className="text-xs text-rehab-light"><span className="font-semibold">Fecha de fin:</span> {new Date(end_date).toLocaleDateString()}</p>
+                </details>
             </div>
 
             {/* Button container */}
-            <div className="mt-4 flex justify-end items-center border-t pt-4">
+            <div className="mt-4 flex justify-center items-center border-t pt-4 mb-4">
                 {isCompleted ? (
-                    <span className="flex items-center text-green-600 text-sm font-semibold italic">¡Ejercicio hecho por hoy!</span>
+                    <span className="flex items-center text-rehab-light text-sm font-semibold italic">
+                        ¡Ejercicio hecho por hoy! <img src={tick} alt="Checkmark" className="ml-2 w-4 h-4 rounded-full overflow-hidden bg-green-500" /> 
+                        </span>
                 ) : (
                 <button 
                 onClick={onButtonClick}
-                className="bg-rehab-primary hover:bg-rehab-primary/90 text-white text-xs font-bold px-4 py-2 rounded-lg transition-all shadow-md active:scale-95 uppercase tracking-wider">
-                    Ejercicio hecho
+                className="bg-rehab-primary hover:bg-rehab-primary/90 text-white text-xs font-bold px-4 py-2 rounded-lg transition-all shadow-md active:scale-95  tracking-wider">
+                    Pulsa cuando termines
                 </button>
                 )}
             </div>
