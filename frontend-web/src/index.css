@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* CalendarCustom.css */
+.react-calendar {
+    @apply w-full border-none font-sans; /* Usas las fuentes de Tailwind */
+}
+
+.react-calendar__tile--active {
+    /* En lugar de background: #4A90E2, usas tu clase de Tailwind */
+    @apply bg-rehab-primary text-white rounded-xl shadow-md !important;
+}
+
+.react-calendar__tile--now {
+    @apply bg-rehab-primary/10 text-rehab-primary font-bold rounded-xl !important;
+}
+
+.react-calendar__navigation button {
+    @apply text-xl font-bold text-gray-700 hover:bg-gray-100 rounded-lg;
+}

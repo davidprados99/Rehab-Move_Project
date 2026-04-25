@@ -7,6 +7,14 @@ export interface Appointment {
     notes?: string;
     id_patient: number;
     id_physio: number;
+    patient: {
+        name: string;
+        surnames: string;
+    };
+    physio: {
+        name: string;
+        surnames: string;
+    };
 }
 
 export interface PainRecord {
