@@ -36,6 +36,5 @@ class LoginController:
             QMessageBox.critical(self.view, "Error", f"Login fallido: {message}")
         
     def handle_cancel(self):
-        self.view.email_input.clear()
         self.view.password_input.clear()
         self.view.close()

@@ -1,8 +1,9 @@
-from PySide6.QtWidgets import QCheckBox, QDialog, QHBoxLayout, QMenu, QTableWidgetItem, QMessageBox, QWidget
+from PySide6.QtWidgets import QCheckBox, QDialog, QHBoxLayout, QLabel, QMenu, QTableWidgetItem, QMessageBox, QWidget
 from views.dialogs.add_exercise_assig_dialog import AddExerciseAssigDialog
 from views.exercises_assigned_dashboard import ExercisesAssignedDashboard
 from views.dialogs.mod_exercise_assig_dialog import ModExerciseAssigDialog
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QIcon, QPixmap
 
 class ExercisesAssignedController:
     def __init__(self, api, id_patient):
@@ -49,26 +50,30 @@ class ExercisesAssignedController:
         if success:
             exercises_done_dict = {exercise_done["id_assignment"]: exercise_done for exercise_done in exercises_done}
             for row in range(self.view.table.rowCount()):
+
                 id_assignment = int(self.view.table.item(row, 0).text())
+
+                # Icon for active status
+                container = QWidget()  # Create a container widget for the icon
+                layout = QHBoxLayout(container)  # Create a horizontal layout for the container
+
+                icon_label = QLabel()  # Create a label to hold the icon
+                icon_path = "assets/done.png" if id_assignment in exercises_done_dict else "assets/noDone.png"
+
+                original_pixmap = QPixmap(icon_path)
+                icon_size = 15 if id_assignment in exercises_done_dict else 10  
                 
-                # Create a checkbox widget to indicate if the exercise has been done today
-                container = QWidget()
-                layout = QHBoxLayout(container)
-                checkbox = QCheckBox()
-                
-                # If the current assignment ID is in the exercises_done_dict, it means it has been marked as done today, so we check the checkbox
-                if id_assignment in exercises_done_dict:
-                    checkbox.setCheckState(Qt.Checked)
-                else:
-                    checkbox.setCheckState(Qt.Unchecked)
-                
-                checkbox.setEnabled(False)  # Disable the checkbox to prevent user interaction
-                layout.addWidget(checkbox) 
-                layout.setAlignment(Qt.AlignCenter)
-                layout.setContentsMargins(0, 0, 0, 0)
-                container.setLayout(layout)
-                self.view.table.setCellWidget(row, 7, container) # Set the checkbox widget in the last column of the table
-                self.view.table.setItem(row, 7, QTableWidgetItem(""))  # Set an empty item to ensure the cell is recognized as occupied
+                dpr = self.view.devicePixelRatioF() # Get the device pixel ratio for high-DPI scaling
+
+                pixmap = original_pixmap.scaled(
+                    icon_size * dpr, icon_size * dpr, Qt.KeepAspectRatio, Qt.SmoothTransformation
+                )
+                icon_label.setPixmap(pixmap)  # Set the pixmap to the label
+
+                layout.addWidget(icon_label)  # Add the label to the layout
+                layout.setAlignment(Qt.AlignCenter)  # Center the layout
+                layout.setContentsMargins(0, 0, 0, 0)  # Remove margins to fit the icon properly
+                self.view.table.setCellWidget(row, 7, container)
         else:
             QMessageBox.critical(self.view, "Error", f"No se pudieron cargar los ejercicios hechos hoy: {exercises_done}")
     
@@ -104,7 +109,7 @@ class ExercisesAssignedController:
         if dialog.exec() == QDialog.Accepted:
             exercise_data = dialog.get_data()
             final_data = {k: v for k, v in exercise_data.items() if v}  # Filter out empty values
-            final_data["id_exercise"] = id_exercise_assignment # Set the exercise ID for the update
+            final_data["id_exercise_assignment"] = id_exercise_assignment # Set the exercise ID for the update
             success, message = self.api.update_exercise_assignment(id_exercise_assignment, final_data)
             if success:
                 QMessageBox.information(self.view, "Éxito", "Ejercicio modificado correctamente.")

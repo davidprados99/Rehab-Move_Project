@@ -74,7 +74,7 @@ class AddExerciseDialog(QDialog):
         """Return the data entered by the user as a dictionary."""
         return {
             "name": self.name_input.text().strip(),
-            "description": self.description_input.text().strip(),
+            "description": self.description_input.toPlainText().strip(),
             "video_url": self.video_url_input.text().strip(),
             "active": True   
         }

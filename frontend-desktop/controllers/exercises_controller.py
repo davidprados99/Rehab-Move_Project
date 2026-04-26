@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import  QDialog, QMenu, QTableWidgetItem, QMessageBox
+from PySide6.QtWidgets import  QDialog, QHBoxLayout, QLabel, QMenu, QTableWidgetItem, QMessageBox, QWidget
 from PySide6.QtCore import Qt
 
 from views.dialogs.add_exercise_assig_dialog import AddExerciseAssigDialog
@@ -6,7 +6,7 @@ from views.exercises_dashboard import ExercisesDashboard
 from views.dialogs.add_exercise_dialog import AddExerciseDialog
 from views.dialogs.mod_exercise_dialog import ModExerciseDialog
 from views.dialogs.video_dialog import VideoDialog
-
+from PySide6.QtGui import QIcon, QPixmap
 
 class ExercisesController:
     def __init__(self, api_client):
@@ -33,14 +33,39 @@ class ExercisesController:
             self.view.table.setRowCount(0)  # Clear existing rows
 
             for row_number, exercise in enumerate(exercises):
+
+                icon_item = QTableWidgetItem()
+
                 self.view.table.insertRow(row_number)
                 self.view.table.setItem(row_number, 0, QTableWidgetItem(str(exercise.get("id_exercise"))))
                 self.view.table.setItem(row_number, 1, QTableWidgetItem(exercise.get("name", "N/A")))
                 self.view.table.setItem(row_number, 2, QTableWidgetItem(exercise.get("description", "N/A")))
                 self.view.table.setItem(row_number, 3, QTableWidgetItem(exercise.get("video_url", "N/A")))
-                self.view.table.setItem(row_number, 4, QTableWidgetItem(str(exercise.get("active", "N/A"))))
 
-                for column in range(5):
+                # Icon for active status
+                container = QWidget()  # Create a container widget for the icon
+                layout = QHBoxLayout(container)  # Create a horizontal layout for the container
+
+                icon_label = QLabel()  # Create a label to hold the icon
+                icon_path = "assets/done.png" if exercise.get("active") else "assets/noDone.png"
+
+                original_pixmap = QPixmap(icon_path)
+                icon_size = 15 if exercise.get("active") else 10  
+                dpr = self.view.devicePixelRatioF() # Get the device pixel ratio for high-DPI scaling
+
+                pixmap = original_pixmap.scaled(
+                    icon_size * dpr, icon_size * dpr, Qt.KeepAspectRatio, Qt.SmoothTransformation
+                )
+
+                icon_label.setPixmap(pixmap)  # Set the pixmap to the label
+                layout.addWidget(icon_label)  # Add the label to the layout
+                layout.setAlignment(Qt.AlignCenter)  # Center the layout
+                layout.setContentsMargins(0, 0, 0, 0)  # Remove margins to fit the icon properly
+
+                self.view.table.setCellWidget(row_number, 4, container)  # Set the container as the cell widget
+            
+
+                for column in range(4):
                     self.view.table.item(row_number, column).setTextAlignment(Qt.AlignCenter)
         
         else:
@@ -63,7 +88,7 @@ class ExercisesController:
             "name": selected_items[1].text(),
             "description": selected_items[2].text(),
             "video_url": selected_items[3].text(),
-            "active": selected_items[4].text().lower() == "true"
+            "active": True
         } if selected_items else None
 
         if not selected_items:
@@ -74,7 +99,7 @@ class ExercisesController:
         dialog = ModExerciseDialog(exercise_data=exercise_data)
         if dialog.exec() == QDialog.Accepted:
             exercise_data = dialog.get_data()
-            final_data = {k: v for k, v in exercise_data.items() if v}  # Filter out empty values
+            final_data = {k: v for k, v in exercise_data.items() if v is not None}  # Filter out empty values
             final_data["id_exercise"] = id_exercise  # Set the exercise ID for the update
             success, message = self.api.update_exercise(id_exercise, final_data)
             if success:

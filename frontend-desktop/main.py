@@ -1,6 +1,7 @@
 import sys
 from PySide6.QtWidgets import QApplication
 from controllers.login_controller import LoginController
+from PySide6.QtCore import Qt
 
 def load_stylesheet(path):
     """Function to load a stylesheet from a file."""
@@ -9,6 +10,8 @@ def load_stylesheet(path):
 
     
 def main():
+    # Enable high DPI scaling for better appearance on high-resolution displays
+    QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
     # 1. Create the application with the system arguments (allows for command line options)
     app = QApplication(sys.argv)
     

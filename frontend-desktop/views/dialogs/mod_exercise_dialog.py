@@ -66,7 +66,7 @@ class ModExerciseDialog(QDialog):
         """Return the data entered by the user as a dictionary."""
         return {
             "name": self.name_input.text().strip() if self.name_input.text().strip() else None,
-            "description": self.description_input.text().strip() if self.description_input.text().strip() else None,
+            "description": self.description_input.toPlainText().strip() if self.description_input.toPlainText().strip() else None,
             "video_url": self.video_url_input.text().strip() if self.video_url_input.text().strip() else None,
             "active": self.active_checkbox.isChecked()
         }

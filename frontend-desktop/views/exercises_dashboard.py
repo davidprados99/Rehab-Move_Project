@@ -64,6 +64,7 @@ class ExercisesDashboard(QWidget):
         self.table.setShowGrid(False)  # Hide grid lines for a cleaner look
         self.table.setAlternatingRowColors(True)  # Alternate row colors for better readability
         self.table.setSelectionMode(QAbstractItemView.SingleSelection)  # Allow only single row selection
+        self.table.verticalHeader().setDefaultSectionSize(40)  # Set default row height
         
 
         # Customize column widths
