@@ -4,11 +4,10 @@
 
 /* CalendarCustom.css */
 .react-calendar {
-    @apply w-full border-none font-sans; /* Usas las fuentes de Tailwind */
+    @apply w-full border-none font-sans;
 }
 
 .react-calendar__tile--active {
-    /* En lugar de background: #4A90E2, usas tu clase de Tailwind */
     @apply bg-rehab-primary text-white rounded-xl shadow-md !important;
 }
 

@@ -37,13 +37,23 @@ export const PatientService = {
             throw error;
         }
     },
-
-    //Registry pain of a patient
-    postRegistryPain: async (patientId: number, painLevel: number, comment: string): Promise<PainRecord> => {
+    //Get pain records of a patient
+    getPainRecords: async (patientId: number): Promise<PainRecord[]> => {
         try {
-            const response = await api.post(`/pain-records`, {
+            const response = await api.get(`/pain_records/patient/${patientId}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching pain records:', error);
+            throw error;
+        }
+    },
+    
+    //Registry pain of a patient
+    postRegistryPain: async (patientId: number, painLevel: number, comment?: string): Promise<PainRecord> => {
+        try {
+            const response = await api.post(`/pain_records`, {
                 level_pain: painLevel,
-                comment,
+                comment: comment || '',
                 id_patient: patientId
             });
             return response.data;

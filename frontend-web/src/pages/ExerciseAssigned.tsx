@@ -4,13 +4,14 @@ import ExerciseCard from '../components/ExerciseCard';
 import { PatientService } from '../services/patient.service';
 import { type ExerciseDone, type ExerciseAssignment } from '../models/Exercise';
 import Swal from 'sweetalert2';
+import RehabLoader from '../components/RehabLoading';
 
 
 const ExerciseAssigned: React.FC = () => {
     // State to hold assigned exercises and exercises done today
     const [exercisesAssigned, setExercisesAssigned] = useState<ExerciseAssignment[]>([]);
     const [exerciseDoneToday, setExerciseDoneToday] = useState<ExerciseDone[]>([]);
-    const [, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
     // Get user ID from local storage
     const userId = localStorage.getItem('user_id');
@@ -22,7 +23,7 @@ const ExerciseAssigned: React.FC = () => {
             text: "Se avisará a tu fisioterapeuta de tu progreso.",
             icon: 'question',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6', 
+            confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Sí, terminado',
             cancelButtonText: 'No, aún no'
@@ -40,8 +41,11 @@ const ExerciseAssigned: React.FC = () => {
             // Add the new done exercise to the state with a callback to ensure we have the latest state
             setExerciseDoneToday(prev => [...prev, newDone]);
 
+            Swal.fire('¡Bien hecho!', 'Has marcado el ejercicio como terminado.', 'success');
+
         } catch (error) {
             console.error('Error marking exercise as done:', error);
+            Swal.fire('Error', 'Hubo un problema al marcar el ejercicio como terminado. Por favor, intenta de nuevo.', 'error');
         }
     };
 
@@ -67,30 +71,50 @@ const ExerciseAssigned: React.FC = () => {
         fetchData();
     },
         [userId]);
+    
+        if (loading) {
+            return <RehabLoader />;
+        }
 
     return (
         <div className="min-h-screen bg-gray-50 w-full">
-            <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-20 p-6">
-                {exercisesAssigned.map((assignment) => {
-                    {/* Check if the current assignment is marked as done today */ }
-                    const isDone = exerciseDoneToday.some(done => done.id_assignment === assignment.id_assignment);
-                    return (
-                        <ExerciseCard
-                            key={assignment.id_assignment}
-                            name={assignment.exercise!.name}
-                            description={assignment.exercise!.description}
-                            weekly_frequency={assignment.weekly_frequency}
-                            series={assignment.series}
-                            repetitions={assignment.repetitions}
-                            start_date={assignment.start_date}
-                            end_date={assignment.end_date}
-                            video_url={assignment.exercise!.video_url!}
-                            isCompleted={isDone}
-                            onButtonClick={() => handleMarkAsDone(assignment.id_assignment)}
-                        />
-                    );
-                })}
-            </div></div>
+
+            <div className="max-w-4xl mx-auto p-6">
+
+                <header className="mt-5 mb-10 text-center">
+                    <h1 className="text-3xl font-bold text-rehab-dark mb-5">Tus ejercicios</h1>
+                    <p className="text-lg text-rehab-dark mb-5">Aquí puedes ver y registrar el progreso de tus ejercicios asignados.</p>
+                </header>
+
+                <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-20 p-6">
+                    {exercisesAssigned.map((assignment) => {
+                        {/* Check if the current assignment is marked as done today */ }
+                        const isDone = exerciseDoneToday.some(done => done.id_assignment === assignment.id_assignment);
+                        return (
+                            <ExerciseCard
+                                key={assignment.id_assignment}
+                                name={assignment.exercise!.name}
+                                description={assignment.exercise!.description}
+                                weekly_frequency={assignment.weekly_frequency}
+                                series={assignment.series}
+                                repetitions={assignment.repetitions}
+                                start_date={assignment.start_date}
+                                end_date={assignment.end_date}
+                                video_url={assignment.exercise!.video_url!}
+                                isCompleted={isDone}
+                                onButtonClick={() => handleMarkAsDone(assignment.id_assignment)}
+                            />
+                        );
+                    })}
+                </div>
+
+                <footer className="text-center mt-10 text-sm text-gray-500">
+                    &copy; 2026 Rehab & Move. Todos los derechos reservados.
+                </footer>
+
+            </div>
+
+        </div>
     );
 }
 

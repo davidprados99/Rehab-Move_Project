@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { PatientService } from '../services/patient.service';
 import type { ExerciseAssignment } from '../models/Exercise';
 import type { Appointment} from '../models/Clinical';
+import RehabLoader from '../components/RehabLoading';
 
 
 
@@ -15,7 +16,7 @@ import type { Appointment} from '../models/Clinical';
 const PatientDashboard: React.FC = () => {
     // State variables to hold assigned exercises, appointments, and loading status
     const navigate = useNavigate();
-    const [exercissesAssigned, setExercisesAssigned] = useState<ExerciseAssignment[]>([]);
+    const [exercisesAssigned, setExercisesAssigned] = useState<ExerciseAssignment[]>([]);
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -45,11 +46,11 @@ const PatientDashboard: React.FC = () => {
     }, [userId]);
 
     // Check if there are assigned exercises and upcoming appointments
-    const hasExercises = exercissesAssigned.length > 0;
+    const hasExercises = exercisesAssigned.length > 0;
     const upcomingApptsCount = appointments.filter(app => new Date(app.date) > new Date()).length;
 
     if (loading) {
-        return <div className="p-10 text-rehab-light/80">Cargando tu recuperación...</div>;
+        return <RehabLoader />;
     }
 
     return (
