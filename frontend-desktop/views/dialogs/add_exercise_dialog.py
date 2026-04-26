@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QDialog, QMessageBox, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QFormLayout, QDateEdit
+from PySide6.QtWidgets import QDialog, QMessageBox, QTextEdit, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QFormLayout, QDateEdit
 from PySide6.QtCore import Qt, QDate
 from PySide6.QtGui import QIcon
 
@@ -24,7 +24,7 @@ class AddExerciseDialog(QDialog):
         self.name_input = QLineEdit()
         self.name_input.setPlaceholderText("Nombre del ejercicio")
         
-        self.description_input = QLineEdit()
+        self.description_input = QTextEdit()
         self.description_input.setPlaceholderText("Descripción del ejercicio")
         
         self.video_url_input = QLineEdit()
@@ -62,6 +62,10 @@ class AddExerciseDialog(QDialog):
             return
         if not self.video_url_input.text().strip():
             QMessageBox.critical(self, "Error", "La URL del video es obligatoria.")
+            self.video_url_input.setFocus()
+            return
+        if not (self.video_url_input.text().startswith("http://") or self.video_url_input.text().startswith("https://")):
+            QMessageBox.critical(self, "Error", "La URL del video debe comenzar con http:// o https://.")
             self.video_url_input.setFocus()
             return
         super().accept() # Call the base class accept to close the dialog

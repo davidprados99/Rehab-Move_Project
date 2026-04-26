@@ -77,8 +77,15 @@ class PhysioController:
             QMessageBox.warning(self.view, "Advertencia", "Por favor, seleccione un paciente para modificar.")
             return
         id_patient = selected_items[0].text()
+        patient_data = {
+            "name": selected_items[1].text(),
+            "surnames": selected_items[2].text(),
+            "email": selected_items[3].text(),
+            "phone": selected_items[4].text(),
+            "start_date": selected_items[5].text()
+        }
         
-        dialog = ModPatientDialog()
+        dialog = ModPatientDialog(patient_data=patient_data)  # Pass existing patient data to the dialog
         if dialog.exec() == QDialog.Accepted:
             patient_data = dialog.get_data()
             final_data = {k: v for k, v in patient_data.items() if v}  # Filter out empty values

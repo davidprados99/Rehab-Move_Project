@@ -1,14 +1,16 @@
-from PySide6.QtWidgets import QCheckBox, QDialog,QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QFormLayout
+from PySide6.QtWidgets import QCheckBox, QDialog, QTextEdit,QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QFormLayout
 from PySide6.QtGui import QIcon
 
 class ModExerciseDialog(QDialog):
 
-    def __init__(self, parent=None):
+    def __init__(self, exercise_data=None, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Modificar Ejercicio")
         self.setMinimumWidth(400)
         self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
         self.init_ui()
+        if exercise_data:
+            self.load_exercise_data(exercise_data)
         
     def init_ui(self):
         layout = QVBoxLayout(self)
@@ -23,13 +25,13 @@ class ModExerciseDialog(QDialog):
         self.name_input = QLineEdit()
         self.name_input.setPlaceholderText("Nombre del ejercicio")
         
-        self.description_input = QLineEdit()
+        self.description_input = QTextEdit()
         self.description_input.setPlaceholderText("Descripción del ejercicio")
         
         self.video_url_input = QLineEdit()
         self.video_url_input.setPlaceholderText("URL del video del ejercicio")
 
-        self.active_checkbox = QCheckBox("Activo")
+        self.active_checkbox = QCheckBox()
         self.active_checkbox.setChecked(True)  # Default to active, can be changed when loading exercise data
 
         self.form_layout.addRow("Nombre:", self.name_input)
@@ -52,6 +54,13 @@ class ModExerciseDialog(QDialog):
         # Conexiones
         self.save_btn.clicked.connect(self.accept) # Close with accept code to indicate success
         self.cancel_btn.clicked.connect(self.reject) # Close with reject code to indicate cancellation
+
+    def load_exercise_data(self, exercise_data):
+        """Load existing exercise data into the form."""
+        self.name_input.setText(exercise_data.get("name", ""))
+        self.description_input.setText(exercise_data.get("description", ""))
+        self.video_url_input.setText(exercise_data.get("video_url", ""))
+        self.active_checkbox.setChecked(exercise_data.get("active", True))
 
     def get_data(self):
         """Return the data entered by the user as a dictionary."""

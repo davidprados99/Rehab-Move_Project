@@ -4,7 +4,7 @@ from PySide6.QtCore import QDate
 
 class ModExerciseAssigDialog(QDialog):
 
-    def __init__(self, api_client, parent=None):
+    def __init__(self, api_client, exercise_assignment_data=None, parent=None):
         super().__init__(parent)
         self.api_client = api_client
         self.setWindowTitle("Editar Plan de Ejercicio")
@@ -12,7 +12,9 @@ class ModExerciseAssigDialog(QDialog):
         self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
         self.init_ui()
         self.load_data_api()
-        
+        if exercise_assignment_data:
+            self.load_exercise_assignment_data(exercise_assignment_data)
+
     def init_ui(self):
         layout = QVBoxLayout(self)
         
@@ -114,6 +116,44 @@ class ModExerciseAssigDialog(QDialog):
                 self.name_exercise.addItem(f"{exercise.get('id_exercise', 'N/A')} - {exercise.get('name', 'N/A')}")
         else:
             QMessageBox.critical(self, "Error", f"No se pudieron cargar los ejercicios: {exercises}")
+    
+    def load_exercise_assignment_data(self, exercise_assignment_data):
+        """Load existing exercise assignment data into the form."""
+        if not exercise_assignment_data:
+            return
+        
+        patient_id = exercise_assignment_data.get("id_patient")
+        exercise = exercise_assignment_data.get("name_exercise")
+
+        # Set the current index of the patient combo box based on the patient ID
+        for i in range(self.name_patient.count()):
+            if self.name_patient.itemText(i).startswith(f"{patient_id} -"):
+                self.name_patient.setCurrentIndex(i)
+                break
+
+        # Set the current index of the exercise combo box based on the exercise name
+        for i in range(self.name_exercise.count()):
+            if self.name_exercise.itemText(i).endswith(f" - {exercise}"):
+                self.name_exercise.setCurrentIndex(i)
+                break
+
+        self.weekly_frequency_input.setText(str(exercise_assignment_data.get("weekly_frequency", "")))
+        self.series_input.setText(str(exercise_assignment_data.get("series", "")))
+        self.repetitions_input.setText(str(exercise_assignment_data.get("repetitions", "")))
+
+        start_date_str = exercise_assignment_data.get("start_date")
+        end_date_str = exercise_assignment_data.get("end_date")
+
+        if start_date_str:
+            start_date = QDate.fromString(start_date_str, "yyyy-MM-dd")
+            if start_date.isValid():
+                self.start_date_input.setDate(start_date)
+
+
+        if end_date_str:
+            end_date = QDate.fromString(end_date_str, "yyyy-MM-dd")
+            if end_date.isValid():
+                self.end_date_input.setDate(end_date)
 
     def get_data(self):
         """Return the data entered by the user as a dictionary."""

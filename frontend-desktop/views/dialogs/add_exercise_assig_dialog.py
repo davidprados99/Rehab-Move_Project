@@ -101,6 +101,10 @@ class AddExerciseAssigDialog(QDialog):
         if not self.start_date_input.date().isValid() or not self.end_date_input.date().isValid():
             QMessageBox.warning(self, "Datos inválidos", "Las fechas deben tener el formato DD-MM-YYYY.")
             return
+
+        if self.start_date_input.date() > self.end_date_input.date():
+            QMessageBox.warning(self, "Fechas inválidas", "La fecha de inicio no puede ser posterior a la fecha de fin.")
+            return
         
         super().accept() # Close the dialog with accept code
 

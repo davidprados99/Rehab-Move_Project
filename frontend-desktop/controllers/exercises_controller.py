@@ -59,12 +59,19 @@ class ExercisesController:
 
     def handle_mod_exercise(self):
         selected_items = self.view.table.selectedItems() if self.view.table.selectedItems() else []
+        exercise_data = {
+            "name": selected_items[1].text(),
+            "description": selected_items[2].text(),
+            "video_url": selected_items[3].text(),
+            "active": selected_items[4].text().lower() == "true"
+        } if selected_items else None
+
         if not selected_items:
             QMessageBox.warning(self.view, "Advertencia", "Por favor, seleccione un ejercicio para modificar.")
             return
         id_exercise = selected_items[0].text()
         
-        dialog = ModExerciseDialog()
+        dialog = ModExerciseDialog(exercise_data=exercise_data)
         if dialog.exec() == QDialog.Accepted:
             exercise_data = dialog.get_data()
             final_data = {k: v for k, v in exercise_data.items() if v}  # Filter out empty values

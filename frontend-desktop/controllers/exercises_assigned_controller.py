@@ -91,8 +91,16 @@ class ExercisesAssignedController:
         if not selected_items:
             QMessageBox.warning(self.view, "Advertencia", "Por favor, seleccione un ejercicio asignado para editar.")
             return
-        dialog = ModExerciseAssigDialog(self.api)
-        dialog.load_data_api()
+        exercise_assignment_data = {
+            "id_patient": self.id_patient,
+            "name_exercise": selected_items[6].text(),
+            "weekly_frequency": selected_items[1].text(),
+            "series": selected_items[2].text(),
+            "repetitions": selected_items[3].text(),
+            "start_date": selected_items[4].text(),
+            "end_date": selected_items[5].text()
+        }
+        dialog = ModExerciseAssigDialog(self.api, exercise_assignment_data=exercise_assignment_data)
         if dialog.exec() == QDialog.Accepted:
             exercise_data = dialog.get_data()
             final_data = {k: v for k, v in exercise_data.items() if v}  # Filter out empty values

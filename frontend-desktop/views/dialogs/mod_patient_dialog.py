@@ -3,12 +3,14 @@ from PySide6.QtCore import Qt, QDate
 from PySide6.QtGui import QIcon
 
 class ModPatientDialog(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, patient_data=None, parent=None):
             super().__init__(parent)
             self.setWindowTitle("Modificar Paciente")
             self.setMinimumWidth(400)
             self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
             self.init_ui()
+            if patient_data:
+                self.load_patient_data(patient_data)
         
     def init_ui(self):
         layout = QVBoxLayout(self)
@@ -73,6 +75,14 @@ class ModPatientDialog(QDialog):
             return
         
         super().accept() # Call the base class accept to close the dialog
+    
+    def load_patient_data(self, patient_data):
+        """Load existing patient data into the form."""
+        self.name_input.setText(patient_data.get("name", ""))
+        self.surnames_input.setText(patient_data.get("surnames", ""))
+        self.email_input.setText(patient_data.get("email", ""))
+        self.phone_input.setText(patient_data.get("phone", ""))
+        # Password is not loaded for security reasons
 
     def get_data(self):
         """Return the data entered by the user as a dictionary."""
