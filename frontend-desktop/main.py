@@ -2,6 +2,7 @@ import sys
 from PySide6.QtWidgets import QApplication
 from controllers.login_controller import LoginController
 from PySide6.QtCore import Qt
+from utils import resource_path
 
 def load_stylesheet(path):
     """Function to load a stylesheet from a file."""
@@ -17,7 +18,7 @@ def main():
     
     # Load external stylesheet (optional, but recommended for better UI)
     try:
-        style = load_stylesheet("assets/main_styles.qss")
+        style = load_stylesheet(resource_path("assets/main_styles.qss"))
         app.setStyleSheet(style)
     except FileNotFoundError:
         print("Stylesheet not found. Continuing with default style.")

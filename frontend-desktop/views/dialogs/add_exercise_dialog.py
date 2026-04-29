@@ -1,6 +1,6 @@
-from PySide6.QtWidgets import QDialog, QMessageBox, QTextEdit, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QFormLayout, QDateEdit
-from PySide6.QtCore import Qt, QDate
+from PySide6.QtWidgets import QDialog, QMessageBox, QTextEdit, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QFormLayout
 from PySide6.QtGui import QIcon
+from utils import resource_path
 
 class AddExerciseDialog(QDialog):
 
@@ -8,7 +8,7 @@ class AddExerciseDialog(QDialog):
         super().__init__(parent)
         self.setWindowTitle("Añadir Nuevo Ejercicio")
         self.setMinimumWidth(400)
-        self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
+        self.setWindowIcon(QIcon(resource_path("assets/logo_Rehab_Move.png")))
         self.init_ui()
         
     def init_ui(self):

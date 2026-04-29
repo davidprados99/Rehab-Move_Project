@@ -1,13 +1,14 @@
 from PySide6.QtWidgets import QComboBox, QCompleter, QDialog, QFormLayout, QHBoxLayout, QLineEdit, QMessageBox, QPushButton, QVBoxLayout, QLabel
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
+from utils import resource_path
 
 class AddApptDialog(QDialog):
     def __init__(self, api_client, parent=None):
         super().__init__(parent)
         self.api_client = api_client
         self.setWindowTitle("Agregar Cita")
-        self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
+        self.setWindowIcon(QIcon(resource_path("assets/logo_Rehab_Move.png")))
         self.resize(350, 500)
         self.init_ui()
         

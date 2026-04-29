@@ -1,6 +1,7 @@
-from PySide6.QtWidgets import QAbstractItemView, QFrame, QHBoxLayout, QHeaderView, QTableWidget, QTableWidgetItem, QWidget, QVBoxLayout, QLineEdit, QPushButton, QLabel, QMessageBox
+from PySide6.QtWidgets import QAbstractItemView, QFrame, QHBoxLayout, QHeaderView, QTableWidget, QWidget, QVBoxLayout, QPushButton, QLabel
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
+from utils import resource_path
 
 class ExercisesAssignedDashboard(QWidget):
     def __init__(self, api_client, id_patient):
@@ -9,7 +10,7 @@ class ExercisesAssignedDashboard(QWidget):
         self.id_patient = id_patient
         self.setWindowTitle(f"Ejercicios Asignados - Paciente {self.id_patient}")
         self.setMinimumSize(800, 600)
-        self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
+        self.setWindowIcon(QIcon(resource_path("assets/logo_Rehab_Move.png")))
         self.init_ui()
     
     def init_ui(self):

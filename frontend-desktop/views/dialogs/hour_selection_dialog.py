@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QPushButton, QLabel, QScrollArea, QWidget
-from PySide6.QtCore import QDate, Qt
+from PySide6.QtGui import QIcon
+from utils import resource_path
 
 class HourSelectionDialog(QDialog):
     def __init__(self, qdate, appointments_of_day, parent=None):
@@ -7,6 +8,7 @@ class HourSelectionDialog(QDialog):
 
         self.setWindowTitle(f"Horas disponibles - {qdate.toString('dd/MM/yyyy')}")
         self.setMinimumSize(350, 500)
+        self.setWindowIcon(QIcon(resource_path("assets/logo_Rehab_Move.png")))
         
         self.selected_hour = None
         self.action_type = None # "ADD" o "DELETE"

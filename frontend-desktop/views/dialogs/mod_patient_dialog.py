@@ -1,13 +1,13 @@
-from PySide6.QtWidgets import QDialog, QMessageBox, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QFormLayout, QDateEdit
-from PySide6.QtCore import Qt, QDate
+from PySide6.QtWidgets import QDialog, QMessageBox, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QFormLayout
 from PySide6.QtGui import QIcon
+from utils import resource_path
 
 class ModPatientDialog(QDialog):
     def __init__(self, patient_data=None, parent=None):
             super().__init__(parent)
             self.setWindowTitle("Modificar Paciente")
             self.setMinimumWidth(400)
-            self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
+            self.setWindowIcon(QIcon(resource_path("assets/logo_Rehab_Move.png")))
             self.init_ui()
             if patient_data:
                 self.load_patient_data(patient_data)

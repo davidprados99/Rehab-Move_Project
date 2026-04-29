@@ -6,7 +6,8 @@ from views.exercises_dashboard import ExercisesDashboard
 from views.dialogs.add_exercise_dialog import AddExerciseDialog
 from views.dialogs.mod_exercise_dialog import ModExerciseDialog
 from views.dialogs.video_dialog import VideoDialog
-from PySide6.QtGui import QIcon, QPixmap
+from PySide6.QtGui import QPixmap
+from utils import resource_path
 
 class ExercisesController:
     def __init__(self, api_client):
@@ -47,7 +48,7 @@ class ExercisesController:
                 layout = QHBoxLayout(container)  # Create a horizontal layout for the container
 
                 icon_label = QLabel()  # Create a label to hold the icon
-                icon_path = "assets/done.png" if exercise.get("active") else "assets/noDone.png"
+                icon_path = resource_path("assets/done.png") if exercise.get("active") else resource_path("assets/noDone.png")
 
                 original_pixmap = QPixmap(icon_path)
                 icon_size = 15 if exercise.get("active") else 10  

@@ -1,9 +1,10 @@
-from PySide6.QtWidgets import QCheckBox, QDialog, QHBoxLayout, QLabel, QMenu, QTableWidgetItem, QMessageBox, QWidget
+from PySide6.QtWidgets import QDialog, QHBoxLayout, QLabel, QMenu, QTableWidgetItem, QMessageBox, QWidget
 from views.dialogs.add_exercise_assig_dialog import AddExerciseAssigDialog
 from views.exercises_assigned_dashboard import ExercisesAssignedDashboard
 from views.dialogs.mod_exercise_assig_dialog import ModExerciseAssigDialog
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QIcon, QPixmap
+from PySide6.QtGui import QPixmap
+from utils import resource_path
 
 class ExercisesAssignedController:
     def __init__(self, api, id_patient):
@@ -58,7 +59,7 @@ class ExercisesAssignedController:
                 layout = QHBoxLayout(container)  # Create a horizontal layout for the container
 
                 icon_label = QLabel()  # Create a label to hold the icon
-                icon_path = "assets/done.png" if id_assignment in exercises_done_dict else "assets/noDone.png"
+                icon_path = resource_path("assets/done.png") if id_assignment in exercises_done_dict else resource_path("assets/noDone.png")
 
                 original_pixmap = QPixmap(icon_path)
                 icon_size = 15 if id_assignment in exercises_done_dict else 10  

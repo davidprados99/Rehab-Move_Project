@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QDialog, QMessageBox, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QFormLayout, QDateEdit
 from PySide6.QtCore import QDate
 from PySide6.QtGui import QIcon
+from utils import resource_path
 
 class AddPatientDialog(QDialog):
 
@@ -8,7 +9,7 @@ class AddPatientDialog(QDialog):
         super().__init__(parent)
         self.setWindowTitle("Añadir Nuevo Paciente")
         self.setMinimumWidth(400)
-        self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
+        self.setWindowIcon(QIcon(resource_path("assets/logo_Rehab_Move.png")))
         self.init_ui()
         
     def init_ui(self):

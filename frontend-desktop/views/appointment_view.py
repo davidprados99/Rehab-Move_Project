@@ -1,8 +1,8 @@
 from typing import Counter
-
-from PySide6.QtWidgets import QCalendarWidget, QStyledItemDelegate, QTableView, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QTableWidget, QTableWidgetItem, QAbstractItemView, QMessageBox, QDialog
+from PySide6.QtWidgets import QCalendarWidget,QWidget, QVBoxLayout, QPushButton, QLabel
 from PySide6.QtCore import QDate, Qt
-from PySide6.QtGui import QColor, QFont, QIcon, QPen, QTextCharFormat
+from PySide6.QtGui import QColor, QFont, QIcon, QTextCharFormat
+from utils import resource_path
 
 class AppointmentView(QWidget):
 
@@ -12,7 +12,7 @@ class AppointmentView(QWidget):
         self.painted_dates = []  # To keep track of which dates we've marked in the calendar
         self.setWindowTitle("Rehab & Move - Citas")
         self.setMinimumSize(600, 400)
-        self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
+        self.setWindowIcon(QIcon(resource_path("assets/logo_Rehab_Move.png")))
         self.init_ui()
     
     def init_ui(self):

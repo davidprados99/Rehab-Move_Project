@@ -1,9 +1,9 @@
-from PySide6.QtWidgets import QAbstractItemView, QDialog, QFrame, QHBoxLayout, QHeaderView, QTableWidget, QTableWidgetItem, QWidget, QVBoxLayout, QLineEdit, QPushButton, QLabel, QMessageBox
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from matplotlib.figure import Figure
-from services.api_client import ApiClient
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from utils import resource_path
 
 class PainRecordView(QWidget):
     def __init__(self, api_client, id_patient, parent=None):
@@ -12,7 +12,7 @@ class PainRecordView(QWidget):
         self.id_patient = id_patient
         self.setWindowTitle("Registro de Dolor")
         self.setMinimumSize(600, 400)
-        self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
+        self.setWindowIcon(QIcon(resource_path("assets/logo_Rehab_Move.png")))
         self.init_ui()
     
     def init_ui(self):

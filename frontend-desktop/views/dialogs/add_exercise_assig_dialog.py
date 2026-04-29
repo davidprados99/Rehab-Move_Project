@@ -1,6 +1,7 @@
-from PySide6.QtWidgets import QCheckBox, QComboBox, QCompleter, QDateEdit, QDialog, QMessageBox,QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QFormLayout
+from PySide6.QtWidgets import QComboBox, QCompleter, QDateEdit, QDialog, QMessageBox,QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QFormLayout
 from PySide6.QtGui import QIcon, Qt
 from PySide6.QtCore import QDate
+from utils import resource_path
 
 class AddExerciseAssigDialog(QDialog):
 
@@ -9,7 +10,7 @@ class AddExerciseAssigDialog(QDialog):
         self.api_client = api_client
         self.setWindowTitle("Asignar Ejercicio")
         self.setMinimumWidth(400)
-        self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
+        self.setWindowIcon(QIcon(resource_path("assets/logo_Rehab_Move.png")))
         self.init_ui()
         self.load_data_api()
         

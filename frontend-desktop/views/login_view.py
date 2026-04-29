@@ -1,6 +1,7 @@
-from PySide6.QtWidgets import QFrame, QGraphicsDropShadowEffect, QWidget, QVBoxLayout, QLineEdit, QPushButton, QLabel,  QMessageBox
+from PySide6.QtWidgets import QFrame, QGraphicsDropShadowEffect, QWidget, QVBoxLayout, QLineEdit, QPushButton, QLabel
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QPixmap, QColor
+from utils import resource_path
 
 class LoginView(QWidget):
     def __init__(self):
@@ -8,7 +9,7 @@ class LoginView(QWidget):
         self.setWindowTitle("Rehab & Move - Login")
         self.setMinimumWidth(300)
         self.setMinimumHeight(200)
-        self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
+        self.setWindowIcon(QIcon(resource_path("assets/logo_Rehab_Move.png")))
         self.init_ui()
 
     def init_ui(self):
@@ -31,7 +32,7 @@ class LoginView(QWidget):
 
         # Logo
         self.logo_label = QLabel()
-        pixmap = QPixmap("assets/logo_Rehab_Move.png")
+        pixmap = QPixmap(resource_path("assets/logo_Rehab_Move.png"))
         self.logo_label.setPixmap(pixmap.scaled(120, 120, Qt.KeepAspectRatio, Qt.SmoothTransformation))
         self.logo_label.setAlignment(Qt.AlignCenter)
         card_layout.addWidget(self.logo_label)
@@ -42,7 +43,7 @@ class LoginView(QWidget):
         self.title.setAlignment(Qt.AlignCenter)
         card_layout.addWidget(self.title)
 
-        # Inptuts
+        # Inputs
         self.email_input = QLineEdit()
         self.email_input.setPlaceholderText("Correo electrónico")
         card_layout.addWidget(self.email_input)

@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QCheckBox, QDialog, QTextEdit,QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QFormLayout
 from PySide6.QtGui import QIcon
+from utils import resource_path
 
 class ModExerciseDialog(QDialog):
 
@@ -7,7 +8,7 @@ class ModExerciseDialog(QDialog):
         super().__init__(parent)
         self.setWindowTitle("Modificar Ejercicio")
         self.setMinimumWidth(400)
-        self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
+        self.setWindowIcon(QIcon(resource_path("assets/logo_Rehab_Move.png")))
         self.init_ui()
         if exercise_data:
             self.load_exercise_data(exercise_data)

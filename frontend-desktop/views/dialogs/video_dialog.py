@@ -1,13 +1,14 @@
 from PySide6.QtWidgets import QDialog,QVBoxLayout,QLabel, QPushButton
 from PySide6.QtWebEngineWidgets import QWebEngineView
-from PySide6.QtCore import QUrl, Qt
+from PySide6.QtCore import QUrl
 from PySide6.QtGui import QIcon
+from utils import resource_path
 
 class VideoDialog(QDialog):
     def __init__(self,name, description, video_url, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Video del ejercicio")
-        self.setWindowIcon(QIcon("assets/logo_Rehab_Move.png"))
+        self.setWindowIcon(QIcon(resource_path("assets/logo_Rehab_Move.png")))
         self.setMinimumSize(800, 600)
 
         layout = QVBoxLayout(self)
