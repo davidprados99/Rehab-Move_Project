@@ -13,77 +13,61 @@ As a former Physiotherapist turned Software Developer (DAM), I identified a crit
 
 ## Key Features
 
-* **Therapeutic Exercise Assignment:** Physiotherapists can prescribe specific exercises with instructional videos to ensure proper technique.
+* **For Professionals**:
 
-* **Adherence Logging:** Patients can log their daily activity, fostering consistency.
+    * **Therapeutic Exercise Assignment:** Physiotherapists can prescribe specific exercises with instructional videos to ensure proper technique.
 
-* **Pain Tracking (VAS Scale):** Pain level recording (1-10) post-exercise with personalized feedback for the professional.
+    * **Clinical Evolution:** Data-driven monitoring via Matplotlib.
 
-* **Evolution Visualization:** Clinical evolution charts for both professional and patient via Matplotlib.
+    * **Patient Management:** Centralized dashboard for appointments and clinical history.
 
-* **Clinical Calendar:** One-stop management for appointments and treatment sessions.
+* **For Patients**:
+
+    * **Daily Adherence Logging:** One click exercise competion tracking.
+
+    * **Pain tracking (VAS Scale):** 1-10 pain level reporting with qualitative feedback.
+
+    * **Interactive Calendar:** Visual schedule of treatment sessions.
+
+
+---
+
+## Full Stack Architecture
+
+The project follows a hybrid-cloud architecture:
+
+* **Database**: PostreSQL managed via AWS RDS.
+* **Backend API**: FastAPI (Python 3.12) deployed on AWS Elastic Beanstalk.
+* **Desktop App**: Cross-platform interface built with PySide6.
+* **Web App**: React 18 (TypeScript) + Vite deployed on Vercel.
+
 
 ---
 
 ## Tech Stack
 
-### **Backend & API**
+* **Backend & API**
+    * **Framework:** FastAPI.
+    * **ORM:** SQLAlchemy.
+    * **Security:** Passlib + JWT (JSON Web Tokens).
+    * **Validation:** Pydantic models.
 
-1. **Language:** Python 3.12.
+* **DevOps & Infraestructure**
+    * **CI/CD:** GitHub Actions (Automated testing & deployment).
+    * **Hosting:** AWS (API & DB) + Vercel (Web).
+    * **Reverse Proxy** Nginx (configured via AWS EB).
 
-2. **Framework:** FastAPI.
-
-3. **Data Validation:** Pydantic.
-
-4. **Security:** Passlib (Bcrypt) for password management.
-
-5. **Documentation:** Swagger UI (OpenAPI).
-
-### **Infrastructure & DevOps**
-
-1. **Application Server:** Gunicorn + Uvicorn.
-
-2. **Reverse Proxy:** Nginx.
-
-3. **Cloud Hosting:** AWS Elastic Beanstalk.
-
-4. **Database:** PostgreSQL hosted on AWS RDS.
-
-5. **CI/CD:** Automated pipeline with GitHub Actions.
-
-6. **Cloud Security:** IAM (Identity and Access Management).
+* **Frontend (Web & Desktop)**
+    * **Desktop:** Python, PySide 6, Matplotlib, Requests.
+    * **Web:** TypeScript, React, Tailwind CSS, Axios.
 
 ---
 
-## Project Roadmap
+## Live Demo & Documentation
 
-* **Phase 1: Backend & REST API Development**
+* **API Documentation** [Interactive Documentation (Swagger)](http://rehab-move-api-env-1.eba-epsm62av.us-east-1.elasticbeanstalk.com/docs)
+* **Web Application:** [Rehab&Move Web](rehab-move-project.vercel.app)
 
-    * Relational database design.
-    * Implementation of business logic and CRUD operations with FastAPI.
-    * Security and password hashing.
-
-* **Phase 2: Cloud Infrastructure & DevOps (Current)**
-
-    * Deployment on **AWS Elastic Beanstalk**.
-    * Production database on **AWS RDS**.
-    * Deployment automation (CI/CD) with **GitHub Actions**.
-
-* **Phase 3: Frontend Desktop (Coming Soon)**
-
-    * Cross-platform graphical interface with **PySide6**.
-    * Integration of dynamic graphs with **Matplotlib**.
-
-
----
-
-## Current Project Status
-
-Currently, the core of the application (REST API) is fully deployed and functional in the cloud.
-
-* **API Live:** [Interactive Documentation (Swagger)](http://rehab-move-api-env-1.eba-epsm62av.us-east-1.elasticbeanstalk.com/docs)
-* **Database:** Remote and synced with production environment.
-* **Tests:** Unit tests integrated into the CI/CD flow.
 
 ---
 
@@ -91,30 +75,20 @@ Currently, the core of the application (REST API) is fully deployed and function
 
 ```
 .
-├── .github/workflows/
-│   ├── main.yml         # CI/CD configuration (GitHub Actions)
-├── backend/             # API logic, models, schemas, and CRUD
-│   ├── main.py          # Application entry point
-│   ├── test_main.py     # API functionality test file
-│   ├── models.py        # Database models (SQLAlchemy)
-│   ├── schemas.py       # Pydantic models (Validation)
-│   ├── database.py      # Connection to AWS RDS
-│   ├── crud.py          # Database operation logic
-│   ├── security.py      # Password Management
-│   └── db/
-│       └── rehab_db.sql # Database SQL Script
-├── frontend/            # Coming Soon (PySide6 Interface)
-├── Procfile             # AWS Startup Instructions
-├── venv/                # Python Virtual Environment
-├── .env                 # Database Secrets
-├── .gitignore           # Sets the files to ignore for Git
-├── requirements.txt     # Project Dependencies
+├── backend/                # FastAPI logic, models, and CRUD
+    └── db/                 # DB directory with .sql file
+├── frontend-web/           # React + TypeScript App (Vercel)
+│   └──  vercel.json        # Vercel Deployment & Proxy Rules
+├── frontend-desktop/       # PySide6 Desktop Application
+├── .github/workflows/      # CI/CD Pipelines
+├── requirements.txt        # Backend dependencies
+├── Procfile                # AWS Elastic Beanstalk Instructions
 └── README.md
 ```
 
 ---
 
-## Local installation (Development)
+## Local installation 
 
 1. Create the repository:
 
@@ -122,22 +96,30 @@ Currently, the core of the application (REST API) is fully deployed and function
  git clone https://github.com/davidprados99/Rehab-Move_Project.git
 ```
 
-2. Create the virtual environment:
+2. Setup Backend:
 
 ```bash
  python -m venv venv
+ source venv/bin/activate
+ pip install -r requirements.txt
+ uvicorn backend.main:app --reload
 ```
 
-3. Install dependencies:
+3. Run desktop app:
 
 ```bash
+ python -m venv venv
+ source venv/bin/activate
  pip install -r requirements.txt
+ python -m frontend-desktop.main
 ```
 
-4. Run the server:
+4. Run web app:
 
 ```bash 
-uvicorn backend.main:app --reload
+ cd frontend-web
+ npm install
+ npm run dev
 ```
 ---
 
