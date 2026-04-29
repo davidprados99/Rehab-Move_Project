@@ -25,32 +25,24 @@ class HourSelectionDialog(QDialog):
             hour_str = f"{h:02d}:00"
             btn = QPushButton(hour_str)
             btn.setMinimumHeight(40)
-
-            # Hour 14:00 is reserved for lunch break, so we mark it as unavailable
-            if h == 14:
-                btn.setText(f"{hour_str} - COMIDA")
-                btn.setEnabled(False)
-                btn.setStyleSheet("background-color: #D3D3D3; color: #7f8c8d; border: none;") # GRAY
-            
+            # Check if this hour is occupied by any appointment of the day
+            appt = None
+            for a in appointments_of_day:
+                if hour_str in a["date"]:
+                    appt = a
+                    break
+            if appt:
+                # 2. Occupied
+                btn.setText(f"{hour_str} - OCUPADO" + f" ({appt['patient']['name']} {appt['patient']['surnames']})")
+                btn.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;") # Red
+                btn.clicked.connect(lambda ch, h=hour_str, id=appt["id_appointment"]: self.handle_click(h, "DELETE", id))
+                btn.setToolTip(f"{appt['notes']}" if appt['notes'] else "Sin notas adicionales")
             else:
-                # Check if this hour is occupied by any appointment of the day
-                appt = None
-                for a in appointments_of_day:
-                    if hour_str in a["date"]:
-                        appt = a
-                        break
-                if appt:
-                    # 2. Occupied
-                    btn.setText(f"{hour_str} - OCUPADO" + f" ({appt['patient']['name']} {appt['patient']['surnames']})")
-                    btn.setStyleSheet("background-color: #F08080; color: white; font-weight: bold;") # Red
-                    btn.clicked.connect(lambda ch, h=hour_str, id=appt["id_appointment"]: self.handle_click(h, "DELETE", id))
-                    btn.setToolTip(f"{appt['notes']}" if appt['notes'] else "Sin notas adicionales")
-                else:
-                    # 3. Free
-                    btn.setText(f"{hour_str} - LIBRE")
-                    btn.setStyleSheet("background-color: white; color: #2c3e50; border: 1px solid #5DA7A3;") # White with border 
-                    btn.clicked.connect(lambda ch, h=hour_str: self.handle_click(h, "ADD"))
-                    btn.setToolTip("Haz clic para crear una cita en esta hora")
+                # 3. Free
+                btn.setText(f"{hour_str} - LIBRE")
+                btn.setStyleSheet("background-color: white; color: #2c3e50; border: 1px solid #5DA7A3;") # White with border 
+                btn.clicked.connect(lambda ch, h=hour_str: self.handle_click(h, "ADD"))
+                btn.setToolTip("Haz clic para crear una cita en esta hora")
 
             scroll_layout.addWidget(btn)
 

@@ -62,7 +62,7 @@ class AppointmentView(QWidget):
         date_list = [appt["date"].split("T")[0] for appt in appointments if appt["state"] != "cancelado"]
         appt_count = Counter(date_list)
 
-        TOTAL_SLOTS = 12  # From 9:00 to 22:00, excluding 14:00
+        TOTAL_SLOTS = 13  # From 9:00 to 22:00
 
         for date_str, count in appt_count.items():
             qdate = QDate.fromString(date_str, "yyyy-MM-dd")

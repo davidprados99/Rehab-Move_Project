@@ -6,7 +6,7 @@ import logo from '../assets/logo_Rehab_Move.png';
 import { useNavigate } from 'react-router-dom';
 
 
-function Login() {
+const Login: React.FC = () => {
     //States for get the user inputs
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

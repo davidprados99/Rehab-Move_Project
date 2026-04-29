@@ -8,7 +8,7 @@ import RehabLoader from '../components/RehabLoading';
 
 const PainRegistry: React.FC = () => {
     const [loading, setLoading] = useState(true);
-    const [painRecords, setPainRecords] = useState<PainRecord[]>([]);
+    const [, setPainRecords] = useState<PainRecord[]>([]);
     const [painRecordToday, setPainRecordToday] = useState<PainRecord | null>(null);
 
     const [levelPain, setLevelPain] = useState<number>(5);
