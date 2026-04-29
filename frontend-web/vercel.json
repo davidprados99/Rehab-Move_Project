@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+        {
+            "source": "/api/:path*",
+            "destination": "http://rehab-move-api-env-1.eba-epsm62av.us-east-1.elasticbeanstalk.com/:path*"
+        }
+    ]
+}
