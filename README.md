@@ -66,7 +66,7 @@ The project follows a hybrid-cloud architecture:
 ## Live Demo & Documentation
 
 * **API Documentation** [Interactive Documentation (Swagger)](http://rehab-move-api-env-1.eba-epsm62av.us-east-1.elasticbeanstalk.com/docs)
-* **Web Application:** [Rehab&Move Web](rehab-move-project.vercel.app)
+* **Web Application:** [Rehab&Move Web](http://rehab-move-project.vercel.app)
 
 
 ---
