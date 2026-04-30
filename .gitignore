@@ -11,6 +11,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Pyinstaller
+build/
+dist/
+*.pyc
+__pycache__/
+
 # IDE
 .vscode/
 .idea/
