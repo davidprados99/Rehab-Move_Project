@@ -51,7 +51,7 @@ export const PatientService = {
     //Registry pain of a patient
     postRegistryPain: async (patientId: number, painLevel: number, comment?: string): Promise<PainRecord> => {
         try {
-            const response = await api.post(`/pain_records`, {
+            const response = await api.post(`/pain_records/`, {
                 level_pain: painLevel,
                 comment: comment || '',
                 id_patient: patientId
@@ -65,7 +65,7 @@ export const PatientService = {
 
     markExerciseAsDone: async (assignmentId: number): Promise<ExerciseDone> => {
         try {
-            const response = await api.post(`/exercises_done`, {
+            const response = await api.post(`/exercises_done/`, {
                 id_assignment: assignmentId,
                 done_date: new Date().toISOString()
             });
