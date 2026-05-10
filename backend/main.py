@@ -45,7 +45,7 @@ app.add_middleware(
 
 #--- Authentication Endpoint ---
 
-@app.post("/login", response_model=schemas.Token, tags=["Autenticación"])
+@app.post("/login", response_model=schemas.Token, tags=["Authentication"])
 def login(form_data: schemas.UserLogin, db: Session = Depends(get_db)):
     # 1. Try to find the user in PHYSIOS first
     user = crud.get_physio_by_email(db, email=form_data.email)
@@ -60,7 +60,7 @@ def login(form_data: schemas.UserLogin, db: Session = Depends(get_db)):
     if not user or not verify_password(form_data.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Credenciales incorrectas"
+            detail="Invalid credentials"
         )
     
     # 4. Create a JWT token with the user's email and role. 
