@@ -67,6 +67,8 @@ The project follows a hybrid-cloud architecture:
 
 * **API Documentation** [Interactive Documentation (Swagger)](http://rehab-move-api-env-1.eba-epsm62av.us-east-1.elasticbeanstalk.com/docs)
 * **Web Application:** [Rehab&Move Web](http://rehab-move-project.vercel.app)
+* **Technical report** [Read the Rehab & Move Technical Report (PDF)](docs/Memoria_Proyecto.DavidPradosMedina.pdf)
+
 
 
 ---
@@ -83,6 +85,8 @@ The project follows a hybrid-cloud architecture:
 ├── .github/workflows/      # CI/CD Pipelines
 ├── requirements.txt        # Backend dependencies
 ├── Procfile                # AWS Elastic Beanstalk Instructions
+├── docs/
+    └── Memoria_Proyecto    # Technical report
 └── README.md
 ```
 
